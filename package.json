@@ -1,0 +1,76 @@
+{
+  "name": "ReactNativeAnimatedBase",
+  "version": "0.0.1",
+  "description": "📲 React Native Basic Template with important basic libraries to get started easily.",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "commit": "git-cz"
+  },
+  "dependencies": {
+    "@n1ru4l/use-async-effect": "1.2.4",
+    "@react-native-async-storage/async-storage": "^1.13.1",
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/bottom-tabs": "^5.10.0",
+    "@react-navigation/native": "^5.8.0",
+    "@react-navigation/stack": "^5.10.0",
+    "i18next": "^19.8.3",
+    "react": "16.13.1",
+    "react-i18next": "^11.7.3",
+    "react-native": "0.63.3",
+    "react-native-config": "1.3.3",
+    "react-native-fast-image": "^8.3.2",
+    "react-native-gesture-handler": "^1.8.0",
+    "react-native-reanimated": "^2.0.0-alpha.7",
+    "react-native-safe-area-context": "^3.1.8",
+    "react-native-safe-area-view": "^1.1.1",
+    "react-native-screens": "^2.11.0",
+    "react-native-svg": "^12.1.0",
+    "styled-components": "^5.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "@types/jest": "^25.2.3",
+    "@types/react-native": "^0.63.2",
+    "@types/react-test-renderer": "^16.9.2",
+    "@types/styled-components": "^5.1.4",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "babel-jest": "^25.1.0",
+    "eslint": "^6.5.1",
+    "git-cz": "^4.7.1",
+    "husky": "^4.3.0",
+    "jest": "^25.1.0",
+    "jest-styled-components": "^7.0.3",
+    "lint-staged": "^10.5.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react-native-svg-transformer": "^0.14.3",
+    "react-test-renderer": "16.13.1",
+    "typescript": "^4.0.5"
+  },
+  "jest": {
+    "preset": "react-native",
+    "setupFiles": [
+      "./jest.setup.js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
+  }
+}
