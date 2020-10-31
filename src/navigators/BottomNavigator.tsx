@@ -28,4 +28,6 @@ const tabBarOptions: BottomTabBarOptions = {
   activeTintColor: 'tomato',
   inactiveTintColor: 'gray',
   showLabel: false,
+  style: {
+  }
 };

@@ -1,4 +1,4 @@
-package com.reactnativebase;
+package com.reime005.spaceseek;
 
 import android.app.Application;
 import android.content.Context;

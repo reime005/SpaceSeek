@@ -1,5 +1,7 @@
 import { DefaultTheme } from 'styled-components/native';
 
+export type FontColor = 'regular' | 'subtle' | 'light' | 'primary';
+
 declare module 'styled-components' {
   export interface DefaultTheme {
     primaryColor: string;
@@ -8,6 +10,7 @@ declare module 'styled-components' {
     focusedIconColor: string;
     unFocusedIconColor: string;
     mainFont: string;
+    fontColors: {[index in FontColor]: string}
   }
 }
 
@@ -18,6 +21,12 @@ export const lightTheme: DefaultTheme = {
   secondaryColor: '#666',
   searchBackgroundColor: '#fafafa',
   mainFont: '#090909',
+  fontColors: {
+    light: '#fff',
+    primary: '#ff884d',
+    regular: '#090909',
+    subtle: '#666'
+  }
 };
 
 export const darkTheme: DefaultTheme = {
@@ -27,4 +36,10 @@ export const darkTheme: DefaultTheme = {
   secondaryColor: '#cacaca',
   searchBackgroundColor: '#707070',
   mainFont: '#090909',
+  fontColors: {
+    light: '#fff',
+    primary: '#ff884d',
+    regular: '#090909',
+    subtle: '#666'
+  }
 };
