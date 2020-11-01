@@ -4,7 +4,7 @@ import { FontColor } from '../../config/theme';
 
 export type Font = 'RobotoCondensed-Regular';
 
-type FontSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'super';
+type FontSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl' | 'super';
 
 export const fontSizes: { [index in FontSize]: string } = {
   xs: '10px',
@@ -12,6 +12,7 @@ export const fontSizes: { [index in FontSize]: string } = {
   m: '14px',
   l: '16px',
   xl: '18px',
+  xxl: '24px',
   super: '32px',
 };
 
@@ -44,6 +45,5 @@ export const BaseScroll = styled.ScrollView`
 export const BasePage = styled(ReactNative.Animated.View)`
   flex: 1;
   width: 100%;
-  padding: 16px;
-  padding-bottom: 0;
+  background-color: ${({ theme }) => theme.searchBackgroundColor};
 `;

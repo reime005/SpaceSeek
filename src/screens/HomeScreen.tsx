@@ -16,7 +16,6 @@ import { HomeIcon } from '../components/SVG/HomeIcon';
 import { LaunchSerializerCommon, LaunchService } from '../service/service';
 
 export const HomeScreen = () => {
-  const { t } = useTranslation();
   const { name } = useRoute();
   const [data, setData] = React.useState<LaunchSerializerCommon[] | null>(null);
   const [limit, setLimit] = React.useState(15);
@@ -29,8 +28,6 @@ export const HomeScreen = () => {
 
   return (
     <BasePage>
-      <Title size="super">{t(`screen.${name}.title`)}</Title>
-
       <SpaceList data={data} onEndReached={() => setLimit(limit + 15)} />
     </BasePage>
   );

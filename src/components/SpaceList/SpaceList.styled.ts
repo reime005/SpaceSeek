@@ -18,7 +18,9 @@ export const StyledImage = styled(FastImage)`
   flex: 2;
 `;
 
-export const StyledWrapper = styled.View`
+export const StyledWrapper = styled.TouchableOpacity`
+  margin-left: 16px;
+  margin-right: 16px;
   margin-top: 10px;
   margin-bottom: 10px;
   justify-content: center;
@@ -33,7 +35,7 @@ export const StyledTextBox = styled.View`
   flex: 1;
   width: 100%;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   padding-top: ${border};
   padding-bottom: ${border};

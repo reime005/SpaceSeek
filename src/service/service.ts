@@ -1149,9 +1149,9 @@ export class LaunchService {
   /**
    * API endpoint that returns all Launch objects or a single launch.
    */
-  static launchRead(options: IRequestOptions = {}): Promise<LaunchDetailed> {
+  static launchRead(id: string, options: IRequestOptions = {}): Promise<LaunchDetailed> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/launch/{id}/';
+      let url = basePath + `/launch/${id}/`;
 
       const configs: IRequestConfig = getConfigs(
         'get',

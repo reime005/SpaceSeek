@@ -6,3 +6,11 @@ export const bottomRoutes: {
   home: 'home',
   settings: 'settings'
 }
+
+export type SpaceRoute = 'details';
+
+export const spaceRoutes: {
+  [routeKey in SpaceRoute]: SpaceRoute;
+} = {
+  details: 'details',
+}

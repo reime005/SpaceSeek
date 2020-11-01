@@ -1,6 +1,8 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { spaceRoutes } from '../../navigators/routes';
 import { LaunchSerializerCommon } from '../../service/service';
 import { RegularText, Title } from '../Basic/Basic';
 import { HomeIcon } from '../SVG/HomeIcon';
@@ -8,8 +10,15 @@ import { HomeIcon } from '../SVG/HomeIcon';
 import * as S from './SpaceList.styled';
 
 export const SpaceListItem = (item: LaunchSerializerCommon) => {
+  const nav = useNavigation();
+
   return (
-    <S.StyledWrapper style={styles.shadow}>
+    <S.StyledWrapper
+      style={styles.shadow}
+      activeOpacity={0.9}
+      onPress={() => {
+        nav.navigate(spaceRoutes.details, { id: item.id });
+      }}>
       <S.StyledImage source={{ uri: item.image || '' }} resizeMode="cover" />
       <S.StyledTextBox>
         <View

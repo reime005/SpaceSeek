@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useColorScheme } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useColorScheme, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-view';
 import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from 'styled-components';
@@ -31,9 +30,9 @@ export const Main = () => {
     <NavigationContainer>
       <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
         <SafeAreaProvider>
-          <SafeAreaView style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
             <BottomNavigator />
-          </SafeAreaView>
+          </View>
         </SafeAreaProvider>
       </ThemeProvider>
     </NavigationContainer>
