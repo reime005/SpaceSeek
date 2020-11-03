@@ -5,8 +5,13 @@ export interface Translation {
     screen: {
       [screenKey in BottomRoute]: ScreenTranslation;
     };
+    category: {
+      [categoryKey in Category]: string
+    }
   };
 }
+
+export type Category = 'launchUpcomingList' | 'launchPreviousList';
 
 interface ScreenTranslation {
   title: string;

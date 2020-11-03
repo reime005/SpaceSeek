@@ -10,6 +10,10 @@ const translation: Translation = {
         title: 'Settings Screen',
       },
     },
+    category: {
+      launchPreviousList: 'Previous',
+      launchUpcomingList: 'Upcoming'
+    }
   },
 };
 

@@ -58,8 +58,3 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
 });
-
-// 1) styled auslagern
-// 2) header and search bar
-// 3) category switch
-// 4) font from logo

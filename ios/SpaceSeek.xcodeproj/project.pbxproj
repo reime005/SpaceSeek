@@ -11,7 +11,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1E593F6E3A375D0756457E98 /* libPods-SpaceSeek.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A64CEDFD8E79228DB2F4341 /* libPods-SpaceSeek.a */; };
-		29E4D49A2547965E004779DA /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 29D47B3C25478B6400597C2C /* Config.xcconfig */; };
 		2BCB150216A34AFDB3A293DA /* RobotoCondensed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AE97E501D0540CAAF8800B8 /* RobotoCondensed-LightItalic.ttf */; };
 		39E8304530154D3BBA63796B /* RobotoCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B1E98A4EFCE4E569B3F319A /* RobotoCondensed-Bold.ttf */; };
 		6D6E00F9F3FC4EB5AFA76BAA /* RobotoCondensed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE98758916C742F3A062D276 /* RobotoCondensed-Italic.ttf */; };
@@ -91,7 +90,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* ReactNativeBase */ = {
+		13B07FAE1A68108700A75B9A /* SpaceSeek */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -101,7 +100,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = ReactNativeBase;
+			name = SpaceSeek;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -128,7 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				29D47B3C25478B6400597C2C /* Config.xcconfig */,
-				13B07FAE1A68108700A75B9A /* ReactNativeBase */,
+				13B07FAE1A68108700A75B9A /* SpaceSeek */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ReactNativeBaseTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -246,7 +245,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				29E4D49A2547965E004779DA /* Config.xcconfig in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				39E8304530154D3BBA63796B /* RobotoCondensed-Bold.ttf in Resources */,
 				836405BA47AF498EA4715DB0 /* RobotoCondensed-BoldItalic.ttf in Resources */,

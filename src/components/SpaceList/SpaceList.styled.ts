@@ -37,10 +37,7 @@ export const StyledTextBox = styled.View`
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  padding-top: ${border};
-  padding-bottom: ${border};
-  padding-left: 8px;
-  padding-right: 8px;
+  padding: ${border};
   background-color: white;
   border-bottom-left-radius: ${border};
   border-bottom-right-radius: ${border};

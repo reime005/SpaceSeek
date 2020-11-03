@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "echo &amp;quot;.env&amp;quot; &amp;gt; /tmp/envfile&amp;#10;${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb &amp;quot;${SRCROOT}/..&amp;quot; &amp;quot;${SRCROOT}/tmp.xcconfig&amp;quot;&amp;#10;&#10;">
+               scriptText = "echo &quot;.env&quot; &gt; /tmp/envfile&#10;${SRCROOT}/../node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb &quot;${SRCROOT}/..&quot; &quot;${SRCROOT}/tmp.xcconfig&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
