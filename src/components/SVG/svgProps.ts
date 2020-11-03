@@ -3,6 +3,7 @@ export interface SVGWrapperProps {
   height?: number;
   scale?: number;
   fill?: string;
+  color?: string;
 }
 
 export const defaultSVGProps: SVGWrapperProps = {

@@ -13,6 +13,9 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { SearchIcon } from '../components/SVG/SearchIcon';
+import { CloseIcon } from '../components/SVG/CloseIcon';
+import { Search } from '../components/SearchBar/Search';
 
 const { width, height } = RN.Dimensions.get('screen');
 
@@ -28,7 +31,7 @@ export const SettingsScreen = () => {
   });
   const [searchValue, setSearchValue] = React.useState('');
   const [value, setValue] = React.useState('');
-  const [isModalVisible, setModalVisible] = React.useState(true);
+  const [isModalVisible, setModalVisible] = React.useState(false);
 
   const [data, setData] = React.useState<null | []>(null);
 
@@ -68,20 +71,21 @@ export const SettingsScreen = () => {
           alignItems: 'center',
         }}
         pointerEvents="box-none">
-        <RN.TextInput
-          pointerEvents="box-only"
-          onFocus={onFocus}
-          value={value}
-          onChangeText={setValue}
-          onEndEditing={(e) => setSearchValue(e.nativeEvent.text)}
-          style={{
-            height: 50,
-            paddingHorizontal: 24,
-            borderRadius: 100,
-            width: '90%',
+
+          <Search />
+
+
+        {/* <RN.View
+          style={[{
+            minHeight: 150,
+            marginTop: 8,
+            width: '100%',
             backgroundColor: 'white',
-          }}></RN.TextInput>
-        <Modal
+            borderRadius: 24,
+            padding: 24,
+          }, styles.shadow]}> */}
+
+        {/* <Modal
           propagateSwipe
           animationIn="fadeIn"
           animationInTiming={150}
@@ -91,34 +95,39 @@ export const SettingsScreen = () => {
           onSwipeComplete={onSwipeComplete}
           hasBackdrop={false}
           swipeThreshold={0.2}
-          coverScreen={false}
+          coverScreen={true}
           swipeDirection="up"
-          style={{
-            flex: 1,
-            justifyContent: 'flex-start',
-            paddingTop: (50 + insets.top || 0) - 10,
-          }}>
-          <RN.View
-            style={{
-              minHeight: 150,
-              backgroundColor: 'grey',
-              borderRadius: 24,
-              padding: 24,
-            }}>
-            {data &&
-              data.map((d) => (
-                <RN.TouchableOpacity onPress={() => onItemPress(d)}>
-                  <RegularText style={{ marginVertical: 16 }}>
-                    {JSON.stringify(d)}
-                  </RegularText>
-                </RN.TouchableOpacity>
-              ))}
-          </RN.View>
-        </Modal>
+          style={[
+            {
+              // marginTop: 8,
+              // top: 60,
+              // width: '100%',
+              // backgroundColor: 'red',
+              // borderRadius: 24,
+              // padding: 24,
+            },
+            styles.shadow,
+          ]}>
+          {data &&
+            data.map((d) => (
+              <RN.TouchableOpacity onPress={() => onItemPress(d)}>
+                <RegularText style={{ marginVertical: 16 }}>
+                  {JSON.stringify(d)}
+                </RegularText>
+              </RN.TouchableOpacity>
+            ))}
+        </Modal> */}
+
+        {/* </RN.View> */}
       </SafeAreaView>
 
       <MapView
         style={{ flex: 1, position: 'absolute', width, height, zIndex: 0 }}
+        region={{
+          ...item,
+          latitudeDelta: 25,
+          longitudeDelta: 25,
+        }}
         initialRegion={{
           ...item,
           latitudeDelta: 0.0922,
@@ -134,3 +143,13 @@ export const SettingsScreen = () => {
     </>
   );
 };
+
+const styles = RN.StyleSheet.create({
+  shadow: {
+    elevation: 7,
+    shadowColor: '#999999',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+  },
+});

@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 export const BottomNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
+    <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions} initialRouteName={bottomRoutes.settings}>
       <Tab.Screen name={bottomRoutes.home} component={SpaceStackNavigator} />
       <Tab.Screen name={bottomRoutes.settings} component={SettingsScreen} />
     </Tab.Navigator>
