@@ -65,6 +65,8 @@ export const Search = () => {
   const { t } = useTranslation();
   const { name } = useRoute();
 
+  const scrollRef = useSharedValue<boolean>(false);
+
   const insets = useSafeAreaInsets();
 
   const [item, setItem] = React.useState<LatLng>({
@@ -93,6 +95,10 @@ export const Search = () => {
       // y.value = ctx.startY + event.translationY;
       // console.warn(event.y);
 
+      if (scrollRef.value === true) {
+        return;
+      }
+
       height.value -= ctx.startY - event.y;
 
       // console.warn(height.value);
@@ -101,6 +107,9 @@ export const Search = () => {
       // height.value += (event.translationY / 10);
     },
     onEnd: (event, ctx) => {
+      if (scrollRef.value === true) {
+        return;
+      }
 
       const h = height.value;
       console.warn(h);
@@ -110,7 +119,7 @@ export const Search = () => {
       } else if (h < dh * 0.3) {
         height.value = withSpring(0);
       } else {
-        height.value = withSpring(dh)
+        height.value = withSpring(dh);
       }
 
       // else if (isBetween(h, dh * 0.7, dh * 1)) {
@@ -162,6 +171,14 @@ export const Search = () => {
   };
 
   const stylez = useAnimatedStyle(() => {
+    if (scrollRef.value === true) {
+      console.warn('break!!');
+
+      return;
+    }
+
+
+
     let h = height.value;
 
     if (h < 0) {
@@ -175,7 +192,7 @@ export const Search = () => {
     return {
       marginTop: h,
     };
-  });
+  }, [scrollRef]);
 
   return (
     <>
@@ -219,7 +236,7 @@ export const Search = () => {
           height: '100%',
           width: '100%',
         }}>
-        <PanGestureHandler avgTouches onGestureEvent={gestureHandler}>
+        <PanGestureHandler onGestureEvent={gestureHandler}>
           <Animated.View
             style={[
               {
@@ -234,7 +251,6 @@ export const Search = () => {
                 shadowOffset: { width: 0, height: -1 },
                 shadowOpacity: 0.2,
                 shadowRadius: 2,
-                paddingVertical: 8,
                 paddingHorizontal: 24,
               },
               stylez,
@@ -244,17 +260,31 @@ export const Search = () => {
                 backgroundColor: 'rgba(0,0,0,.1)',
                 height: 4,
                 width: '15%',
+                marginVertical: 8,
                 borderRadius: 100,
                 alignSelf: 'center',
               }}
             />
 
-              <RN.FlatList data={require('../../mockData/pads.json')} style={{ flex: 1 }} renderItem={(item) => {
-                return <RN.TouchableOpacity style={{ marginVertical: 24 }}>
-                  <RegularText>{JSON.stringify(item.item)}</RegularText>
-                </RN.TouchableOpacity>
-              }} />
-
+            <RN.FlatList
+              onMomentumScrollBegin={() => {
+                console.warn('lock');
+                scrollRef.value = true;
+              }}
+              onMomentumScrollEnd={() => {
+                console.warn('unlock');
+                scrollRef.value = false;
+              }}
+              data={require('../../mockData/pads.json')}
+              style={{ flex: 1 }}
+              renderItem={(item) => {
+                return (
+                  <RN.TouchableOpacity style={{ marginVertical: 24 }}>
+                    <RegularText>{JSON.stringify(item.item)}</RegularText>
+                  </RN.TouchableOpacity>
+                );
+              }}
+            />
           </Animated.View>
         </PanGestureHandler>
       </RN.View>
