@@ -7,7 +7,9 @@ export interface Translation {
     };
     category: {
       [categoryKey in Category]: string
-    }
+    },
+    noSearchResults: string;
+    results: string;
   };
 }
 

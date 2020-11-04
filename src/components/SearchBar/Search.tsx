@@ -1,148 +1,46 @@
-import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import * as RN from 'react-native';
-import { LatLng } from 'react-native-maps';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Pad, PadService } from '../../service/service';
 import { CloseIcon } from '../SVG/CloseIcon';
 import { SearchIcon } from '../SVG/SearchIcon';
 
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import * as S from './Search.styled';
+
 import Animated, {
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { RegularText } from '../Basic/Basic';
+import { RegularText, Title } from '../Basic/Basic';
+import { useTranslation } from 'react-i18next';
 
-const usePan = () => {
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {
-      // with the context (ctx), we track the original start positions
-      // ctx.startX = x.value;
-      // ctx.startY = y.value;
-      // // keep the y value for figuring out the image rotation direction
-      // originY.value = event.y;
-    },
-    onActive: (event, ctx) => {
-      // user is actively touching and moving the image
-      // x.value = ctx.startX + event.translationX;
-      // y.value = ctx.startY + event.translationY;
-    },
-    onEnd: (event, ctx) => {
-      // dragged 40 percent of the screen's width
-      // const thresh = width * 0.4;
-      // // how much the user moved the image horizontally
-      // const diff = ctx.startX + event.translationX;
-      // if (diff > thresh) {
-      //   // swiped right
-      //   onSnap(true);
-      // } else if (diff < -1 * thresh) {
-      //   // swiped left
-      //   onSnap(false);
-      // } else {
-      //   // no left or right swipe, so 'jump' back to the initial position
-      //   x.value = withSpring(0);
-      //   y.value = withSpring(0);
-      // }
-    },
-  });
+const { height: dh } = RN.Dimensions.get('screen');
 
-  return { gestureHandler };
+const MIN_HEIGHT = dh * 0.15;
+const MAX_HEIGHT = dh * 0.8;
+
+const springConfig: Animated.WithSpringConfig = {
+  velocity: 10,
+  damping: 100,
+  stiffness: 500,
 };
 
-const { width: dw, height: dh } = RN.Dimensions.get('screen');
+interface Props {
+  onChangeItem: (item: Pad) => void;
+}
 
-const MIN_HEIGHT = 15;
-const MAX_MARGIN = dh * 0.5;
-
-const isBetween = (value: number, lower: number, higher: number) =>
-  value >= lower && value <= higher;
-
-export const Search = () => {
+export const Search = (props: Props) => {
   const { t } = useTranslation();
-  const { name } = useRoute();
 
-  const scrollRef = useSharedValue<boolean>(false);
-
-  const insets = useSafeAreaInsets();
-
-  const [item, setItem] = React.useState<LatLng>({
-    latitude: 37.78825,
-    longitude: -122.4324,
-  });
   const [searchValue, setSearchValue] = React.useState('');
   const [value, setValue] = React.useState('');
-  const [isModalVisible, setModalVisible] = React.useState(false);
+  const [, setModalVisible] = React.useState(false);
 
-  const [data, setData] = React.useState<null | []>(null);
+  const [data, setData] = React.useState<null | Pad[]>(
+    null,
+  );
 
   const height = useSharedValue(MIN_HEIGHT);
-
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {
-      // with the context (ctx), we track the original start positions
-      // ctx.startX = x.value;
-      ctx.startY = event.y;
-      // // keep the y value for figuring out the image rotation direction
-      // originY.value = event.y;
-    },
-    onActive: (event, ctx) => {
-      // user is actively touching and moving the image
-      // x.value = ctx.startX + event.translationX;
-      // y.value = ctx.startY + event.translationY;
-      // console.warn(event.y);
-
-      if (scrollRef.value === true) {
-        return;
-      }
-
-      height.value -= ctx.startY - event.y;
-
-      // console.warn(height.value);
-
-      // height.value += event.y;
-      // height.value += (event.translationY / 10);
-    },
-    onEnd: (event, ctx) => {
-      if (scrollRef.value === true) {
-        return;
-      }
-
-      const h = height.value;
-      console.warn(h);
-
-      if (h > dh * 0.3 && h < dh * 0.6) {
-        height.value = withSpring(dh * 0.35);
-      } else if (h < dh * 0.3) {
-        height.value = withSpring(0);
-      } else {
-        height.value = withSpring(dh);
-      }
-
-      // else if (isBetween(h, dh * 0.7, dh * 1)) {
-      //   height.value = withSpring(0);
-      // }
-
-      // dragged 40 percent of the screen's width
-      // const thresh = width * 0.4;
-      // // how much the user moved the image horizontally
-      // const diff = ctx.startX + event.translationX;
-      // if (diff > thresh) {
-      //   // swiped right
-      //   onSnap(true);
-      // } else if (diff < -1 * thresh) {
-      //   // swiped left
-      //   onSnap(false);
-      // } else {
-      //   // no left or right swipe, so 'jump' back to the initial position
-      //   x.value = withSpring(0);
-      //   y.value = withSpring(0);
-      // }
-    },
-  });
 
   React.useEffect(() => {
     if (!searchValue.length) {
@@ -155,44 +53,37 @@ export const Search = () => {
   }, [searchValue]);
 
   const onItemPress = (item: Pad) => {
-    setItem({
-      latitude: Number(item.latitude || '0'),
-      longitude: Number(item.longitude || '0'),
-    });
-    setModalVisible(false);
-  };
-
-  const onSwipeComplete = () => {
-    setModalVisible(false);
+    props.onChangeItem(item);
+    onBoxPress();
   };
 
   const onFocus = () => {
     setModalVisible(true);
   };
 
+  const [boxIsOpen, setBoxIsOpen] = React.useState(false);
+
+  const onBoxPress = () => {
+    if (height.value > MIN_HEIGHT) {
+      height.value = withSpring(MIN_HEIGHT, springConfig);
+      setBoxIsOpen(false);
+    } else {
+      height.value = withSpring(MAX_HEIGHT, springConfig);
+      setBoxIsOpen(true);
+    }
+  };
+
   const stylez = useAnimatedStyle(() => {
-    if (scrollRef.value === true) {
-      console.warn('break!!');
-
-      return;
-    }
-
-
-
-    let h = height.value;
-
-    if (h < 0) {
-      h = 0;
-    }
-
-    // else if (h > MAX_MARGIN) {
-    //   h > MAX_MARGIN;
-    // }
-
     return {
-      marginTop: h,
+      height: height.value,
     };
-  }, [scrollRef]);
+  }, []);
+
+  let searchResultTextShort = t('noSearchResults');
+
+  if (data?.length) {
+    searchResultTextShort = `${data.length} ${t('results')}`;
+  }
 
   return (
     <>
@@ -230,73 +121,71 @@ export const Search = () => {
       </RN.View>
 
       <RN.View
+        pointerEvents="box-none"
         style={{
           alignItems: 'center',
           justifyContent: 'flex-end',
           height: '100%',
           width: '100%',
         }}>
-        <PanGestureHandler onGestureEvent={gestureHandler}>
-          <Animated.View
-            style={[
-              {
-                flex: 1,
-                borderTopLeftRadius: 24,
-                borderTopRightRadius: 24,
-                backgroundColor: 'white',
-                minHeight: 125,
-                width: '100%',
-                elevation: 3,
-                shadowColor: 'grey',
-                shadowOffset: { width: 0, height: -1 },
-                shadowOpacity: 0.2,
-                shadowRadius: 2,
-                paddingHorizontal: 24,
-              },
-              stylez,
-            ]}>
-            <RN.View
+        <S.StyledSearchResultsWrapper
+          pointerEvents="auto"
+          style={[styles.shadow, stylez]}>
+          {!boxIsOpen && (
+            <RN.TouchableOpacity
+              activeOpacity={1}
+              onPress={onBoxPress}
               style={{
-                backgroundColor: 'rgba(0,0,0,.1)',
-                height: 4,
-                width: '15%',
-                marginVertical: 8,
-                borderRadius: 100,
-                alignSelf: 'center',
-              }}
-            />
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+              }}>
+              <S.StyledSearchResultsPullBar />
+              <RN.View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  marginTop: 16,
+                  justifyContent: 'flex-start',
+                }}>
+                <Title size="xl">{searchResultTextShort}</Title>
+              </RN.View>
+            </RN.TouchableOpacity>
+          )}
 
+          {boxIsOpen && !data?.length && <Title>TODO recent searches</Title>}
+
+          {boxIsOpen && data?.length && (
             <RN.FlatList
-              onMomentumScrollBegin={() => {
-                console.warn('lock');
-                scrollRef.value = true;
-              }}
-              onMomentumScrollEnd={() => {
-                console.warn('unlock');
-                scrollRef.value = false;
-              }}
-              data={require('../../mockData/pads.json')}
-              style={{ flex: 1 }}
+              data={data}
+              style={{ flex: 1, width: '100%', marginTop: 24 }}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(i) => String(i.id || 1)}
               renderItem={(item) => {
                 return (
-                  <RN.TouchableOpacity style={{ marginVertical: 24 }}>
+                  <RN.TouchableOpacity
+                    style={{ marginVertical: 24 }}
+                    onPress={() => {
+                      onItemPress(item.item);
+                    }}>
                     <RegularText>{JSON.stringify(item.item)}</RegularText>
                   </RN.TouchableOpacity>
                 );
               }}
             />
-          </Animated.View>
-        </PanGestureHandler>
+          )}
+        </S.StyledSearchResultsWrapper>
       </RN.View>
     </>
   );
 };
+
 const styles = RN.StyleSheet.create({
   shadow: {
     elevation: 7,
     shadowColor: '#999999',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
-    shadowRadius: 2,
+    shadowRadius: 4,
   },
 });

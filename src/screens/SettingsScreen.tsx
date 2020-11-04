@@ -1,65 +1,46 @@
-import { useRoute } from '@react-navigation/native';
 import React from 'react';
 import * as RN from 'react-native';
-import { useTranslation } from 'react-i18next';
-import * as S from '../components/Basic/Basic.styled';
-import MapView from 'react-native-maps';
-import { Marker, LatLng } from 'react-native-maps';
-import { LaunchService, Pad, PadService } from '../service/service';
+import MapView, { Region } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import { Pad, PadService } from '../service/service';
+import { useTheme } from 'styled-components';
 
-import Modal from 'react-native-modal';
-import { RegularText, Title } from '../components/Basic/Basic';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-import { SearchIcon } from '../components/SVG/SearchIcon';
-import { CloseIcon } from '../components/SVG/CloseIcon';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Search } from '../components/SearchBar/Search';
+import { useTranslation } from 'react-i18next';
 
 const { width, height } = RN.Dimensions.get('screen');
 
+const DEFAULT_REGION: Region = {
+  latitude: 52.515151,
+  longitude: 13.407049,
+  latitudeDelta: 5,
+  longitudeDelta: 5,
+};
+
 export const SettingsScreen = () => {
-  const { t } = useTranslation();
-  const { name } = useRoute();
+  const theme = useTheme();
 
-  const insets = useSafeAreaInsets();
+  const [region, setRegion] = React.useState<Region>(DEFAULT_REGION);
 
-  const [item, setItem] = React.useState<LatLng>({
-    latitude: 37.78825,
-    longitude: -122.4324,
+  const [item, setItem] = React.useState<Partial<Pad>>({
+    latitude: '37.78825',
+    longitude: '-122.4324',
   });
-  const [searchValue, setSearchValue] = React.useState('');
-  const [value, setValue] = React.useState('');
-  const [isModalVisible, setModalVisible] = React.useState(false);
 
-  const [data, setData] = React.useState<null | []>(null);
+  const [searchValue] = React.useState('');
 
-  React.useEffect(() => {
-    if (!searchValue.length) {
-      return;
-    }
+  // const [data, setData] = React.useState<null | []>(null);
 
-    PadService.padList({ limit: 15, search: searchValue }).then((res) =>
-      setData(res.results),
-    );
-  }, [searchValue]);
+  // React.useEffect(() => {
+  //   if (!searchValue.length) {
+  //     return;
+  //   }
 
-  const onItemPress = (item: Pad) => {
-    setItem({
-      latitude: Number(item.latitude || '0'),
-      longitude: Number(item.longitude || '0'),
-    });
-    setModalVisible(false);
-  };
-
-  const onSwipeComplete = () => {
-    setModalVisible(false);
-  };
-
-  const onFocus = () => {
-    setModalVisible(true);
-  };
+  //   PadService.padList({ limit: 15, search: searchValue }).then((res) =>
+  //     setData(res.results),
+  //   );
+  // }, [searchValue]);
 
   return (
     <>
@@ -71,85 +52,34 @@ export const SettingsScreen = () => {
           alignItems: 'center',
         }}
         pointerEvents="box-none">
-
-          <Search />
-
-
-        {/* <RN.View
-          style={[{
-            minHeight: 150,
-            marginTop: 8,
-            width: '100%',
-            backgroundColor: 'white',
-            borderRadius: 24,
-            padding: 24,
-          }, styles.shadow]}> */}
-
-        {/* <Modal
-          propagateSwipe
-          animationIn="fadeIn"
-          animationInTiming={150}
-          animationOut="fadeOutUp"
-          animationOutTiming={150}
-          isVisible={isModalVisible}
-          onSwipeComplete={onSwipeComplete}
-          hasBackdrop={false}
-          swipeThreshold={0.2}
-          coverScreen={true}
-          swipeDirection="up"
-          style={[
-            {
-              // marginTop: 8,
-              // top: 60,
-              // width: '100%',
-              // backgroundColor: 'red',
-              // borderRadius: 24,
-              // padding: 24,
-            },
-            styles.shadow,
-          ]}>
-          {data &&
-            data.map((d) => (
-              <RN.TouchableOpacity onPress={() => onItemPress(d)}>
-                <RegularText style={{ marginVertical: 16 }}>
-                  {JSON.stringify(d)}
-                </RegularText>
-              </RN.TouchableOpacity>
-            ))}
-        </Modal> */}
-
-        {/* </RN.View> */}
+        <Search
+          onChangeItem={(i) => {
+            setRegion({
+              ...DEFAULT_REGION,
+              latitude: Number(i.latitude || '0'),
+              longitude: Number(i.longitude || '0'),
+            });
+            setItem(i);
+          }}
+        />
       </SafeAreaView>
 
       <MapView
         style={{ flex: 1, position: 'absolute', width, height, zIndex: 0 }}
-        region={{
-          ...item,
-          latitudeDelta: 25,
-          longitudeDelta: 25,
-        }}
-        initialRegion={{
-          ...item,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}>
+        region={region}
+        onRegionChangeComplete={setRegion}
+        initialRegion={DEFAULT_REGION}>
         <Marker
-          key={1}
-          coordinate={item}
-          title={'marker.title'}
-          description={'marker.description'}
+          pinColor={theme.focusedIconColor}
+          key={item.id || 1}
+          coordinate={{
+            latitude: Number(item.latitude || '0') || region.latitude,
+            longitude: Number(item.longitude || '0') || region.longitude,
+          }}
+          title={item.name || 'Launch'}
+          description={`${item.location?.name}`}
         />
       </MapView>
     </>
   );
 };
-
-const styles = RN.StyleSheet.create({
-  shadow: {
-    elevation: 7,
-    shadowColor: '#999999',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-  },
-});

@@ -13,7 +13,9 @@ const translation: Translation = {
     category: {
       launchPreviousList: 'Previous',
       launchUpcomingList: 'Upcoming'
-    }
+    },
+    noSearchResults: "Could not find anything",
+    results: "results"
   },
 };
 
