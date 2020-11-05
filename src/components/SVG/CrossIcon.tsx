@@ -14,8 +14,7 @@ export const CrossIcon = (props: SVGWrapperProps) => {
     <SVG
       {...{
         ...transformSVGProps({ ...defaultSVGProps, ...props }),
-        fill: 'transparent',
-        color: theme.unFocusedIconColor,
+        fill: theme.unFocusedIconColor,
         ...props,
       }}
     />

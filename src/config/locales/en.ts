@@ -15,7 +15,9 @@ const translation: Translation = {
       launchUpcomingList: 'Upcoming'
     },
     noSearchResults: "Could not find anything",
-    results: "results"
+    results: "results",
+    result: "result",
+    recentSearches: "Recent Searches"
   },
 };
 

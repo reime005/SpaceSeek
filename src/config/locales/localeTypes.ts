@@ -10,6 +10,8 @@ export interface Translation {
     },
     noSearchResults: string;
     results: string;
+    result: string;
+    recentSearches: string;
   };
 }
 

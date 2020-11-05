@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 
 export const StyledSearchResultsWrapper = styled(Animated.View)`
   margin-top: 16px;
+  padding-top: 16px;
   padding-left: 24px;
   padding-right: 24px;
   border-top-left-radius: 24px;
@@ -23,4 +24,17 @@ export const StyledSearchResultsPullBar = styled.View`
   margin-bottom: 8px;
   border-radius: 4px;
   align-self: center;
+`;
+
+export const Row = styled.TouchableOpacity`
+  flex: 1;
+  width: 100%;
+  flex-direction: row;
+  height: 50px;
+  background-color: white;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 4px;
 `;

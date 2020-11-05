@@ -13,6 +13,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { RegularText, Title } from '../Basic/Basic';
 import { useTranslation } from 'react-i18next';
+import { useStore } from '../../hooks/useStore';
+import { RecentSearchItem } from './RecentSearchItem';
 
 const { height: dh } = RN.Dimensions.get('screen');
 
@@ -32,24 +34,32 @@ interface Props {
 export const Search = (props: Props) => {
   const { t } = useTranslation();
 
+  const store = useStore();
+
   const [searchValue, setSearchValue] = React.useState('');
   const [value, setValue] = React.useState('');
   const [, setModalVisible] = React.useState(false);
 
-  const [data, setData] = React.useState<null | Pad[]>(
-    null,
-  );
+  const [data, setData] = React.useState<null | Pad[]>(null);
 
   const height = useSharedValue(MIN_HEIGHT);
+
+  React.useEffect(() => {
+    store.loadSearches();
+  }, []);
 
   React.useEffect(() => {
     if (!searchValue.length) {
       return;
     }
 
-    PadService.padList({ limit: 15, search: searchValue }).then((res) =>
-      setData(res.results),
-    );
+    store.addRecentSearch({ text: searchValue, type: 'pad' });
+
+    PadService.padList({ limit: 15, search: searchValue }).then((res) => {
+      console.warn(res);
+
+      setData(res.results);
+    });
   }, [searchValue]);
 
   const onItemPress = (item: Pad) => {
@@ -64,6 +74,10 @@ export const Search = (props: Props) => {
   const [boxIsOpen, setBoxIsOpen] = React.useState(false);
 
   const onBoxPress = () => {
+    if (!data?.length && !store.recentSearches?.length) {
+      return;
+    }
+
     if (height.value > MIN_HEIGHT) {
       height.value = withSpring(MIN_HEIGHT, springConfig);
       setBoxIsOpen(false);
@@ -81,8 +95,12 @@ export const Search = (props: Props) => {
 
   let searchResultTextShort = t('noSearchResults');
 
-  if (data?.length) {
+  if (data && (data?.length || 0) === 1) {
+    searchResultTextShort = `1 ${t('result')}`;
+  } else if (data && (data?.length || 0) > 1) {
     searchResultTextShort = `${data.length} ${t('results')}`;
+  } else if (store.recentSearches?.length) {
+    searchResultTextShort = t('recentSearches');
   }
 
   return (
@@ -141,6 +159,7 @@ export const Search = (props: Props) => {
                 justifyContent: 'flex-start',
               }}>
               <S.StyledSearchResultsPullBar />
+
               <RN.View
                 style={{
                   flex: 1,
@@ -153,14 +172,36 @@ export const Search = (props: Props) => {
             </RN.TouchableOpacity>
           )}
 
-          {boxIsOpen && !data?.length && <Title>TODO recent searches</Title>}
+          {boxIsOpen && !data?.length && store.recentSearches?.length && (
+            <>
+              <Title size="xl">{searchResultTextShort}</Title>
+              <RN.FlatList
+                data={store.recentSearches}
+                style={{ flex: 1, width: '100%', marginTop: 24 }}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(i) => String(i.text || '1')}
+                renderItem={(item) => {
+                  console.error(item);
+
+                  return (
+                    <RecentSearchItem
+                      onPress={() => {
+                        setSearchValue(item.item.text);
+                      }}
+                      text={item.item.text}
+                    />
+                  );
+                }}
+              />
+            </>
+          )}
 
           {boxIsOpen && data?.length && (
             <RN.FlatList
               data={data}
               style={{ flex: 1, width: '100%', marginTop: 24 }}
               showsVerticalScrollIndicator={false}
-              keyExtractor={(i) => String(i.id || 1)}
+              keyExtractor={(i) => String(i.id || '1')}
               renderItem={(item) => {
                 return (
                   <RN.TouchableOpacity
