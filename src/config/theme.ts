@@ -19,7 +19,7 @@ export const lightTheme: DefaultTheme = {
   focusedIconColor: '#ff884d',
   unFocusedIconColor: '#cccccc',
   secondaryColor: '#666',
-  searchBackgroundColor: '#fafafa',
+  searchBackgroundColor: 'rgb(252,252,252)',
   mainFont: '#090909',
   fontColors: {
     light: '#fff',

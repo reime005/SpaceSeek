@@ -30,11 +30,12 @@ export const Row = styled.TouchableOpacity`
   flex: 1;
   width: 100%;
   flex-direction: row;
-  height: 50px;
   background-color: white;
   justify-content: flex-start;
   align-items: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
   padding-left: 16px;
   padding-right: 16px;
-  border-radius: 4px;
+  border-radius: 6px;
 `;

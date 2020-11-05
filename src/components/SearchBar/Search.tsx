@@ -35,6 +35,7 @@ export const Search = (props: Props) => {
   const { t } = useTranslation();
 
   const store = useStore();
+  let recentSearches = store.recentSearches ? store.recentSearches.filter(s => s.type === 'pad') : null;
 
   const [searchValue, setSearchValue] = React.useState('');
   const [value, setValue] = React.useState('');
@@ -99,7 +100,7 @@ export const Search = (props: Props) => {
     searchResultTextShort = `1 ${t('result')}`;
   } else if (data && (data?.length || 0) > 1) {
     searchResultTextShort = `${data.length} ${t('results')}`;
-  } else if (store.recentSearches?.length) {
+  } else if (recentSearches?.length) {
     searchResultTextShort = t('recentSearches');
   }
 
@@ -172,21 +173,25 @@ export const Search = (props: Props) => {
             </RN.TouchableOpacity>
           )}
 
-          {boxIsOpen && !data?.length && store.recentSearches?.length && (
+          {boxIsOpen && !data?.length && recentSearches?.length && (
             <>
               <Title size="xl">{searchResultTextShort}</Title>
+
               <RN.FlatList
-                data={store.recentSearches}
+                data={recentSearches}
+                alwaysBounceVertical={false}
                 style={{ flex: 1, width: '100%', marginTop: 24 }}
                 showsVerticalScrollIndicator={false}
+                ItemSeparatorComponent={() => <RN.View style={{ height: 1, width: '100%', backgroundColor: 'rgba(0,0,0,.01)'}} /> }
                 keyExtractor={(i) => String(i.text || '1')}
                 renderItem={(item) => {
-                  console.error(item);
-
                   return (
                     <RecentSearchItem
                       onPress={() => {
                         setSearchValue(item.item.text);
+                      }}
+                      onRemoveItem={() => {
+                        store.removeRecentSearch(item.item)
                       }}
                       text={item.item.text}
                     />
@@ -209,6 +214,7 @@ export const Search = (props: Props) => {
                     onPress={() => {
                       onItemPress(item.item);
                     }}>
+
                     <RegularText>{JSON.stringify(item.item)}</RegularText>
                   </RN.TouchableOpacity>
                 );
@@ -220,6 +226,10 @@ export const Search = (props: Props) => {
     </>
   );
 };
+
+const Sep = () => {
+  return <RN.View style={{ width: '100%', height: 2, backgroundColor: 'red'}} />
+}
 
 const styles = RN.StyleSheet.create({
   shadow: {

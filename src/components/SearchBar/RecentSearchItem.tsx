@@ -13,14 +13,20 @@ interface Props {
 
 export const RecentSearchItem = (props: Props) => {
   return (
-    <S.Row {...props}>
-      <ClockIcon />
+    <S.Row activeOpacity={0.9} {...props}>
+      <ClockIcon width={20} height={20} />
 
-      <Title fontType="italic" numberOfLines={1} style={{ paddingLeft: 10, flex: 1, textAlign: 'center' }}>
-        {props.text || ""}
+      <Title
+        fontType="regular"
+        size="m"
+        numberOfLines={1}
+        style={{ paddingLeft: 12, flex: 1 }}>
+        {props.text || ''}
       </Title>
 
-      <CrossIcon />
+      <RN.TouchableOpacity onPress={props.onRemoveItem} activeOpacity={0.9}>
+        <CrossIcon width={20} height={20} />
+      </RN.TouchableOpacity>
     </S.Row>
   );
 };

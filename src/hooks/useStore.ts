@@ -20,7 +20,9 @@ interface Search {
   type: 'pad' | 'launch';
 }
 
-export const useStore = create<State>((set) => {
+type SearchType = 'pad' | 'launch';
+
+export const useStore = create<State>((set, get) => {
   return {
     searchValue: '',
     searchVisible: false,
@@ -31,10 +33,11 @@ export const useStore = create<State>((set) => {
     setCategory: (category) => set((state) => ({ category })),
     recentSearches: null,
     loadSearches: async () => {
-      const key = `recent_search`;
+      let key = `recent_searches`;
 
-      const itemsStr = (await AsyncStorage.getItem(key)) || '[]';
-      const recentSearches: Search[] = JSON.parse(itemsStr);
+      const itemsStr = (await AsyncStorage.getItem(key));
+      const recentSearches = JSON.parse(itemsStr || 'null');
+console.warn(recentSearches);
 
       set((state) => {
         return {
@@ -42,20 +45,51 @@ export const useStore = create<State>((set) => {
         };
       });
     },
-    removeRecentSearch: async (value) => {},
-    addRecentSearch: async (value) => {
-      const key = `recent_search`;
+    removeRecentSearch: async (value) => {
+      const key = `recent_searches`;
+      let recentSearches = get().recentSearches || null;
 
-      const itemsStr = (await AsyncStorage.getItem(key)) || '[]';
-      const items: Search[] = JSON.parse(itemsStr);
+      // const i = recentSearches.findIndex(r => r.text === value.text && r.type === value.type);
 
-      const recentSearches = [...items, value];
+      // if (i != -1) {
+      //   delete recentSearches[i];
+      // }
+
+      if (!recentSearches) {
+        set((state) => {
+          return {
+            recentSearches,
+          };
+        });
+
+        return;
+      }
+
+      recentSearches = recentSearches.filter(r => r.text !== value.text && r.type !== value.type);
 
       await AsyncStorage.setItem(key, JSON.stringify(recentSearches));
 
       set((state) => {
         return {
-          recentSearches: [...(state.recentSearches || []), value],
+          recentSearches,
+        };
+      });
+    },
+    addRecentSearch: async (value) => {
+      const key = `recent_searches`;
+      const recentSearches = get().recentSearches || [];
+
+      if (recentSearches.filter(t => t.type === value.type).some(t => t.text === value.text)) {
+        return;
+      }
+
+      recentSearches.push(value);
+
+      await AsyncStorage.setItem(key, JSON.stringify(recentSearches));
+
+      set((state) => {
+        return {
+          recentSearches,
         };
       });
     },
