@@ -45,6 +45,7 @@ export const SettingsScreen = () => {
   return (
     <>
       <SafeAreaView
+        edges={['top']}
         style={{
           flex: 1,
           zIndex: 2,
@@ -52,16 +53,16 @@ export const SettingsScreen = () => {
           alignItems: 'center',
         }}
         pointerEvents="box-none">
-        <Search
-          onChangeItem={(i) => {
-            setRegion({
-              ...DEFAULT_REGION,
-              latitude: Number(i.latitude || '0'),
-              longitude: Number(i.longitude || '0'),
-            });
-            setItem(i);
-          }}
-        />
+          <Search
+            onChangeItem={(i) => {
+              setRegion({
+                ...DEFAULT_REGION,
+                latitude: Number(i.latitude || '0'),
+                longitude: Number(i.longitude || '0'),
+              });
+              setItem(i);
+            }}
+          />
       </SafeAreaView>
 
       <MapView

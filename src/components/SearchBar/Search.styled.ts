@@ -4,9 +4,9 @@ import styled from "styled-components/native";
 
 export const StyledSearchResultsWrapper = styled(Animated.View)`
   margin-top: 16px;
-  padding-top: 16px;
+  /* padding-top: 16px;
   padding-left: 24px;
-  padding-right: 24px;
+  padding-right: 24px; */
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
   background-color: ${({ theme }) => theme.searchBackgroundColor};
@@ -15,6 +15,16 @@ export const StyledSearchResultsWrapper = styled(Animated.View)`
   z-index: 100;
 `;
 
+
+export const StyledItemWrapper = styled.TouchableOpacity`
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+`;
 
 export const StyledSearchResultsPullBar = styled.View`
   background-color: ${({ theme }) => theme.unFocusedIconColor};

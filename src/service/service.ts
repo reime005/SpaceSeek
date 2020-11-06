@@ -145,10 +145,11 @@ export class AgenciesService {
    *
    */
   static agenciesRead(
+    id: string,
     options: IRequestOptions = {},
   ): Promise<AgencySerializerDetailed> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/agencies/{id}/';
+      let url = basePath + `/agencies/${id}/`;
 
       const configs: IRequestConfig = getConfigs(
         'get',

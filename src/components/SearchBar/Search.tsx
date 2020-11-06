@@ -1,6 +1,11 @@
 import React from 'react';
 import * as RN from 'react-native';
-import { Pad, PadService } from '../../service/service';
+import {
+  AgenciesService,
+  Agency,
+  Pad,
+  PadService,
+} from '../../service/service';
 import { CloseIcon } from '../SVG/CloseIcon';
 import { SearchIcon } from '../SVG/SearchIcon';
 
@@ -15,11 +20,12 @@ import { RegularText, Title } from '../Basic/Basic';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '../../hooks/useStore';
 import { RecentSearchItem } from './RecentSearchItem';
+import { SearchItem } from './SearchItem';
 
 const { height: dh } = RN.Dimensions.get('screen');
 
-const MIN_HEIGHT = dh * 0.15;
-const MAX_HEIGHT = dh * 0.8;
+const MIN_HEIGHT = 100;
+const MAX_HEIGHT = dh * 0.75;
 
 const springConfig: Animated.WithSpringConfig = {
   velocity: 10,
@@ -35,13 +41,19 @@ export const Search = (props: Props) => {
   const { t } = useTranslation();
 
   const store = useStore();
-  let recentSearches = store.recentSearches ? store.recentSearches.filter(s => s.type === 'pad') : null;
+  let recentSearches = store.recentSearches
+    ? store.recentSearches.filter((s) => s.type === 'pad')
+    : null;
 
   const [searchValue, setSearchValue] = React.useState('');
   const [value, setValue] = React.useState('');
+  const [limit, setLimit] = React.useState(15);
   const [, setModalVisible] = React.useState(false);
 
-  const [data, setData] = React.useState<null | Pad[]>(null);
+  const [data, setData] = React.useState<null | Pad[]>(require('../../mockData/pads.json'));
+  const [agencies, setAgencies] = React.useState<null | {
+    [id: string]: Agency;
+  }>(null);
 
   const height = useSharedValue(MIN_HEIGHT);
 
@@ -56,10 +68,19 @@ export const Search = (props: Props) => {
 
     store.addRecentSearch({ text: searchValue, type: 'pad' });
 
-    PadService.padList({ limit: 15, search: searchValue }).then((res) => {
-      console.warn(res);
-
+    PadService.padList({ limit, search: searchValue }).then((res) => {
       setData(res.results);
+      // res.results.forEach((pad: Pad) => {
+      //   const id = String(pad.id) || '';
+      //   AgenciesService.agenciesRead(id).then(
+      //     res => {
+      //       setAgencies({
+      //         ...agencies,
+      //         [id]: res
+      //       })
+      //     }
+      //   )
+      // })
     });
   }, [searchValue]);
 
@@ -85,6 +106,16 @@ export const Search = (props: Props) => {
     } else {
       height.value = withSpring(MAX_HEIGHT, springConfig);
       setBoxIsOpen(true);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchValue('');
+    setValue('');
+    setData(null);
+
+    if (boxIsOpen) {
+      onBoxPress();
     }
   };
 
@@ -136,14 +167,17 @@ export const Search = (props: Props) => {
           ]}
         />
 
-        <CloseIcon />
+        <RN.TouchableOpacity onPress={clearSearch}>
+          <CloseIcon />
+        </RN.TouchableOpacity>
       </RN.View>
 
       <RN.View
         pointerEvents="box-none"
         style={{
-          alignItems: 'center',
+          alignItems: 'flex-end',
           justifyContent: 'flex-end',
+          flex: 1,
           height: '100%',
           width: '100%',
         }}>
@@ -173,50 +207,76 @@ export const Search = (props: Props) => {
             </RN.TouchableOpacity>
           )}
 
-          {boxIsOpen && !data?.length && recentSearches?.length && (
-            <>
-              <Title size="xl">{searchResultTextShort}</Title>
+          {boxIsOpen &&
+            !data?.length &&
+            recentSearches &&
+            recentSearches.length > 0 && (
+              <>
+                <Title size="xl">{searchResultTextShort}</Title>
 
-              <RN.FlatList
-                data={recentSearches}
-                alwaysBounceVertical={false}
-                style={{ flex: 1, width: '100%', marginTop: 24 }}
-                showsVerticalScrollIndicator={false}
-                ItemSeparatorComponent={() => <RN.View style={{ height: 1, width: '100%', backgroundColor: 'rgba(0,0,0,.01)'}} /> }
-                keyExtractor={(i) => String(i.text || '1')}
-                renderItem={(item) => {
-                  return (
-                    <RecentSearchItem
-                      onPress={() => {
-                        setSearchValue(item.item.text);
+                <RN.FlatList
+                  data={recentSearches}
+                  alwaysBounceVertical={false}
+                  style={{ flex: 1, width: '100%', marginTop: 24 }}
+                  showsVerticalScrollIndicator={false}
+                  ItemSeparatorComponent={() => (
+                    <RN.View
+                      style={{
+                        height: 1,
+                        width: '100%',
+                        backgroundColor: 'rgba(0,0,0,.01)',
                       }}
-                      onRemoveItem={() => {
-                        store.removeRecentSearch(item.item)
-                      }}
-                      text={item.item.text}
                     />
-                  );
-                }}
-              />
-            </>
-          )}
+                  )}
+                  keyExtractor={(i) => String(i.text || '1')}
+                  renderItem={(item) => {
+                    return (
+                      <RecentSearchItem
+                        onPress={() => {
+                          setSearchValue(item.item.text);
+                        }}
+                        onRemoveItem={() => {
+                          if (recentSearches?.length === 1) {
+                            onBoxPress();
+                          }
 
-          {boxIsOpen && data?.length && (
+                          store.removeRecentSearch(item.item);
+                        }}
+                        text={item.item.text}
+                      />
+                    );
+                  }}
+                />
+              </>
+            )}
+
+          {boxIsOpen && data && data.length > 0 && (
             <RN.FlatList
               data={data}
               style={{ flex: 1, width: '100%', marginTop: 24 }}
               showsVerticalScrollIndicator={false}
+              onEndReachedThreshold={0.5}
+              ItemSeparatorComponent={() => (
+                <RN.View
+                  style={{
+                    height: 1,
+                    width: '100%',
+                    backgroundColor: 'rgba(0,0,0,.06)',
+                  }}
+                />
+              )}
+              onEndReached={() => setLimit(limit + 15)}
               keyExtractor={(i) => String(i.id || '1')}
               renderItem={(item) => {
                 return (
-                  <RN.TouchableOpacity
-                    style={{ marginVertical: 24 }}
-                    onPress={() => {
-                      onItemPress(item.item);
-                    }}>
-
-                    <RegularText>{JSON.stringify(item.item)}</RegularText>
-                  </RN.TouchableOpacity>
+                  <SearchItem onPress={() => onItemPress(item.item)} item={item.item} />
+                  // <RN.TouchableOpacity
+                  //   style={{ marginVertical: 24 }}
+                  //   onPress={() => {
+                  //     onItemPress(item.item);
+                  //   }}>
+                  //   <RegularText>{JSON.stringify(item.item)}</RegularText>
+                  // </RN.TouchableOpacity>
                 );
               }}
             />
@@ -226,10 +286,6 @@ export const Search = (props: Props) => {
     </>
   );
 };
-
-const Sep = () => {
-  return <RN.View style={{ width: '100%', height: 2, backgroundColor: 'red'}} />
-}
 
 const styles = RN.StyleSheet.create({
   shadow: {
