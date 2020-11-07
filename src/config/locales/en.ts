@@ -3,11 +3,13 @@ import { Translation } from './localeTypes';
 const translation: Translation = {
   translation: {
     screen: {
-      home: {
-        title: 'Home Screen',
+      launches: {
+        title: 'Rocket Launches',
+        shortTitle: 'Launches',
       },
-      settings: {
-        title: 'Settings Screen',
+      search: {
+        title: '',
+        shortTitle: 'Map',
       },
     },
     category: {

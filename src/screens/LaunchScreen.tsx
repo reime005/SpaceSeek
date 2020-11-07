@@ -4,7 +4,7 @@ import { SpaceList } from '../components/SpaceList/SpaceList';
 import { useStore } from '../hooks/useStore';
 import { LaunchSerializerCommon, LaunchService } from '../service/service';
 
-export const HomeScreen = () => {
+export const LaunchScreen = () => {
   const { searchVisible } = useStore();
 
   if (searchVisible) {

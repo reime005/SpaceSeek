@@ -233,6 +233,7 @@ export const Search = (props: Props) => {
               key={data.length}
               style={{ flex: 1, width: '100%', marginTop: 24 }}
               showsVerticalScrollIndicator={false}
+              bounces={false}
               onEndReachedThreshold={0.5}
               ItemSeparatorComponent={S.StyledSearchItemSeparator}
               onEndReached={() => setLimit(limit + 15)}

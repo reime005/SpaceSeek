@@ -5,7 +5,10 @@ import FastImage from 'react-native-fast-image';
 import { spaceRoutes } from '../../navigators/routes';
 import { LaunchSerializerCommon } from '../../service/service';
 import { RegularText, Title } from '../Basic/Basic';
+import { ImageLoadingWrapper } from '../Basic/ImageLoadingWrapper';
 import { HomeIcon } from '../SVG/HomeIcon';
+import { LocationIcon } from '../SVG/LocationIcon';
+import { RocketIcon } from '../SVG/RocketIcon';
 
 import * as S from './SpaceList.styled';
 
@@ -19,14 +22,19 @@ export const SpaceListItem = (item: LaunchSerializerCommon) => {
       onPress={() => {
         nav.navigate(spaceRoutes.details, { id: item.id });
       }}>
-      <S.StyledImage source={{ uri: item.image || '' }} resizeMode="cover" />
+      <ImageLoadingWrapper
+        style={styles.image}
+        source={{ uri: item.image || '' }}
+        resizeMode="cover"
+      />
+
       <S.StyledTextBox>
         <View
           style={{
             position: 'absolute',
             right: 6,
             top: -15,
-            padding: 4,
+            padding: 6,
             backgroundColor: 'white',
             elevation: 2,
             shadowRadius: 2,
@@ -35,7 +43,7 @@ export const SpaceListItem = (item: LaunchSerializerCommon) => {
             zIndex: 2,
             borderRadius: 4,
           }}>
-          <HomeIcon />
+          <RocketIcon width={18} height={18} />
         </View>
 
         <S.StyledTitle size="l" numberOfLines={1}>
@@ -56,5 +64,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOpacity: 0.2,
     elevation: 4,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    flex: 2,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
 });

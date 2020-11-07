@@ -26,7 +26,7 @@ export const StyledWrapper = styled.TouchableOpacity`
   justify-content: center;
   flex-direction: column;
   align-items: flex-start;
-  height: 200px;
+  height: 225px;
   min-height: 200px;
   border-radius: ${border};
 `;

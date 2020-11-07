@@ -18,7 +18,17 @@ const DEFAULT_REGION: Region = {
   longitudeDelta: 5,
 };
 
-export const SettingsScreen = () => {
+export interface MapScreenIncomeParamsProps {
+  pad?: Pad;
+}
+
+export interface MapScreenProps {
+  route?: {
+    params?: MapScreenIncomeParamsProps;
+  };
+}
+
+export const MapScreen = (props: MapScreenProps) => {
   const theme = useTheme();
 
   const [region, setRegion] = React.useState<Region>(DEFAULT_REGION);
@@ -28,7 +38,21 @@ export const SettingsScreen = () => {
     longitude: '-122.4324',
   });
 
-  const [searchValue] = React.useState('');
+  const onChangeItem = (i: Pad) => {
+    setRegion({
+      ...DEFAULT_REGION,
+      latitude: Number(i.latitude || '0'),
+      longitude: Number(i.longitude || '0'),
+    });
+
+    setItem(i);
+  };
+
+  React.useEffect(() => {
+    if (props.route?.params?.pad) {
+      onChangeItem(props.route?.params?.pad);
+    }
+  }, [props.route]);
 
   // const [data, setData] = React.useState<null | []>(null);
 
@@ -53,16 +77,7 @@ export const SettingsScreen = () => {
           alignItems: 'center',
         }}
         pointerEvents="box-none">
-          <Search
-            onChangeItem={(i) => {
-              setRegion({
-                ...DEFAULT_REGION,
-                latitude: Number(i.latitude || '0'),
-                longitude: Number(i.longitude || '0'),
-              });
-              setItem(i);
-            }}
-          />
+        <Search onChangeItem={onChangeItem} />
       </SafeAreaView>
 
       <MapView

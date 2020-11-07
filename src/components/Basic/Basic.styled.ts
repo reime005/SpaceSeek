@@ -47,7 +47,7 @@ export const StyledCustomText = styled.Text<IStyledCustomText>`
   font-family: ${(props) => fontFamilies[props.fontType]};
 `;
 
-export const BaseScroll = styled.ScrollView`
+export const StyledBaseScroll = styled.ScrollView`
   flex: 1;
   width: 100%;
   height: 100%;

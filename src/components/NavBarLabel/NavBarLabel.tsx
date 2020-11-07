@@ -1,6 +1,5 @@
 import { useIsFocused, useRoute } from '@react-navigation/native';
 import React from 'react';
-import * as RN from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
 import { BottomRoute } from '../../navigators/routes';
@@ -11,9 +10,8 @@ import { SearchIcon } from '../SVG/SearchIcon';
 import { SettingsIcon } from '../SVG/SettingsIcon';
 
 const ICON_FOCUSED_SCALED = 1.1;
-const ICON_SIZE = 30;
 
-export const NavBarIcon = () => {
+export const NavBarLabel = () => {
   const route = useRoute();
   const { t } = useTranslation();
   const isFocused = useIsFocused();
@@ -26,25 +24,7 @@ export const NavBarIcon = () => {
   const shortTitle = t(`screen.${route.name}.shortTitle`);
 
   return (
-    <>
-      {name === 'launches' && (
-        <RocketIcon
-          fill={backgroundColor}
-          width={ICON_SIZE}
-          height={ICON_SIZE}
-          scale={isFocused ? ICON_FOCUSED_SCALED : 1}
-        />
-      )}
 
-      {name === 'search' && (
-        <SearchIcon
-          color={backgroundColor}
-          fill={'transparent'}
-          width={ICON_SIZE}
-          height={ICON_SIZE}
-          scale={isFocused ? ICON_FOCUSED_SCALED : 1}
-        />
-      )}
-    </>
+      <RegularText>{shortTitle}</RegularText>
   );
 };

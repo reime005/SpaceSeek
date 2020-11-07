@@ -19,4 +19,5 @@ export type Category = 'launchUpcomingList' | 'launchPreviousList';
 
 interface ScreenTranslation {
   title: string;
+  shortTitle: string;
 }

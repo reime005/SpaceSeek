@@ -3,23 +3,22 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack';
-import { HomeScreen } from '../screens/HomeScreen';
+import { LaunchScreen } from '../screens/LaunchScreen';
 import { bottomRoutes, spaceRoutes } from './routes';
-import { useRoute } from '@react-navigation/native';
-import { SpaceDetailsScreen } from '../screens/SpaceDetailsScreen';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SearchBar } from '../components/SearchBar/SearchBar';
+import { LaunchDetailsScreen } from '../screens/LaunchDetailsScreen';
 
 const Stack = createStackNavigator();
 
-export const SpaceStackNavigator = () => {
+export const LaunchStackNavigator = () => {
   const { top } = useSafeAreaInsets();
 
   return (
     <Stack.Navigator screenOptions={screenOptions} headerMode={'screen'}>
       <Stack.Screen
-        name={bottomRoutes.home}
-        component={HomeScreen}
+        name={bottomRoutes.launches}
+        component={LaunchScreen}
         options={{
           header: SearchBar,
         }}
@@ -33,7 +32,7 @@ export const SpaceStackNavigator = () => {
           headerShown: true,
         }}
         name={spaceRoutes.details}
-        component={SpaceDetailsScreen}
+        component={LaunchDetailsScreen}
       />
     </Stack.Navigator>
   );

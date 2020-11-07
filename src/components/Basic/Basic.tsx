@@ -34,6 +34,22 @@ export const SubText = (props: IRegularText) => {
   );
 };
 
+interface BaseScrollProps extends ReactNative.ScrollViewProps {
+  children: React.ReactNode | React.ReactNode[];
+}
+
+export const BaseScroll = (props: BaseScrollProps) => {
+  return (
+    <S.StyledBaseScroll
+      showsVerticalScrollIndicator={false}
+      alwaysBounceVertical={false}
+      contentContainerStyle={{ padding: 16 }}
+      {...props}>
+      {props.children}
+    </S.StyledBaseScroll>
+  );
+};
+
 export const BasePage = (props: any) => {
   const fadeAnim = React.useRef(new ReactNative.Animated.Value(0)).current;
 
