@@ -7,7 +7,7 @@ import * as S from './Basic.styled';
 interface IRegularText
   extends ReactNative.TextProps,
     Partial<S.IStyledCustomText> {
-  children: string;
+  children: string | string[];
 }
 
 export const RegularText = (props: IRegularText) => {

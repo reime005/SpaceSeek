@@ -18,8 +18,10 @@ type State = {
 interface Search {
   text: string;
   type: 'pad' | 'launch';
+  key: string;
 }
 
+// AsyncStorage.clear();
 type SearchType = 'pad' | 'launch';
 
 export const useStore = create<State>((set, get) => {
@@ -35,9 +37,8 @@ export const useStore = create<State>((set, get) => {
     loadSearches: async () => {
       let key = `recent_searches`;
 
-      const itemsStr = (await AsyncStorage.getItem(key));
+      const itemsStr = await AsyncStorage.getItem(key);
       const recentSearches = JSON.parse(itemsStr || 'null');
-console.warn(recentSearches);
 
       set((state) => {
         return {
@@ -49,12 +50,6 @@ console.warn(recentSearches);
       const key = `recent_searches`;
       let recentSearches = get().recentSearches || null;
 
-      // const i = recentSearches.findIndex(r => r.text === value.text && r.type === value.type);
-
-      // if (i != -1) {
-      //   delete recentSearches[i];
-      // }
-
       if (!recentSearches) {
         set((state) => {
           return {
@@ -65,9 +60,15 @@ console.warn(recentSearches);
         return;
       }
 
-      recentSearches = recentSearches.filter(r => r.text !== value.text && r.type !== value.type);
+      recentSearches = recentSearches
+        .filter((r) => r.type === value.type)
+        .filter((r) => r.text !== value.text);
 
-      await AsyncStorage.setItem(key, JSON.stringify(recentSearches));
+      try {
+        await AsyncStorage.setItem(key, JSON.stringify(recentSearches));
+      } catch (error) {
+        console.warn(error);
+      }
 
       set((state) => {
         return {
@@ -79,13 +80,21 @@ console.warn(recentSearches);
       const key = `recent_searches`;
       const recentSearches = get().recentSearches || [];
 
-      if (recentSearches.filter(t => t.type === value.type).some(t => t.text === value.text)) {
+      if (
+        recentSearches
+          .filter((t) => t.type === value.type)
+          .some((t) => t.text === value.text)
+      ) {
         return;
       }
 
       recentSearches.push(value);
 
-      await AsyncStorage.setItem(key, JSON.stringify(recentSearches));
+      try {
+        await AsyncStorage.setItem(key, JSON.stringify(recentSearches));
+      } catch (error) {
+        console.warn(error);
+      }
 
       set((state) => {
         return {

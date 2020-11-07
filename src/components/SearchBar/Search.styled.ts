@@ -26,6 +26,33 @@ export const StyledItemWrapper = styled.TouchableOpacity`
   padding-bottom: 12px;
 `;
 
+export const StyledSearchInputWrapper = styled.View`
+  flex-direction: row;
+  border-radius: 100px;
+  width: 90%;
+  max-width: 800px;
+  margin: 16px;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: ${({ theme }) => theme.searchBackgroundColor};
+`;
+
+export const StyledSearchItemSeparator = styled.View`
+  height: 1px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, .05);
+`;
+
+export const StyledTextInput = styled.TextInput`
+  min-height: 50px;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 8px;
+  margin-right: 8px;
+`;
+
 export const StyledSearchResultsPullBar = styled.View`
   background-color: ${({ theme }) => theme.unFocusedIconColor};
   height: 4px;
@@ -40,7 +67,7 @@ export const Row = styled.TouchableOpacity`
   flex: 1;
   width: 100%;
   flex-direction: row;
-  background-color: white;
+  background-color: ${({ theme }) => theme.searchBackgroundColor};
   justify-content: flex-start;
   align-items: center;
   padding-top: 12px;

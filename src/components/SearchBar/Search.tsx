@@ -1,11 +1,6 @@
 import React from 'react';
 import * as RN from 'react-native';
-import {
-  AgenciesService,
-  Agency,
-  Pad,
-  PadService,
-} from '../../service/service';
+import { Agency, Pad, PadService } from '../../service/service';
 import { CloseIcon } from '../SVG/CloseIcon';
 import { SearchIcon } from '../SVG/SearchIcon';
 
@@ -25,12 +20,12 @@ import { SearchItem } from './SearchItem';
 const { height: dh } = RN.Dimensions.get('screen');
 
 const MIN_HEIGHT = 100;
-const MAX_HEIGHT = dh * 0.75;
+const MAX_HEIGHT = dh * 0.5;
 
 const springConfig: Animated.WithSpringConfig = {
   velocity: 10,
   damping: 100,
-  stiffness: 500,
+  stiffness: 300,
 };
 
 interface Props {
@@ -50,10 +45,12 @@ export const Search = (props: Props) => {
   const [limit, setLimit] = React.useState(15);
   const [, setModalVisible] = React.useState(false);
 
-  const [data, setData] = React.useState<null | Pad[]>(require('../../mockData/pads.json'));
-  const [agencies, setAgencies] = React.useState<null | {
-    [id: string]: Agency;
-  }>(null);
+  const [data, setData] = React.useState<null | Pad[]>(
+    require('../../mockData/pads.json'),
+  );
+  // const [agencies, setAgencies] = React.useState<null | {
+  //   [id: string]: Agency;
+  // }>(null);
 
   const height = useSharedValue(MIN_HEIGHT);
 
@@ -66,7 +63,11 @@ export const Search = (props: Props) => {
       return;
     }
 
-    store.addRecentSearch({ text: searchValue, type: 'pad' });
+    store.addRecentSearch({
+      text: searchValue,
+      type: 'pad',
+      key: Date.now().toString(),
+    });
 
     PadService.padList({ limit, search: searchValue }).then((res) => {
       setData(res.results);
@@ -137,40 +138,21 @@ export const Search = (props: Props) => {
 
   return (
     <>
-      <RN.View
-        style={[
-          {
-            flexDirection: 'row',
-            borderRadius: 100,
-            width: '90%',
-            margin: 16,
-            alignItems: 'center',
-            paddingHorizontal: 16,
-            backgroundColor: 'white',
-          },
-          styles.shadow,
-        ]}>
+      <S.StyledSearchInputWrapper style={[styles.shadow]}>
         <SearchIcon />
 
-        <RN.TextInput
+        <S.StyledTextInput
           pointerEvents="box-only"
           onFocus={onFocus}
           value={value}
           onChangeText={setValue}
           onEndEditing={(e) => setSearchValue(e.nativeEvent.text)}
-          style={[
-            {
-              flex: 1,
-              minHeight: 50,
-              marginHorizontal: 8,
-            },
-          ]}
         />
 
         <RN.TouchableOpacity onPress={clearSearch}>
           <CloseIcon />
         </RN.TouchableOpacity>
-      </RN.View>
+      </S.StyledSearchInputWrapper>
 
       <RN.View
         pointerEvents="box-none"
@@ -212,28 +194,23 @@ export const Search = (props: Props) => {
             recentSearches &&
             recentSearches.length > 0 && (
               <>
-                <Title size="xl">{searchResultTextShort}</Title>
+                <Title size="xl" style={{ paddingTop: 24, paddingLeft: 24 }}>
+                  {searchResultTextShort}
+                </Title>
 
                 <RN.FlatList
+                  key={`recent-${recentSearches.length}`}
                   data={recentSearches}
                   alwaysBounceVertical={false}
                   style={{ flex: 1, width: '100%', marginTop: 24 }}
                   showsVerticalScrollIndicator={false}
-                  ItemSeparatorComponent={() => (
-                    <RN.View
-                      style={{
-                        height: 1,
-                        width: '100%',
-                        backgroundColor: 'rgba(0,0,0,.01)',
-                      }}
-                    />
-                  )}
-                  keyExtractor={(i) => String(i.text || '1')}
+                  ItemSeparatorComponent={S.StyledSearchItemSeparator}
                   renderItem={(item) => {
                     return (
                       <RecentSearchItem
                         onPress={() => {
                           setSearchValue(item.item.text);
+                          setValue(item.item.text);
                         }}
                         onRemoveItem={() => {
                           if (recentSearches?.length === 1) {
@@ -253,30 +230,19 @@ export const Search = (props: Props) => {
           {boxIsOpen && data && data.length > 0 && (
             <RN.FlatList
               data={data}
+              key={data.length}
               style={{ flex: 1, width: '100%', marginTop: 24 }}
               showsVerticalScrollIndicator={false}
               onEndReachedThreshold={0.5}
-              ItemSeparatorComponent={() => (
-                <RN.View
-                  style={{
-                    height: 1,
-                    width: '100%',
-                    backgroundColor: 'rgba(0,0,0,.06)',
-                  }}
-                />
-              )}
+              ItemSeparatorComponent={S.StyledSearchItemSeparator}
               onEndReached={() => setLimit(limit + 15)}
               keyExtractor={(i) => String(i.id || '1')}
               renderItem={(item) => {
                 return (
-                  <SearchItem onPress={() => onItemPress(item.item)} item={item.item} />
-                  // <RN.TouchableOpacity
-                  //   style={{ marginVertical: 24 }}
-                  //   onPress={() => {
-                  //     onItemPress(item.item);
-                  //   }}>
-                  //   <RegularText>{JSON.stringify(item.item)}</RegularText>
-                  // </RN.TouchableOpacity>
+                  <SearchItem
+                    onPress={() => onItemPress(item.item)}
+                    item={item.item}
+                  />
                 );
               }}
             />

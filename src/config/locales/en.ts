@@ -14,7 +14,7 @@ const translation: Translation = {
       launchPreviousList: 'Previous',
       launchUpcomingList: 'Upcoming'
     },
-    noSearchResults: "Could not find anything",
+    noSearchResults: "Please type to search something",
     results: "results",
     result: "result",
     recentSearches: "Recent Searches"

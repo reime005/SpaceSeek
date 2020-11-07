@@ -16,6 +16,16 @@ export const fontSizes: { [index in FontSize]: string } = {
   super: '32px',
 };
 
+export const lineHeights: { [index in FontSize]: string } = {
+  xs: '12px',
+  s: '13px',
+  m: '17px',
+  l: '28px',
+  xl: '19px',
+  xxl: '26px',
+  super: '34px',
+};
+
 type FontType = 'regular' | 'bold' | 'italic';
 
 const fontFamilies: { [index in FontType]: string } = {
@@ -33,6 +43,7 @@ export interface IStyledCustomText {
 export const StyledCustomText = styled.Text<IStyledCustomText>`
   color: ${(props) => props.theme.fontColors[props.fontColor]};
   font-size: ${(props) => fontSizes[props.size]};
+  line-height: ${(props) => lineHeights[props.size]};
   font-family: ${(props) => fontFamilies[props.fontType]};
 `;
 
