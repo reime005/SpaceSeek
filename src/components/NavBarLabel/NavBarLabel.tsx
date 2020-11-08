@@ -23,8 +23,5 @@ export const NavBarLabel = () => {
 
   const shortTitle = t(`screen.${route.name}.shortTitle`);
 
-  return (
-
-      <RegularText>{shortTitle}</RegularText>
-  );
+  return <RegularText fontType={isFocused ? 'bold' : 'regular'}>{shortTitle}</RegularText>;
 };

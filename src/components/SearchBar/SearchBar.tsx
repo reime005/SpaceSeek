@@ -27,7 +27,7 @@ export const SearchBar = () => {
     setSearching(!searching);
   };
 
-  const { setSearchValue, toggleSearchVisible } = useStore();
+  const { setSearchValue, toggleSearchVisible, addRecentSearch } = useStore();
 
   return (
     <Transitioning.View
@@ -52,6 +52,12 @@ export const SearchBar = () => {
             autoFocus
             onEndEditing={(val) => {
               setSearchValue(val.nativeEvent.text);
+
+              addRecentSearch({
+                key: Date.now().toString(),
+                text: val.nativeEvent.text,
+                type: 'launch',
+              });
             }}
             style={{
               width: '100%',
@@ -60,7 +66,7 @@ export const SearchBar = () => {
               textDecorationColor: 'white',
             }}
             underlineColorAndroid="transparent"
-            placeholder="Search for something..."
+            placeholder={t('noSearchResults')}
           />
         </>
       ) : (

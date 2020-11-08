@@ -17,7 +17,7 @@ export const SpaceListItem = (item: LaunchSerializerCommon) => {
 
   return (
     <S.StyledWrapper
-      style={styles.shadow}
+      style={[styles.shadow]}
       activeOpacity={0.9}
       onPress={() => {
         nav.navigate(spaceRoutes.details, { id: item.id });

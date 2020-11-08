@@ -16,10 +16,11 @@ import { useTranslation } from 'react-i18next';
 import { useStore } from '../../hooks/useStore';
 import { RecentSearchItem } from './RecentSearchItem';
 import { SearchItem } from './SearchItem';
+import { Spinner } from '../SpaceList/Spinner';
 
 const { height: dh } = RN.Dimensions.get('screen');
 
-const MIN_HEIGHT = 100;
+const MIN_HEIGHT = 80;
 const MAX_HEIGHT = dh * 0.5;
 
 const springConfig: Animated.WithSpringConfig = {
@@ -43,14 +44,9 @@ export const Search = (props: Props) => {
   const [searchValue, setSearchValue] = React.useState('');
   const [value, setValue] = React.useState('');
   const [limit, setLimit] = React.useState(15);
-  const [, setModalVisible] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
-  const [data, setData] = React.useState<null | Pad[]>(
-    require('../../mockData/pads.json'),
-  );
-  // const [agencies, setAgencies] = React.useState<null | {
-  //   [id: string]: Agency;
-  // }>(null);
+  const [data, setData] = React.useState<null | Pad[]>(null);
 
   const height = useSharedValue(MIN_HEIGHT);
 
@@ -63,35 +59,32 @@ export const Search = (props: Props) => {
       return;
     }
 
+    setLoading(true);
+
     store.addRecentSearch({
       text: searchValue,
       type: 'pad',
       key: Date.now().toString(),
     });
 
-    PadService.padList({ limit, search: searchValue }).then((res) => {
-      setData(res.results);
-      // res.results.forEach((pad: Pad) => {
-      //   const id = String(pad.id) || '';
-      //   AgenciesService.agenciesRead(id).then(
-      //     res => {
-      //       setAgencies({
-      //         ...agencies,
-      //         [id]: res
-      //       })
-      //     }
-      //   )
-      // })
-    });
+    // const t = setTimeout(() => {
+    //   setData(require('../../mockData/pads.json'));
+    //   setLoading(false);
+    // }, 1000);
+
+    // return () => clearTimeout(t);
+
+    PadService.padList({ limit, search: searchValue })
+      .then((res) => {
+        setData(res.results);
+      })
+      .catch((e) => console.warn(e))
+      .finally(() => setLoading(false));
   }, [searchValue]);
 
   const onItemPress = (item: Pad) => {
     props.onChangeItem(item);
     onBoxPress();
-  };
-
-  const onFocus = () => {
-    setModalVisible(true);
   };
 
   const [boxIsOpen, setBoxIsOpen] = React.useState(false);
@@ -110,14 +103,26 @@ export const Search = (props: Props) => {
     }
   };
 
+  const closeBoxIfOpen = () => {
+    if (boxIsOpen) {
+      onBoxPress();
+    }
+  };
+
+  const onFocus = () => {
+    closeBoxIfOpen();
+  };
+
+  const onChangeText = (value: string) => {
+    setValue(value);
+    closeBoxIfOpen();
+  };
+
   const clearSearch = () => {
     setSearchValue('');
     setValue('');
     setData(null);
-
-    if (boxIsOpen) {
-      onBoxPress();
-    }
+    closeBoxIfOpen();
   };
 
   const stylez = useAnimatedStyle(() => {
@@ -136,16 +141,114 @@ export const Search = (props: Props) => {
     searchResultTextShort = t('recentSearches');
   }
 
+  const wrapperContent = () => {
+    if (!boxIsOpen && loading) {
+      return (
+        <RN.View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Spinner />
+        </RN.View>
+      );
+    }
+
+    const hasRecentSearches = recentSearches && recentSearches.length > 0;
+    const hasSearchedData = data && data.length > 0;
+
+    return (
+      <>
+        {!boxIsOpen && (
+          <RN.TouchableOpacity
+            activeOpacity={1}
+            onPress={onBoxPress}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}>
+            <S.StyledSearchResultsPullBar />
+
+            <RN.View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                marginTop: 16,
+                justifyContent: 'flex-start',
+              }}>
+              <Title size="xl">{searchResultTextShort}</Title>
+            </RN.View>
+          </RN.TouchableOpacity>
+        )}
+
+        {boxIsOpen && !hasSearchedData && hasRecentSearches && (
+          <>
+            <Title size="xl" style={{ paddingTop: 24, paddingLeft: 24 }}>
+              {searchResultTextShort}
+            </Title>
+
+            <RN.FlatList
+              key={`recent-${recentSearches.length}`}
+              data={recentSearches}
+              alwaysBounceVertical={false}
+              style={styles.list}
+              showsVerticalScrollIndicator={false}
+              ItemSeparatorComponent={S.StyledSearchItemSeparator}
+              renderItem={(item) => {
+                return (
+                  <RecentSearchItem
+                    onPress={() => {
+                      setSearchValue(item.item.text);
+                      setValue(item.item.text);
+                    }}
+                    onRemoveItem={() => {
+                      if (recentSearches?.length === 1) {
+                        onBoxPress();
+                      }
+
+                      store.removeRecentSearch(item.item);
+                    }}
+                    text={item.item.text}
+                  />
+                );
+              }}
+            />
+          </>
+        )}
+
+        {boxIsOpen && hasSearchedData && (
+          <RN.FlatList
+            data={data}
+            key={data.length}
+            style={styles.list}
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            onEndReachedThreshold={0.5}
+            ItemSeparatorComponent={S.StyledSearchItemSeparator}
+            onEndReached={() => setLimit(limit + 15)}
+            keyExtractor={(i) => String(i.id || '1')}
+            renderItem={(item) => {
+              return (
+                <SearchItem
+                  onPress={() => onItemPress(item.item)}
+                  item={item.item}
+                />
+              );
+            }}
+          />
+        )}
+      </>
+    );
+  };
+
   return (
     <>
-      <S.StyledSearchInputWrapper style={[styles.shadow]}>
+      <S.StyledSearchInputWrapper style={styles.shadow}>
         <SearchIcon />
 
         <S.StyledTextInput
           pointerEvents="box-only"
           onFocus={onFocus}
           value={value}
-          onChangeText={setValue}
+          onChangeText={onChangeText}
           onEndEditing={(e) => setSearchValue(e.nativeEvent.text)}
         />
 
@@ -166,88 +269,7 @@ export const Search = (props: Props) => {
         <S.StyledSearchResultsWrapper
           pointerEvents="auto"
           style={[styles.shadow, stylez]}>
-          {!boxIsOpen && (
-            <RN.TouchableOpacity
-              activeOpacity={1}
-              onPress={onBoxPress}
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-              }}>
-              <S.StyledSearchResultsPullBar />
-
-              <RN.View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  marginTop: 16,
-                  justifyContent: 'flex-start',
-                }}>
-                <Title size="xl">{searchResultTextShort}</Title>
-              </RN.View>
-            </RN.TouchableOpacity>
-          )}
-
-          {boxIsOpen &&
-            !data?.length &&
-            recentSearches &&
-            recentSearches.length > 0 && (
-              <>
-                <Title size="xl" style={{ paddingTop: 24, paddingLeft: 24 }}>
-                  {searchResultTextShort}
-                </Title>
-
-                <RN.FlatList
-                  key={`recent-${recentSearches.length}`}
-                  data={recentSearches}
-                  alwaysBounceVertical={false}
-                  style={{ flex: 1, width: '100%', marginTop: 24 }}
-                  showsVerticalScrollIndicator={false}
-                  ItemSeparatorComponent={S.StyledSearchItemSeparator}
-                  renderItem={(item) => {
-                    return (
-                      <RecentSearchItem
-                        onPress={() => {
-                          setSearchValue(item.item.text);
-                          setValue(item.item.text);
-                        }}
-                        onRemoveItem={() => {
-                          if (recentSearches?.length === 1) {
-                            onBoxPress();
-                          }
-
-                          store.removeRecentSearch(item.item);
-                        }}
-                        text={item.item.text}
-                      />
-                    );
-                  }}
-                />
-              </>
-            )}
-
-          {boxIsOpen && data && data.length > 0 && (
-            <RN.FlatList
-              data={data}
-              key={data.length}
-              style={{ flex: 1, width: '100%', marginTop: 24 }}
-              showsVerticalScrollIndicator={false}
-              bounces={false}
-              onEndReachedThreshold={0.5}
-              ItemSeparatorComponent={S.StyledSearchItemSeparator}
-              onEndReached={() => setLimit(limit + 15)}
-              keyExtractor={(i) => String(i.id || '1')}
-              renderItem={(item) => {
-                return (
-                  <SearchItem
-                    onPress={() => onItemPress(item.item)}
-                    item={item.item}
-                  />
-                );
-              }}
-            />
-          )}
+          {wrapperContent()}
         </S.StyledSearchResultsWrapper>
       </RN.View>
     </>
@@ -262,4 +284,5 @@ const styles = RN.StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4,
   },
+  list: { flex: 1, width: '100%', marginTop: 24 },
 });

@@ -111,12 +111,12 @@ export const Spinner = (props: Props) => {
 
   return (
       <Svg
-        height={50}
+        height={24}
         width={100}
         {...props}
-        viewBox="0 0 280 150">
+        viewBox="0 0 100 75">
         <Circle
-          cx={radius * 1 + DISTANCE * 1}
+          cx="0"
           r={radius}
           fill={fill}
           {...props}
@@ -124,7 +124,7 @@ export const Spinner = (props: Props) => {
         />
 
         <Circle
-          cx={radius * 3 + DISTANCE * 2}
+          cx={radius * 2 + DISTANCE * 1}
           r={radius}
           fill={fill}
           {...props}
@@ -132,7 +132,7 @@ export const Spinner = (props: Props) => {
         />
 
         <Circle
-          cx={radius * 5 + DISTANCE * 3}
+          cx={radius * 4 + DISTANCE * 2}
           r={radius}
           fill={fill}
           {...props}

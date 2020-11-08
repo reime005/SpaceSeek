@@ -1,8 +1,17 @@
 import React from 'react';
-import { BasePage, RegularText } from '../components/Basic/Basic';
+import * as RN from 'react-native';
+import { useTranslation } from 'react-i18next';
+import {
+  BasePage,
+  BaseScroll,
+  RegularText,
+  Title,
+} from '../components/Basic/Basic';
 import { SpaceList } from '../components/SpaceList/SpaceList';
 import { useStore } from '../hooks/useStore';
 import { LaunchSerializerCommon, LaunchService } from '../service/service';
+import { StyledSearchItemSeparator } from '../components/SearchBar/Search.styled';
+import { RecentSearchItem } from '../components/SearchBar/RecentSearchItem';
 
 export const LaunchScreen = () => {
   const { searchVisible } = useStore();
@@ -58,6 +67,63 @@ const SearchWrapper = () => {
   if (searchValue.length > 1) {
     return <SpaceList data={data} onEndReached={() => setLimit(limit + 15)} />;
   } else {
-    return <RegularText>TODO recent searches</RegularText>;
+    return <RecentList onItemPressed={(item: string) => {}} />;
   }
+};
+
+interface Props {}
+
+const RecentList = (props: any) => {
+  const { t } = useTranslation();
+
+  const store = useStore();
+  let recentSearches = store.recentSearches
+    ? store.recentSearches.filter((s) => s.type === 'launch')
+    : null;
+
+  if (!recentSearches || !recentSearches.length) {
+    return (
+      <BaseScroll contentContainerStyle={{ alignItems: 'center', padding: 16 }}>
+        <RegularText>{t('noSearchResults')}</RegularText>
+      </BaseScroll>
+    );
+  }
+
+  console.warn({recentSearches});
+
+
+  return (
+    <>
+      <Title size="xl" style={{ paddingTop: 24, paddingLeft: 24 }}>
+        "title"
+      </Title>
+
+      <RN.FlatList
+        key={`recent-${recentSearches.length}`}
+        data={recentSearches}
+        alwaysBounceVertical={false}
+        style={{ flex: 1, width: '100%', marginTop: 24 }}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={StyledSearchItemSeparator}
+        renderItem={(item) => {
+          return (
+            <RecentSearchItem
+              onPress={() => {
+                store.setSearchValue(item.item.text);
+                // setValue(item.item.text);
+              }}
+              onRemoveItem={() => {
+                // if (recentSearches?.length === 1) {
+                //   onBoxPress();
+                // }
+
+                store.removeRecentSearch(item.item);
+              }}
+              text={item.item.text}
+            />
+          );
+        }}
+      />
+    </>
+  );
 };

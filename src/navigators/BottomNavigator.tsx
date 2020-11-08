@@ -9,7 +9,7 @@ import { bottomRoutes } from './routes';
 import { NavBarIcon } from '../components/NavBarIcon/NavBarIcon';
 import { LaunchStackNavigator } from './LaunchStackNavigator';
 import { NavBarLabel } from '../components/NavBarLabel/NavBarLabel';
-import { Platform } from 'react-native';
+import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,7 +33,7 @@ const tabBarOptions: BottomTabBarOptions = {
   activeTintColor: 'tomato',
   inactiveTintColor: 'gray',
   style: {
-    height: Platform.OS === 'ios' ? 90 : 60,
+    height: 65 + (initialWindowMetrics?.insets.bottom || 0),
   },
   showLabel: true,
 };

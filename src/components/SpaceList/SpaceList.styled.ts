@@ -29,6 +29,7 @@ export const StyledWrapper = styled.TouchableOpacity`
   height: 225px;
   min-height: 200px;
   border-radius: ${border};
+  /* width: 100%; */
 `;
 
 export const StyledTextBox = styled.View`
