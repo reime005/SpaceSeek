@@ -1,6 +1,6 @@
 import React from 'react';
 import * as RN from 'react-native';
-import { Agency, Pad, PadService } from '../../service/service';
+import { Pad, PadService } from '../../service/service';
 import { CloseIcon } from '../SVG/CloseIcon';
 import { SearchIcon } from '../SVG/SearchIcon';
 
@@ -11,7 +11,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import { RegularText, Title } from '../Basic/Basic';
+import { Title } from '../Basic/Basic';
 import { useTranslation } from 'react-i18next';
 import { useStore } from '../../hooks/useStore';
 import { RecentSearchItem } from './RecentSearchItem';
@@ -45,6 +45,7 @@ export const Search = (props: Props) => {
   const [value, setValue] = React.useState('');
   const [limit, setLimit] = React.useState(15);
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
   const [data, setData] = React.useState<null | Pad[]>(null);
 
@@ -73,12 +74,16 @@ export const Search = (props: Props) => {
     // }, 1000);
 
     // return () => clearTimeout(t);
-
     PadService.padList({ limit, search: searchValue })
       .then((res) => {
         setData(res.results);
+        setError(false);
       })
-      .catch((e) => console.warn(e))
+      .catch(() => {
+        //TODO: track
+        setError(true);
+        closeBoxIfOpen();
+      })
       .finally(() => setLoading(false));
   }, [searchValue]);
 
@@ -142,11 +147,21 @@ export const Search = (props: Props) => {
   }
 
   const wrapperContent = () => {
-    if (!boxIsOpen && loading) {
+    if (!boxIsOpen && (loading || error)) {
       return (
         <RN.View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Spinner />
+          style={{
+            flex: 1,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+          }}>
+          <S.StyledSearchResultsPullBar />
+
+          <RN.View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            {loading && <Spinner />}
+            {error && <Title>{t('errorText')}</Title>}
+          </RN.View>
         </RN.View>
       );
     }
@@ -154,89 +169,91 @@ export const Search = (props: Props) => {
     const hasRecentSearches = recentSearches && recentSearches.length > 0;
     const hasSearchedData = data && data.length > 0;
 
-    return (
-      <>
-        {!boxIsOpen && (
-          <RN.TouchableOpacity
-            activeOpacity={1}
-            onPress={onBoxPress}
+    if (!boxIsOpen) {
+      return (
+        <RN.TouchableOpacity
+          activeOpacity={1}
+          onPress={onBoxPress}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}>
+          <S.StyledSearchResultsPullBar />
+
+          <RN.View
             style={{
               flex: 1,
               alignItems: 'center',
+              marginTop: 16,
               justifyContent: 'flex-start',
             }}>
-            <S.StyledSearchResultsPullBar />
+            <Title size="xl">{searchResultTextShort}</Title>
+          </RN.View>
+        </RN.TouchableOpacity>
+      );
+    }
 
-            <RN.View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                marginTop: 16,
-                justifyContent: 'flex-start',
-              }}>
-              <Title size="xl">{searchResultTextShort}</Title>
-            </RN.View>
-          </RN.TouchableOpacity>
-        )}
+    if (!boxIsOpen && !hasSearchedData && hasRecentSearches) {
+      return (
+        <>
+          <Title size="xl" style={{ paddingTop: 24, paddingLeft: 24 }}>
+            {searchResultTextShort}
+          </Title>
 
-        {boxIsOpen && !hasSearchedData && hasRecentSearches && (
-          <>
-            <Title size="xl" style={{ paddingTop: 24, paddingLeft: 24 }}>
-              {searchResultTextShort}
-            </Title>
-
-            <RN.FlatList
-              key={`recent-${recentSearches.length}`}
-              data={recentSearches}
-              alwaysBounceVertical={false}
-              style={styles.list}
-              showsVerticalScrollIndicator={false}
-              ItemSeparatorComponent={S.StyledSearchItemSeparator}
-              renderItem={(item) => {
-                return (
-                  <RecentSearchItem
-                    onPress={() => {
-                      setSearchValue(item.item.text);
-                      setValue(item.item.text);
-                    }}
-                    onRemoveItem={() => {
-                      if (recentSearches?.length === 1) {
-                        onBoxPress();
-                      }
-
-                      store.removeRecentSearch(item.item);
-                    }}
-                    text={item.item.text}
-                  />
-                );
-              }}
-            />
-          </>
-        )}
-
-        {boxIsOpen && hasSearchedData && (
           <RN.FlatList
-            data={data}
-            key={data.length}
+            key={`recent-${recentSearches.length}`}
+            data={recentSearches}
+            alwaysBounceVertical={false}
             style={styles.list}
             showsVerticalScrollIndicator={false}
-            bounces={false}
-            onEndReachedThreshold={0.5}
             ItemSeparatorComponent={S.StyledSearchItemSeparator}
-            onEndReached={() => setLimit(limit + 15)}
-            keyExtractor={(i) => String(i.id || '1')}
             renderItem={(item) => {
               return (
-                <SearchItem
-                  onPress={() => onItemPress(item.item)}
-                  item={item.item}
+                <RecentSearchItem
+                  onPress={() => {
+                    setSearchValue(item.item.text);
+                    setValue(item.item.text);
+                  }}
+                  onRemoveItem={() => {
+                    if (recentSearches?.length === 1) {
+                      onBoxPress();
+                    }
+
+                    store.removeRecentSearch(item.item);
+                  }}
+                  text={item.item.text}
                 />
               );
             }}
           />
-        )}
-      </>
-    );
+        </>
+      );
+    }
+
+    if (boxIsOpen && hasSearchedData) {
+      return (
+        <RN.FlatList
+          data={data}
+          key={data.length}
+          style={styles.list}
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          onEndReachedThreshold={0.5}
+          ItemSeparatorComponent={S.StyledSearchItemSeparator}
+          onEndReached={() => setLimit(limit + 15)}
+          keyExtractor={(i) => String(i.id || '1')}
+          renderItem={(item) => {
+            return (
+              <SearchItem
+                onPress={() => onItemPress(item.item)}
+                item={item.item}
+              />
+            );
+          }}
+        />
+      );
+    }
   };
 
   return (

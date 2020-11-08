@@ -138,6 +138,8 @@ android {
 
         // react-native-config
         resValue "string", "build_config_package", project.env.get("APP_ID")
+
+        multiDexEnabled true
     }
     splits {
         abi {

@@ -25,20 +25,30 @@ import { MapScreenIncomeParamsProps } from './MapScreen';
 export const LaunchDetailsScreen = () => {
   const route = useRoute();
   const [data, setData] = React.useState<LaunchDetailed | null>(null);
+  const [error, setError] = React.useState(true);
+  const { t } = useTranslation();
 
   const id = (route.params as any)?.id;
 
-  // React.useEffect(() => {
-  //   LaunchService.launchRead(id).then((res) => setData(res));
-  // }, [id]);
-
   React.useEffect(() => {
-    const t = setTimeout(() => {
-      setData(require('../mockData/launchDetailed.json'));
-    }, 1000);
+    LaunchService.launchRead(id)
+      .then((res) => {
+        setData(res);
+        setError(false);
+      })
+      .catch(() => {
+        //TODO: track
+        setError(true);
+      });
+  }, [id]);
 
-    return () => clearTimeout(t);
-  }, []);
+  // React.useEffect(() => {
+  //   const t = setTimeout(() => {
+  //     setData(require('../mockData/launchDetailed.json'));
+  //   }, 1000);
+
+  //   return () => clearTimeout(t);
+  // }, []);
 
   if (!data) {
     return (
@@ -71,7 +81,8 @@ export const LaunchDetailsScreen = () => {
       </ImageLoadingWrapper>
 
       <BasePage>
-        {!data ? <ActivityIndicator /> : <Content {...data} />}
+        {!data && error && <Title>{t('errorText')}</Title>}
+        {!data || !error ? <ActivityIndicator /> : <Content {...data} />}
       </BasePage>
     </>
   );
@@ -132,7 +143,7 @@ export const PadMapImage = (content: LaunchDetailed) => {
   const nav = useNavigation();
 
   const onPress = () => {
-    const sendProps: MapScreenIncomeParamsProps = { pad: content.pad }
+    const sendProps: MapScreenIncomeParamsProps = { pad: content.pad };
     nav.navigate(bottomRoutes.search, sendProps);
   };
 

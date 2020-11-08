@@ -19,7 +19,8 @@ const translation: Translation = {
     noSearchResults: "Please type to search something",
     results: "results",
     result: "result",
-    recentSearches: "Recent Searches"
+    recentSearches: "Recent Searches",
+    errorText: "An error happened. Please try again."
   },
 };
 

@@ -54,18 +54,6 @@ export const MapScreen = (props: MapScreenProps) => {
     }
   }, [props.route]);
 
-  // const [data, setData] = React.useState<null | []>(null);
-
-  // React.useEffect(() => {
-  //   if (!searchValue.length) {
-  //     return;
-  //   }
-
-  //   PadService.padList({ limit: 15, search: searchValue }).then((res) =>
-  //     setData(res.results),
-  //   );
-  // }, [searchValue]);
-
   return (
     <>
       <SafeAreaView

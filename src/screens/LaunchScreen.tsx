@@ -34,6 +34,7 @@ export const LaunchScreen = () => {
 const CategoryWrapper = () => {
   const { category } = useStore();
 
+  const [error, setError] = React.useState(false);
   const [data, setData] = React.useState<LaunchSerializerCommon[] | null>(null);
   const [limit, setLimit] = React.useState(15);
 
@@ -43,10 +44,28 @@ const CategoryWrapper = () => {
   }, [category]);
 
   React.useEffect(() => {
-    LaunchService[category]({ limit }).then((res) => setData(res.results));
+    LaunchService[category]({ limit })
+      .then((res) => {
+        setData(res.results);
+        setError(false);
+      })
+      .catch(() => {
+        //TODO: track
+        setError(true);
+      });
   }, [limit, category]);
 
+  if (error || !data?.length) {
+    return <ErrorText />;
+  }
+
   return <SpaceList data={data} onEndReached={() => setLimit(limit + 15)} />;
+};
+
+const ErrorText = () => {
+  const { t } = useTranslation();
+
+  return <Title>{t('errorText')}</Title>;
 };
 
 const SearchWrapper = () => {
@@ -54,6 +73,7 @@ const SearchWrapper = () => {
 
   const [data, setData] = React.useState<LaunchSerializerCommon[] | null>(null);
   const [limit, setLimit] = React.useState(15);
+  const [error, setError] = React.useState(false);
 
   React.useEffect(() => {
     if (searchValue.length > 1) {
@@ -66,20 +86,28 @@ const SearchWrapper = () => {
       LaunchService.launchList({
         limit,
         search: searchValue,
-      }).then((res) => setData(res.results));
+      })
+        .then((res) => {
+          setData(res.results);
+          setError(false);
+        })
+        .catch(() => {
+          //TODO: track
+          setError(true);
+        });
     }
   }, [limit, searchValue]);
 
-  if (searchValue.length > 1) {
+  if (error) {
+    return <ErrorText />;
+  } else if (searchValue.length > 1) {
     return <SpaceList data={data} onEndReached={() => setLimit(limit + 15)} />;
   } else {
-    return <RecentList onItemPressed={(item: string) => {}} />;
+    return <RecentList />;
   }
 };
 
-interface Props {}
-
-const RecentList = (props: any) => {
+const RecentList = () => {
   const { t } = useTranslation();
 
   const store = useStore();

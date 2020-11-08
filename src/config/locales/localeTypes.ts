@@ -12,6 +12,7 @@ export interface Translation {
     results: string;
     result: string;
     recentSearches: string;
+    errorText: string;
   };
 }
 

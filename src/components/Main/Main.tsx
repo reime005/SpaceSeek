@@ -10,6 +10,7 @@ import { darkTheme, lightTheme } from '../../config/theme';
 import '../../service/initApi';
 import { SplashScreen } from '../SplashScreen/SplashScreen';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
+import { ErrorBoundary } from '../Error/ErrorBoundary';
 
 const LOADING_TIME_MS = 1200;
 
@@ -27,20 +28,24 @@ export const Main = () => {
 
   if (!loaded) {
     return (
-      <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
-        <SplashScreen />
-      </ThemeProvider>
+      <ErrorBoundary>
+        <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
+          <SplashScreen />
+        </ThemeProvider>
+      </ErrorBoundary>
     );
   }
 
   return (
-    <NavigationContainer>
-      <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
-        {/* get rid of 'white page flash' by passing initialMetrics */}
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <BottomNavigator />
-        </SafeAreaProvider>
-      </ThemeProvider>
-    </NavigationContainer>
+    <ErrorBoundary>
+      <NavigationContainer>
+        <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
+          {/* get rid of 'white page flash' by passing initialMetrics */}
+          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+            <BottomNavigator />
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </NavigationContainer>
+    </ErrorBoundary>
   );
 };
