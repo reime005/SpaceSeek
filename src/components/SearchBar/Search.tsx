@@ -90,7 +90,7 @@ export const Search = (props: Props) => {
   const [boxIsOpen, setBoxIsOpen] = React.useState(false);
 
   const onBoxPress = () => {
-    if (!data?.length && !store.recentSearches?.length) {
+    if (!data?.length && !recentSearches?.length) {
       return;
     }
 

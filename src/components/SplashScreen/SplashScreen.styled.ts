@@ -5,5 +5,5 @@ export const StyledSplashScreen = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: ${lightTheme.primaryColor};
+  background-color: ${lightTheme.splashBackgroundColor};
 `;

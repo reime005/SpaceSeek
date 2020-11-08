@@ -34,6 +34,7 @@ const tabBarOptions: BottomTabBarOptions = {
   inactiveTintColor: 'gray',
   style: {
     height: 65 + (initialWindowMetrics?.insets.bottom || 0),
+    paddingBottom: (initialWindowMetrics?.insets.bottom || 5)
   },
   showLabel: true,
 };

@@ -16,8 +16,7 @@ export const SpaceList = (props: Props) => {
       onEndReachedThreshold={0.5}
       // scrollEventThrottle={16}
       onEndReached={props.onEndReached}
-      style={{ flex: 1 }}
-      contentContainerStyle={{ paddingTop: 16, justifyContent: 'center', alignItems: 'center' }}
+      contentContainerStyle={{ paddingTop: 16, width: '100%' }}
       data={props.data}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item.id || '1'}

@@ -50,13 +50,19 @@ const CategoryWrapper = () => {
 };
 
 const SearchWrapper = () => {
-  const { searchValue } = useStore();
+  const { searchValue, addRecentSearch } = useStore();
 
   const [data, setData] = React.useState<LaunchSerializerCommon[] | null>(null);
   const [limit, setLimit] = React.useState(15);
 
   React.useEffect(() => {
     if (searchValue.length > 1) {
+      addRecentSearch({
+        key: Date.now().toString(),
+        text: searchValue,
+        type: 'launch',
+      });
+
       LaunchService.launchList({
         limit,
         search: searchValue,
@@ -89,13 +95,10 @@ const RecentList = (props: any) => {
     );
   }
 
-  console.warn({recentSearches});
-
-
   return (
     <>
       <Title size="xl" style={{ paddingTop: 24, paddingLeft: 24 }}>
-        "title"
+        {t('recentSearches')}
       </Title>
 
       <RN.FlatList
@@ -110,13 +113,8 @@ const RecentList = (props: any) => {
             <RecentSearchItem
               onPress={() => {
                 store.setSearchValue(item.item.text);
-                // setValue(item.item.text);
               }}
               onRemoveItem={() => {
-                // if (recentSearches?.length === 1) {
-                //   onBoxPress();
-                // }
-
                 store.removeRecentSearch(item.item);
               }}
               text={item.item.text}

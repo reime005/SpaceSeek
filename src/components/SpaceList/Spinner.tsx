@@ -17,7 +17,7 @@ const springConfig: Animated.WithSpringConfig = {
   stiffness: 200,
 };
 
-const radius = 20;
+const radius = 10;
 const DISTANCE = 10;
 
 const initials = {
@@ -42,6 +42,7 @@ interface Props {
   height?: string | number;
   width?: string | number;
   fill?: string;
+  style?: RN.ViewStyle;
 }
 
 export const Spinner = (props: Props) => {

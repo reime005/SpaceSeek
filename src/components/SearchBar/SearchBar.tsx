@@ -14,6 +14,7 @@ import { SearchIcon } from '../SVG/SearchIcon';
 export const SearchBar = () => {
   const { name } = useRoute();
   const [searching, setSearching] = React.useState(false);
+  const [value, setValue] = React.useState('');
 
   const { t } = useTranslation();
 
@@ -25,9 +26,14 @@ export const SearchBar = () => {
     toggleSearchVisible();
     ref.current.animateNextTransition();
     setSearching(!searching);
+    setSearchValue('');
   };
 
-  const { setSearchValue, toggleSearchVisible, addRecentSearch } = useStore();
+  const { setSearchValue, toggleSearchVisible, searchValue } = useStore();
+
+  React.useEffect(() => {
+    setValue(searchValue);
+  }, [searchValue]);
 
   return (
     <Transitioning.View
@@ -50,14 +56,10 @@ export const SearchBar = () => {
           <RN.TextInput
             numberOfLines={1}
             autoFocus
+            value={value}
+            onChangeText={setValue}
             onEndEditing={(val) => {
               setSearchValue(val.nativeEvent.text);
-
-              addRecentSearch({
-                key: Date.now().toString(),
-                text: val.nativeEvent.text,
-                type: 'launch',
-              });
             }}
             style={{
               width: '100%',

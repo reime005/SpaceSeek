@@ -9,6 +9,9 @@ import { BottomNavigator } from '../../navigators/BottomNavigator';
 import { darkTheme, lightTheme } from '../../config/theme';
 import '../../service/initApi';
 import { SplashScreen } from '../SplashScreen/SplashScreen';
+import { initialWindowMetrics } from 'react-native-safe-area-context';
+
+const LOADING_TIME_MS = 1200;
 
 export const Main = () => {
   const [loaded, setLoaded] = React.useState(false);
@@ -17,22 +20,25 @@ export const Main = () => {
   React.useEffect(() => {
     const t = setTimeout(() => {
       setLoaded(true);
-    }, 1000);
+    }, LOADING_TIME_MS);
 
     return () => clearTimeout(t);
   }, []);
 
   if (!loaded) {
-    return <SplashScreen />
+    return (
+      <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
+        <SplashScreen />
+      </ThemeProvider>
+    );
   }
 
   return (
     <NavigationContainer>
       <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
-        <SafeAreaProvider>
-          <View style={{ flex: 1 }}>
-            <BottomNavigator />
-          </View>
+        {/* get rid of 'white page flash' by passing initialMetrics */}
+        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+          <BottomNavigator />
         </SafeAreaProvider>
       </ThemeProvider>
     </NavigationContainer>

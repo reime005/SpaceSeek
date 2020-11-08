@@ -12,8 +12,6 @@ interface Props {
 }
 
 export const RecentSearchItem = (props: Props) => {
-  console.warn(props.text);
-
   return (
     <S.Row activeOpacity={0.9} {...props}>
       <ClockIcon width={20} height={20} />
