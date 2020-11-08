@@ -10,16 +10,17 @@ import { NavBarIcon } from '../components/NavBarIcon/NavBarIcon';
 import { LaunchStackNavigator } from './LaunchStackNavigator';
 import { NavBarLabel } from '../components/NavBarLabel/NavBarLabel';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
+import { SettingsScreen } from '../screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions} initialRouteName={bottomRoutes.search}>
+    <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions} initialRouteName={bottomRoutes.settings}>
       {/* <Tab.Screen name={bottomRoutes.home} component={SpaceStackNavigator} /> */}
       <Tab.Screen name={bottomRoutes.launches} component={LaunchStackNavigator} />
       <Tab.Screen name={bottomRoutes.search} component={MapScreen} />
-      {/* <Tab.Screen name={bottomRoutes.settings} component={SettingsScreen} /> */}
+      <Tab.Screen name={bottomRoutes.settings} component={SettingsScreen} />
     </Tab.Navigator>
   );
 };

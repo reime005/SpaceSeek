@@ -25,18 +25,19 @@ export const NavBarIcon = () => {
 
   const shortTitle = t(`screen.${route.name}.shortTitle`);
 
-  return (
-    <>
-      {name === 'launches' && (
+  switch (name) {
+    case 'launches': {
+      return (
         <RocketIcon
           fill={backgroundColor}
           width={ICON_SIZE}
           height={ICON_SIZE}
           scale={isFocused ? ICON_FOCUSED_SCALED : 1}
         />
-      )}
-
-      {name === 'search' && (
+      );
+    }
+    case 'search': {
+      return (
         <SearchIcon
           color={backgroundColor}
           fill={'transparent'}
@@ -44,7 +45,19 @@ export const NavBarIcon = () => {
           height={ICON_SIZE}
           scale={isFocused ? ICON_FOCUSED_SCALED : 1}
         />
-      )}
-    </>
-  );
+      );
+    }
+    case 'settings': {
+      return (
+        <SettingsIcon
+          fill={backgroundColor}
+          width={ICON_SIZE}
+          height={ICON_SIZE}
+          scale={isFocused ? ICON_FOCUSED_SCALED : 1}
+        />
+      );
+    }
+    default:
+      throw new Error('missing icon');
+  }
 };

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useColorScheme, View } from 'react-native';
+import { StatusBar, useColorScheme, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-view';
 import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from 'styled-components';
@@ -38,6 +38,7 @@ export const Main = () => {
 
   return (
     <ErrorBoundary>
+      <StatusBar barStyle="dark-content" />
       <NavigationContainer>
         <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
           {/* get rid of 'white page flash' by passing initialMetrics */}

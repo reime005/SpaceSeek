@@ -11,6 +11,10 @@ const translation: Translation = {
         title: '',
         shortTitle: 'Map',
       },
+      settings: {
+        title: 'Settings',
+        shortTitle: 'Settings'
+      }
     },
     category: {
       launchPreviousList: 'Previous',
@@ -20,7 +24,7 @@ const translation: Translation = {
     results: "results",
     result: "result",
     recentSearches: "Recent Searches",
-    errorText: "An error happened. Please try again."
+    errorText: "An error happened. Please try again later."
   },
 };
 
