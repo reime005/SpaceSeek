@@ -19,11 +19,11 @@ export const fontSizes: { [index in FontSize]: string } = {
 export const lineHeights: { [index in FontSize]: string } = {
   xs: '12px',
   s: '13px',
-  m: '18px',
+  m: '21px',
   l: '24px',
-  xl: '28px',
-  xxl: '30px',
-  super: '36px',
+  xl: '27px',
+  xxl: '36px',
+  super: '48px',
 };
 
 type FontType = 'regular' | 'bold' | 'italic';
@@ -51,6 +51,7 @@ export const StyledBaseScroll = styled.ScrollView`
   flex: 1;
   width: 100%;
   height: 100%;
+  background-color: white
 `;
 
 export const BasePage = styled(ReactNative.Animated.View)`

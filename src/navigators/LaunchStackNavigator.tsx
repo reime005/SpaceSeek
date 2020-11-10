@@ -15,7 +15,7 @@ export const LaunchStackNavigator = () => {
   const { top } = useSafeAreaInsets();
 
   return (
-    <Stack.Navigator screenOptions={screenOptions} headerMode={'screen'}>
+    <Stack.Navigator screenOptions={screenOptions} headerMode={'screen'} initialRouteName={spaceRoutes.details}>
       <Stack.Screen
         name={bottomRoutes.launches}
         component={LaunchScreen}

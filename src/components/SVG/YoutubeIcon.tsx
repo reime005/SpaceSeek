@@ -1,10 +1,12 @@
-import React, { SVGProps } from 'react';
-import Animated from 'react-native-reanimated';
+import React from 'react';
+import * as RN from 'react-native';
 import { useTheme } from 'styled-components';
-import _SVG from '../../assets/svg/rocket.svg';
+import Animated from 'react-native-reanimated';
+import _SVG from '../../assets/svg/youtube.svg';
+
 import {
-  defaultSVGProps,
   SVGWrapperProps,
+  defaultSVGProps,
   transformSVGProps,
 } from './svgProps';
 
@@ -16,7 +18,7 @@ class SVG extends React.Component {
 
 const Anim = Animated.createAnimatedComponent(SVG);
 
-export const RocketIcon = (props: SVGWrapperProps) => {
+export const YoutubeIcon = (props: SVGWrapperProps) => {
   const theme = useTheme();
 
   return (

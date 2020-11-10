@@ -7,7 +7,8 @@ export const StyledBadgeWrapper = styled.TouchableOpacity<BadgeWrapperProps>`
   padding-top: 6px;
   padding-bottom: 6px;
   border-radius: 8px;
-  margin: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   background-color: ${({ theme, type }) => theme.badgeBackgroundColors[type]};
   width: 0px;
   align-items: center;

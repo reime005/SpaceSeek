@@ -37,10 +37,12 @@ export const lightTheme: DefaultTheme = {
   badgeBackgroundColors: {
     wiki: '#e4e4e4',
     youtube: '#c93a2f',
+    launch: '#dcf0f0',
   },
   badgeFontColors: {
     wiki: '#4c4c4c',
     youtube: '#fefcff',
+    launch: '#090909'
   },
 };
 
@@ -62,9 +64,11 @@ export const darkTheme: DefaultTheme = {
   badgeBackgroundColors: {
     wiki: '#e4e4e4',
     youtube: '#c93a2f',
+    launch: '#dcf0f0',
   },
   badgeFontColors: {
     wiki: '#4c4c4c',
     youtube: '#fefcff',
+    launch: '#090909'
   },
 };
