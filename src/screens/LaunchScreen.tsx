@@ -12,6 +12,7 @@ import { useStore } from '../hooks/useStore';
 import { LaunchSerializerCommon, LaunchService } from '../service/service';
 import { StyledSearchItemSeparator } from '../components/SearchBar/Search.styled';
 import { RecentSearchItem } from '../components/SearchBar/RecentSearchItem';
+import { Spinner } from '../components/SpaceList/Spinner';
 
 export const LaunchScreen = () => {
   const { searchVisible } = useStore();
@@ -43,20 +44,30 @@ const CategoryWrapper = () => {
     setLimit(15);
   }, [category]);
 
-  React.useEffect(() => {
-    LaunchService[category]({ limit })
-      .then((res) => {
-        setData(res.results);
-        setError(false);
-      })
-      .catch(() => {
-        //TODO: track
-        setError(true);
-      });
-  }, [limit, category]);
+  // React.useEffect(() => {
+  //   LaunchService[category]({ limit })
+  //     .then((res) => {
+  //       setData(res.results);
+  //       setError(false);
+  //     })
+  //     .catch(() => {
+  //       //TODO: track
+  //       setError(true);
+  //     });
+  // }, [limit, category]);
 
-  if (error || !data?.length) {
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      setData(require('../mockData/launches.json').results);
+    }, 1000);
+
+    return () => clearTimeout(t);
+  }, [category, limit]);
+
+  if (error) {
     return <ErrorText />;
+  } else if (!data?.length) {
+    return <Spinner />
   }
 
   return <SpaceList data={data} onEndReached={() => setLimit(limit + 15)} />;

@@ -8,6 +8,9 @@ export interface Translation {
     category: {
       [categoryKey in Category]: string
     },
+    menuItem: {
+      [menuItemKey in MenuItem]: string
+    },
     noSearchResults: string;
     results: string;
     result: string;
@@ -15,6 +18,8 @@ export interface Translation {
     errorText: string;
   };
 }
+
+export type MenuItem = 'aboutMe' | 'spaceAPI' | 'help' | 'theme';
 
 export type Category = 'launchUpcomingList' | 'launchPreviousList';
 

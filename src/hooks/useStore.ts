@@ -3,6 +3,8 @@ import create from 'zustand';
 import { Category } from '../config/locales/localeTypes';
 
 type State = {
+  colorScheme: ColorScheme;
+  setColorScheme: (scheme: ColorScheme) => void;
   searchValue: string;
   searchVisible: boolean;
   toggleSearchVisible: () => void;
@@ -21,11 +23,12 @@ interface Search {
   key: string;
 }
 
-// AsyncStorage.clear();
-type SearchType = 'pad' | 'launch';
+export type ColorScheme = 'dark' | 'light';
 
 export const useStore = create<State>((set, get) => {
   return {
+    colorScheme: 'dark',
+    setColorScheme: (colorScheme) => set((state) => ({ colorScheme })),
     searchValue: '',
     searchVisible: false,
     toggleSearchVisible: () =>

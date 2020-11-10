@@ -11,12 +11,15 @@ import '../../service/initApi';
 import { SplashScreen } from '../SplashScreen/SplashScreen';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 import { ErrorBoundary } from '../Error/ErrorBoundary';
+import { useStore, ColorScheme } from '../../hooks/useStore';
 
 const LOADING_TIME_MS = 1200;
 
 export const Main = () => {
   const [loaded, setLoaded] = React.useState(false);
-  const colorScheme = useColorScheme();
+  const rnScheme = useColorScheme();
+  const colorScheme = useStore((state) => state.colorScheme);
+  const setColorScheme = useStore((state) => state.setColorScheme);
 
   React.useEffect(() => {
     const t = setTimeout(() => {
@@ -26,10 +29,22 @@ export const Main = () => {
     return () => clearTimeout(t);
   }, []);
 
+  React.useEffect(() => {
+    let newColorScheme: ColorScheme = 'dark';
+
+    if (rnScheme === 'light') {
+      newColorScheme = 'light';
+    }
+
+    setColorScheme(newColorScheme);
+  }, [rnScheme]);
+
+  console.warn({ colorScheme });
+
   if (!loaded) {
     return (
       <ErrorBoundary>
-        <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
+        <ThemeProvider theme={colorScheme === 'light' ? lightTheme : darkTheme}>
           <SplashScreen />
         </ThemeProvider>
       </ErrorBoundary>
@@ -40,7 +55,7 @@ export const Main = () => {
     <ErrorBoundary>
       <StatusBar barStyle="dark-content" />
       <NavigationContainer>
-        <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
+        <ThemeProvider theme={colorScheme === 'light' ? lightTheme : darkTheme}>
           {/* get rid of 'white page flash' by passing initialMetrics */}
           <SafeAreaProvider initialMetrics={initialWindowMetrics}>
             <BottomNavigator />

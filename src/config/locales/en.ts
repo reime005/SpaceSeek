@@ -14,7 +14,13 @@ const translation: Translation = {
       settings: {
         title: 'Settings',
         shortTitle: 'Settings'
-      }
+      },
+    },
+    menuItem: {
+      aboutMe: 'About the developer',
+      help: "Help",
+      spaceAPI: "Space API",
+      theme: "Dark Mode"
     },
     category: {
       launchPreviousList: 'Previous',

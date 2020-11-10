@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components/native';
+import { BadgeType } from '../components/Badges/BadgeWrapper';
 
 export type FontColor = 'regular' | 'subtle' | 'light' | 'primary';
 
@@ -12,7 +13,9 @@ declare module 'styled-components' {
     focusedIconColor: string;
     unFocusedIconColor: string;
     mainFont: string;
-    fontColors: {[index in FontColor]: string}
+    fontColors: { [index in FontColor]: string };
+    badgeBackgroundColors: { [index in BadgeType]: string };
+    badgeFontColors: { [index in BadgeType]: string };
   }
 }
 
@@ -29,10 +32,18 @@ export const lightTheme: DefaultTheme = {
     light: '#fff',
     primary: '#e96232',
     regular: '#090909',
-    subtle: '#666'
-  }
+    subtle: '#666',
+  },
+  badgeBackgroundColors: {
+    wiki: '#e4e4e4',
+    youtube: '#c93a2f',
+  },
+  badgeFontColors: {
+    wiki: '#4c4c4c',
+    youtube: '#fefcff',
+  },
 };
-//#e96232
+
 export const darkTheme: DefaultTheme = {
   backgroundColor: '#21202e',
   splashBackgroundColor: '#21202e',
@@ -46,6 +57,14 @@ export const darkTheme: DefaultTheme = {
     light: '#fff',
     primary: '#ff884d',
     regular: '#090909',
-    subtle: '#666'
-  }
+    subtle: '#666',
+  },
+  badgeBackgroundColors: {
+    wiki: '#e4e4e4',
+    youtube: '#c93a2f',
+  },
+  badgeFontColors: {
+    wiki: '#4c4c4c',
+    youtube: '#fefcff',
+  },
 };

@@ -19,11 +19,11 @@ export const fontSizes: { [index in FontSize]: string } = {
 export const lineHeights: { [index in FontSize]: string } = {
   xs: '12px',
   s: '13px',
-  m: '17px',
-  l: '28px',
-  xl: '19px',
-  xxl: '26px',
-  super: '34px',
+  m: '18px',
+  l: '24px',
+  xl: '28px',
+  xxl: '30px',
+  super: '36px',
 };
 
 type FontType = 'regular' | 'bold' | 'italic';
