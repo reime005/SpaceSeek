@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 
 export const BottomNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions} initialRouteName={bottomRoutes.launches}>
+    <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
       {/* <Tab.Screen name={bottomRoutes.home} component={SpaceStackNavigator} /> */}
       <Tab.Screen name={bottomRoutes.launches} component={LaunchStackNavigator} />
       <Tab.Screen name={bottomRoutes.search} component={MapScreen} />

@@ -10,10 +10,13 @@ import * as T from './LaunchContentText';
 import { PadMapImage } from './PadMapImage';
 import { VideoContentItem } from './VideoContentItem';
 import { useLaunchPad } from '../../hooks/useLaunchPad';
+import { LaunchStatus } from './LaunchStatus';
 
 export const LaunchContent = (content: LaunchDetailed) => {
   return (
     <BaseScroll>
+      <LaunchStatus {...content} />
+
       <RocketContent {...content} />
 
       <LaunchServiceProviderContent {...content} />
@@ -104,7 +107,7 @@ export const MissionContent = (content: LaunchDetailed) => {
 
   let text = content.mission?.type;
 
-  if (text?.length && content.mission?.orbit.name?.length) {
+  if (text?.length && content.mission?.orbit?.name?.length) {
     text += '| ';
     text += content.mission?.orbit.name;
   }

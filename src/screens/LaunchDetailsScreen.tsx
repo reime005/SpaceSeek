@@ -1,27 +1,45 @@
-import { useRoute } from '@react-navigation/native';
 import React from 'react';
 import * as RN from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, StatusBar } from 'react-native';
 
 import { Title } from '../components/Basic/Basic';
-import { LaunchDetailed } from '../service/service';
+import { LaunchDetailed, LaunchService } from '../service/service';
 import { BlurView } from '@react-native-community/blur';
 import { ImageLoadingWrapper } from '../components/Basic/ImageLoadingWrapper';
 import { LaunchContent } from '../components/LaunchContent/LaunchContent';
 
-export const LaunchDetailsScreen = () => {
+export interface DetailsScreenIncomeParamsProps {
+  id?: string;
+}
+
+export interface DetailsScreenProps {
+  route?: {
+    params?: DetailsScreenIncomeParamsProps;
+  };
+}
+
+export const LaunchDetailsScreen = (props: DetailsScreenProps) => {
   const [data, setData] = React.useState<LaunchDetailed | null>(null);
-  const [error] = React.useState(true);
+  const [error, setError] = React.useState(false);
   const { t } = useTranslation();
 
+  const id = props.route?.params?.id;
+
   // React.useEffect(() => {
+  //   if (!id) {
+  //     return;
+  //   }
+
   //   LaunchService.launchRead(id)
   //     .then((res) => {
   //       setData(res);
   //       setError(false);
+  //       console.warn(res);
+
   //     })
-  //     .catch(() => {
+  //     .catch((e) => {
+  //       console.warn(e);
   //       //TODO: track
   //       setError(true);
   //     });
@@ -62,7 +80,7 @@ export const LaunchDetailsScreen = () => {
       </ImageLoadingWrapper>
 
       {!data && error && <Title>{t('errorText')}</Title>}
-      {!data || !error ? <ActivityIndicator /> : <LaunchContent {...data} />}
+      {!data || error ? <ActivityIndicator /> : <LaunchContent {...data} />}
     </>
   );
 };
@@ -98,7 +116,7 @@ const styles = RN.StyleSheet.create({
     shadowRadius: 2,
   },
   textShadow: {
-    textShadowColor: 'rgba(0,0,0,0.3)',
+    textShadowColor: 'rgba(0,0,0,0.8)',
     textShadowRadius: 2,
     textShadowOffset: { width: 1, height: 1 },
   },
