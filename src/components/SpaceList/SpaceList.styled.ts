@@ -38,7 +38,7 @@ export const StyledTextBox = styled.View`
   align-items: flex-start;
   flex-direction: column;
   padding: ${border};
-  background-color: white;
+  background-color: ${({ theme }) => theme.listItemBackgroundColor};
   border-bottom-left-radius: ${border};
   border-bottom-right-radius: ${border};
 `;

@@ -1,13 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { spaceRoutes } from '../../navigators/routes';
 import { LaunchSerializerCommon } from '../../service/service';
-import { RegularText, Title } from '../Basic/Basic';
+import { RegularText } from '../Basic/Basic';
 import { ImageLoadingWrapper } from '../Basic/ImageLoadingWrapper';
-import { HomeIcon } from '../SVG/HomeIcon';
-import { LocationIcon } from '../SVG/LocationIcon';
 import { RocketIcon } from '../SVG/RocketIcon';
 
 import * as S from './SpaceList.styled';
@@ -51,7 +48,7 @@ export const SpaceListItem = (item: LaunchSerializerCommon) => {
         </S.StyledTitle>
 
         <RegularText numberOfLines={2} size="m">
-          {item.mission?.description || 'TODO'}
+          {item.mission?.description || 'No description'}
         </RegularText>
       </S.StyledTextBox>
     </S.StyledWrapper>

@@ -10,8 +10,8 @@ export const ThemeSwitch = () => {
 
   return (
     <RN.Switch
-      value={colorScheme !== 'dark'}
-      ios_backgroundColor={primaryColor}
+      value={colorScheme === 'dark'}
+      //ios_backgroundColor={primaryColor}
       onValueChange={() =>
         setColorScheme(colorScheme === 'dark' ? 'light' : 'dark')
       }

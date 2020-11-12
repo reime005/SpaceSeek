@@ -11,14 +11,30 @@ import { LaunchStackNavigator } from './LaunchStackNavigator';
 import { NavBarLabel } from '../components/NavBarLabel/NavBarLabel';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 import { SettingsScreen } from '../screens/SettingsScreen';
+import { useTheme } from 'styled-components';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomNavigator = () => {
+  const theme = useTheme();
+
   return (
-    <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
+    <Tab.Navigator
+      screenOptions={screenOptions}
+      tabBarOptions={{
+        ...tabBarOptions,
+        style: {
+          height: 65 + (initialWindowMetrics?.insets.bottom || 0),
+          paddingBottom: initialWindowMetrics?.insets.bottom || 5,
+          backgroundColor: theme.headerBackgroundColor,
+        },
+      }}
+      initialRouteName={bottomRoutes.search}>
       {/* <Tab.Screen name={bottomRoutes.home} component={SpaceStackNavigator} /> */}
-      <Tab.Screen name={bottomRoutes.launches} component={LaunchStackNavigator} />
+      <Tab.Screen
+        name={bottomRoutes.launches}
+        component={LaunchStackNavigator}
+      />
       <Tab.Screen name={bottomRoutes.search} component={MapScreen} />
       <Tab.Screen name={bottomRoutes.settings} component={SettingsScreen} />
     </Tab.Navigator>
@@ -27,15 +43,11 @@ export const BottomNavigator = () => {
 
 const screenOptions: BottomTabNavigationOptions = {
   tabBarIcon: NavBarIcon,
-  tabBarLabel: NavBarLabel
+  tabBarLabel: NavBarLabel,
 };
 
 const tabBarOptions: BottomTabBarOptions = {
   activeTintColor: 'tomato',
   inactiveTintColor: 'gray',
-  style: {
-    height: 65 + (initialWindowMetrics?.insets.bottom || 0),
-    paddingBottom: (initialWindowMetrics?.insets.bottom || 5)
-  },
   showLabel: true,
 };

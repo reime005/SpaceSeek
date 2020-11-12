@@ -17,6 +17,7 @@ import { useStore } from '../../hooks/useStore';
 import { RecentSearchItem } from './RecentSearchItem';
 import { SearchItem } from './SearchItem';
 import { Spinner } from '../SpaceList/Spinner';
+import { useTheme } from 'styled-components';
 
 const { height: dh } = RN.Dimensions.get('screen');
 
@@ -35,6 +36,7 @@ interface Props {
 
 export const Search = (props: Props) => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const store = useStore();
   let recentSearches = store.recentSearches
@@ -194,7 +196,7 @@ export const Search = (props: Props) => {
       );
     }
 
-    if (!boxIsOpen && !hasSearchedData && hasRecentSearches) {
+    if (boxIsOpen && !hasSearchedData && hasRecentSearches) {
       return (
         <>
           <Title size="xl" style={{ paddingTop: 24, paddingLeft: 24 }}>
@@ -202,7 +204,7 @@ export const Search = (props: Props) => {
           </Title>
 
           <RN.FlatList
-            key={`recent-${recentSearches.length}`}
+            key={`recent-${recentSearches?.length}`}
             data={recentSearches}
             alwaysBounceVertical={false}
             style={styles.list}
@@ -235,7 +237,7 @@ export const Search = (props: Props) => {
       return (
         <RN.FlatList
           data={data}
-          key={data.length}
+          key={data?.length}
           style={styles.list}
           showsVerticalScrollIndicator={false}
           bounces={false}
@@ -263,6 +265,8 @@ export const Search = (props: Props) => {
 
         <S.StyledTextInput
           pointerEvents="box-only"
+          placeholder={t('noSearchResults')}
+          placeholderTextColor={theme.placeHolderFontColor}
           onFocus={onFocus}
           value={value}
           onChangeText={onChangeText}

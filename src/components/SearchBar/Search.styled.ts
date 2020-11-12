@@ -9,7 +9,7 @@ export const StyledSearchResultsWrapper = styled(Animated.View)`
   padding-right: 24px; */
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  background-color: ${({ theme }) => theme.searchBackgroundColor};
+  background-color: ${({ theme }) => theme.listItemBackgroundColor};
   width: 100%;
   min-width: 100%;
   z-index: 100;
@@ -35,7 +35,7 @@ export const StyledSearchInputWrapper = styled.View`
   align-items: center;
   padding-left: 16px;
   padding-right: 16px;
-  background-color: ${({ theme }) => theme.searchBackgroundColor};
+  background-color: ${({ theme }) => theme.listItemBackgroundColor};
 `;
 
 export const StyledSearchItemSeparator = styled.View`
@@ -51,6 +51,7 @@ export const StyledTextInput = styled.TextInput`
   align-items: center;
   margin-left: 8px;
   margin-right: 8px;
+  color: ${({ theme }) => theme.mainFont};
 `;
 
 export const StyledSearchResultsPullBar = styled.View`
@@ -67,7 +68,7 @@ export const Row = styled.TouchableOpacity`
   flex: 1;
   width: 100%;
   flex-direction: row;
-  background-color: ${({ theme }) => theme.searchBackgroundColor};
+  background-color: ${({ theme }) => theme.listItemBackgroundColor};
   justify-content: flex-start;
   align-items: center;
   padding-top: 12px;

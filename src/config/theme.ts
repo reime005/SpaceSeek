@@ -5,7 +5,13 @@ export type FontColor = 'regular' | 'subtle' | 'light' | 'primary';
 
 declare module 'styled-components' {
   export interface DefaultTheme {
+    headerBackgroundColor: string;
     backgroundColor: string;
+    backgroundColorLight: string;
+    successColor: string;
+    failColor: string;
+    listItemBackgroundColor: string;
+    placeHolderFontColor: string;
     splashBackgroundColor: string;
     primaryColor: string;
     secondaryColor: string;
@@ -20,12 +26,18 @@ declare module 'styled-components' {
 }
 
 export const lightTheme: DefaultTheme = {
+  headerBackgroundColor: '#fff',
   backgroundColor: '#fff',
+  backgroundColorLight: 'rgb(250, 250, 250)',
+  successColor: '#008214',
+  failColor: '#990000',
   splashBackgroundColor: '#21202e',
   primaryColor: '#e96232',
   focusedIconColor: '#e96232',
   unFocusedIconColor: '#cccccc',
+  placeHolderFontColor: '#cccccc',
   secondaryColor: '#666',
+  listItemBackgroundColor: 'rgb(252,252,252)',
   searchBackgroundColor: 'rgb(252,252,252)',
   mainFont: '#090909',
   fontColors: {
@@ -47,19 +59,25 @@ export const lightTheme: DefaultTheme = {
 };
 
 export const darkTheme: DefaultTheme = {
-  backgroundColor: '#21202e',
+  headerBackgroundColor: '#0d0d0d',
+  backgroundColor: '#0d0d0d',
+  backgroundColorLight: '#8f8f8f',
+  successColor: '#008214',
+  failColor: '#990000',
   splashBackgroundColor: '#21202e',
-  primaryColor: 'rgb(127, 90, 240)',
-  focusedIconColor: '#ff884d',
+  primaryColor: '#e96232',
+  focusedIconColor: '#e96232',
   unFocusedIconColor: '#cccccc',
+  placeHolderFontColor: '#8f8f8f',
   secondaryColor: '#cacaca',
-  searchBackgroundColor: '#707070',
+  listItemBackgroundColor: '#21202e',
+  searchBackgroundColor: '#999999',
   mainFont: '#fff',
   fontColors: {
     light: '#fff',
-    primary: '#ff884d',
-    regular: '#090909',
-    subtle: '#666',
+    primary: '#e96232',
+    regular: '#fff',
+    subtle: '#fafafa',
   },
   badgeBackgroundColors: {
     wiki: '#e4e4e4',

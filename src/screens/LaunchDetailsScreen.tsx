@@ -26,32 +26,32 @@ export const LaunchDetailsScreen = (props: DetailsScreenProps) => {
 
   const id = props.route?.params?.id;
 
-  // React.useEffect(() => {
-  //   if (!id) {
-  //     return;
-  //   }
-
-  //   LaunchService.launchRead(id)
-  //     .then((res) => {
-  //       setData(res);
-  //       setError(false);
-  //       console.warn(res);
-
-  //     })
-  //     .catch((e) => {
-  //       console.warn(e);
-  //       //TODO: track
-  //       setError(true);
-  //     });
-  // }, [id]);
-
   React.useEffect(() => {
-    const t = setTimeout(() => {
-      setData(require('../mockData/launchDetailed.json'));
-    }, 1000);
+    if (!id) {
+      return;
+    }
 
-    return () => clearTimeout(t);
-  }, []);
+    LaunchService.launchRead(id)
+      .then((res) => {
+        setData(res);
+        setError(false);
+        console.warn(res);
+
+      })
+      .catch((e) => {
+        console.warn(e);
+        //TODO: track
+        setError(true);
+      });
+  }, [id]);
+
+  // React.useEffect(() => {
+  //   const t = setTimeout(() => {
+  //     setData(require('../mockData/launchDetailed.json'));
+  //   }, 1000);
+
+  //   return () => clearTimeout(t);
+  // }, []);
 
   if (!data) {
     return (

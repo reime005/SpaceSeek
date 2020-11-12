@@ -20,7 +20,7 @@ import { HomeIcon } from '../components/SVG/HomeIcon';
 import { BackIcon } from '../components/SVG/BackIcon';
 import { GiftIcon } from '../components/SVG/GiftIcon';
 import { MailIcon } from '../components/SVG/MailIcon';
-import styled, { useTheme } from 'styled-components/native';
+import styled, { ThemeContext, useTheme } from 'styled-components/native';
 import { MenuItem } from '../config/locales/localeTypes';
 import { ThemeSwitch } from '../components/ThemeSwitch/ThemeSwitch';
 import { config } from '../config/config';
@@ -37,7 +37,7 @@ const settingsData: {
   data: MenuItem[];
 }[] = [
   {
-    title: i18n.t('noSearchResults'),
+    title: 'About',
     icon: (
       <IconWrapper>
         <GiftIcon scale={0.8} />
@@ -69,12 +69,15 @@ const actionForMenuItem = (item: MenuItem) => {
     }
   }
 };
+
 export const SettingsScreen = () => {
   const { name } = useRoute();
   const { t } = useTranslation();
 
+  const theme = useTheme();
+
   return (
-    <SafeAreaView style={{ flex: 1, padding: 16 }}>
+    <SafeAreaView style={{ flex: 1, padding: 16, backgroundColor: theme.headerBackgroundColor }}>
       <Title size="super">{t(`screen.${name}.title`)}</Title>
 
       <RN.SectionList
@@ -99,7 +102,7 @@ export const SettingsScreen = () => {
                 alignItems: 'center',
                 paddingVertical: 16,
                 paddingHorizontal: 16,
-                backgroundColor: 'rgba(0, 0, 0, .08)',
+                backgroundColor: theme.listItemBackgroundColor,
                 borderRadius: 16,
                 borderTopLeftRadius: isFirstElement ? 16 : 0,
                 borderTopRightRadius: isFirstElement ? 16 : 0,

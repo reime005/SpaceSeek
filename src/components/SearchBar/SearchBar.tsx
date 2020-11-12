@@ -5,13 +5,16 @@ import * as RN from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Transitioning, Transition } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from 'styled-components';
 import { Category } from '../../config/locales/localeTypes';
 import { useStore } from '../../hooks/useStore';
 import { Title } from '../Basic/Basic';
 import { CloseIcon } from '../SVG/CloseIcon';
 import { SearchIcon } from '../SVG/SearchIcon';
+import { StyledTextInput } from './Search.styled';
 
 export const SearchBar = () => {
+  const theme = useTheme();
   const { name } = useRoute();
   const [searching, setSearching] = React.useState(false);
   const [value, setValue] = React.useState('');
@@ -40,6 +43,7 @@ export const SearchBar = () => {
       ref={ref}
       transition={transition}
       style={{
+        backgroundColor: theme.headerBackgroundColor,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -53,8 +57,9 @@ export const SearchBar = () => {
             <CloseIcon />
           </RN.TouchableOpacity>
 
-          <RN.TextInput
+          <StyledTextInput
             numberOfLines={1}
+            placeholderTextColor={theme.placeHolderFontColor}
             autoFocus
             value={value}
             onChangeText={setValue}

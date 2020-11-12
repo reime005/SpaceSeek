@@ -1018,11 +1018,6 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@n1ru4l/use-async-effect@1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@n1ru4l/use-async-effect/-/use-async-effect-1.2.4.tgz#b7e01e843172608499b8fdb71ce21adc08b98924"
-  integrity sha512-tJkfckQ5qlCAAwkK6YwJrsu18jwD8nk5JyR8VmUSFzumBk17yZ0jM8qVBsuhs+hXqZOMXwrM+uxgRtFLw3A7dg==
-
 "@react-native-async-storage/async-storage@^1.13.1":
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.13.1.tgz#c24200b33946f253e1d198d730548385a8904ecc"
