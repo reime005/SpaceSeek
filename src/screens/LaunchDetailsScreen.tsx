@@ -8,6 +8,7 @@ import { LaunchDetailed, LaunchService } from '../service/service';
 import { BlurView } from '@react-native-community/blur';
 import { ImageLoadingWrapper } from '../components/Basic/ImageLoadingWrapper';
 import { LaunchContent } from '../components/LaunchContent/LaunchContent';
+import { ThemedStatusBar } from '../components/ThemedStatusBar/ThemedStatusBar';
 
 export interface DetailsScreenIncomeParamsProps {
   id?: string;
@@ -64,7 +65,7 @@ export const LaunchDetailsScreen = (props: DetailsScreenProps) => {
 
   return (
     <>
-      <StatusBar barStyle="light-content" />
+      <ThemedStatusBar barStyle="dark-content" />
 
       <ImageLoadingWrapper
         source={{ uri: data?.image, priority: 'high' }}

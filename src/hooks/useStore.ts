@@ -28,7 +28,13 @@ export type ColorScheme = 'dark' | 'light';
 export const useStore = create<State>((set, get) => {
   return {
     colorScheme: 'dark',
-    setColorScheme: (colorScheme) => set((state) => ({ colorScheme })),
+    setColorScheme: async (colorScheme) => {
+      let key = `theme`;
+
+      await AsyncStorage.setItem(key, colorScheme);
+
+      set(() => ({ colorScheme }));
+    },
     searchValue: '',
     searchVisible: false,
     toggleSearchVisible: () =>

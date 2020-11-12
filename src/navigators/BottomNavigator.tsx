@@ -12,6 +12,7 @@ import { NavBarLabel } from '../components/NavBarLabel/NavBarLabel';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { useTheme } from 'styled-components';
+import { View } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +25,7 @@ export const BottomNavigator = () => {
       tabBarOptions={{
         ...tabBarOptions,
         style: {
-          height: 65 + (initialWindowMetrics?.insets.bottom || 0),
+          height: 70 + (initialWindowMetrics?.insets.bottom || 0),
           paddingBottom: initialWindowMetrics?.insets.bottom || 5,
           backgroundColor: theme.headerBackgroundColor,
         },
@@ -46,8 +47,4 @@ const screenOptions: BottomTabNavigationOptions = {
   tabBarLabel: NavBarLabel,
 };
 
-const tabBarOptions: BottomTabBarOptions = {
-  activeTintColor: 'tomato',
-  inactiveTintColor: 'gray',
-  showLabel: true,
-};
+const tabBarOptions: BottomTabBarOptions = {};

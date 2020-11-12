@@ -273,7 +273,7 @@ export const Search = (props: Props) => {
           onEndEditing={(e) => setSearchValue(e.nativeEvent.text)}
         />
 
-        <RN.TouchableOpacity onPress={clearSearch}>
+        <RN.TouchableOpacity activeOpacity={0.9} onPress={clearSearch}>
           <CloseIcon />
         </RN.TouchableOpacity>
       </S.StyledSearchInputWrapper>

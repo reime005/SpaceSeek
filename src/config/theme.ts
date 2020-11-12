@@ -68,9 +68,9 @@ export const darkTheme: DefaultTheme = {
   primaryColor: '#e96232',
   focusedIconColor: '#e96232',
   unFocusedIconColor: '#cccccc',
-  placeHolderFontColor: '#8f8f8f',
+  placeHolderFontColor: '#fff',
   secondaryColor: '#cacaca',
-  listItemBackgroundColor: '#21202e',
+  listItemBackgroundColor: '#1f1f1f',
   searchBackgroundColor: '#999999',
   mainFont: '#fff',
   fontColors: {

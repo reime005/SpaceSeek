@@ -53,7 +53,7 @@ export const StyledBaseScroll = styled.ScrollView`
   flex: 1;
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: ${({ theme }) => theme.backgroundColor};
 `;
 
 export const BasePage = styled(ReactNative.Animated.View)`

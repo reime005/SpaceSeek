@@ -1,5 +1,6 @@
 import React from 'react';
 import * as RN from 'react-native';
+import { useTheme } from 'styled-components';
 
 import { VidURL } from '../../service/service';
 import { BadgeWrapper } from '../Badges/BadgeWrapper';
@@ -7,8 +8,10 @@ import * as S from './LaunchContent.styled';
 import * as T from './LaunchContentText';
 
 export const VideoContentItem = (item: VidURL) => {
+  const { listItemBackgroundColor: backgroundColor } = useTheme();
+
   return (
-    <RN.View style={styles.videoItem}>
+    <RN.View style={[styles.videoItem, { backgroundColor }]}>
       <T.ContentTitle text={item?.title} />
 
       <S.DescriptionWrapper>

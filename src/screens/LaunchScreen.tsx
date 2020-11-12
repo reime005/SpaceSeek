@@ -44,25 +44,25 @@ const CategoryWrapper = () => {
     setLimit(15);
   }, [category]);
 
-  React.useEffect(() => {
-    LaunchService[category]({ limit })
-      .then((res) => {
-        setData(res.results);
-        setError(false);
-      })
-      .catch(() => {
-        //TODO: track
-        setError(true);
-      });
-  }, [limit, category]);
-
   // React.useEffect(() => {
-  //   const t = setTimeout(() => {
-  //     setData(require('../mockData/launches.json').results);
-  //   }, 1000);
+  //   LaunchService[category]({ limit })
+  //     .then((res) => {
+  //       setData(res.results);
+  //       setError(false);
+  //     })
+  //     .catch(() => {
+  //       //TODO: track
+  //       setError(true);
+  //     });
+  // }, [limit, category]);
 
-  //   return () => clearTimeout(t);
-  // }, [category, limit]);
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      setData(require('../mockData/launches.json').results);
+    }, 1000);
+
+    return () => clearTimeout(t);
+  }, [category, limit]);
 
   if (error) {
     return <ErrorText />;

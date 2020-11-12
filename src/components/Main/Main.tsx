@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StatusBar, useColorScheme, View } from 'react-native';
+import { useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-view';
 import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from 'styled-components';
@@ -12,6 +12,8 @@ import { SplashScreen } from '../SplashScreen/SplashScreen';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 import { ErrorBoundary } from '../Error/ErrorBoundary';
 import { useStore, ColorScheme } from '../../hooks/useStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ThemedStatusBar } from '../ThemedStatusBar/ThemedStatusBar';
 
 const LOADING_TIME_MS = 1200;
 
@@ -30,16 +32,20 @@ export const Main = () => {
   }, []);
 
   React.useEffect(() => {
-    let newColorScheme: ColorScheme = 'dark';
+    AsyncStorage.getItem('theme', (error, result) => {
+      if (result === 'dark' || result === 'light') {
+        setColorScheme(result);
+      } else {
+        let newColorScheme: ColorScheme = 'dark';
 
-    if (rnScheme === 'light') {
-      newColorScheme = 'light';
-    }
+        if (rnScheme === 'light') {
+          newColorScheme = 'light';
+        }
 
-    setColorScheme(newColorScheme);
+        setColorScheme(newColorScheme);
+      }
+    });
   }, [rnScheme]);
-
-  console.warn({ colorScheme });
 
   if (!loaded) {
     return (
@@ -53,7 +59,8 @@ export const Main = () => {
 
   return (
     <ErrorBoundary>
-      <StatusBar barStyle="dark-content" />
+      <ThemedStatusBar barStyle="dark-content" />
+
       <NavigationContainer>
         <ThemeProvider theme={colorScheme === 'light' ? lightTheme : darkTheme}>
           {/* get rid of 'white page flash' by passing initialMetrics */}

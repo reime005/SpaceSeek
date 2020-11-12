@@ -4,12 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
 import { BottomRoute } from '../../navigators/routes';
 import { RegularText } from '../Basic/Basic';
-import { HomeIcon } from '../SVG/HomeIcon';
-import { RocketIcon } from '../SVG/RocketIcon';
-import { SearchIcon } from '../SVG/SearchIcon';
-import { SettingsIcon } from '../SVG/SettingsIcon';
-
-const ICON_FOCUSED_SCALED = 1.1;
 
 export const NavBarLabel = () => {
   const route = useRoute();
