@@ -63,3 +63,4 @@ buck-out/
 /ios/Pods/
 
 ios/tmp.xcconfig
+*.hprof

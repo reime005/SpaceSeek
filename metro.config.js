@@ -7,6 +7,13 @@
 
 const { getDefaultConfig } = require('metro-config');
 
+let createBlacklist;
+try {
+  createBlacklist = require('metro-config/src/defaults/blacklist');
+} catch (ex) {
+  createBlacklist = require('metro-bundler').createBlacklist;
+}
+
 module.exports = (async () => {
   const {
     resolver: { sourceExts, assetExts },
@@ -25,6 +32,7 @@ module.exports = (async () => {
     resolver: {
       assetExts: assetExts.filter(ext => ext !== 'svg'),
       sourceExts: [...sourceExts, 'svg'],
+      blacklistRE: createBlacklist([/test\/.*/, /detox\/node_modules\/.*/]),
     },
   };
 })();

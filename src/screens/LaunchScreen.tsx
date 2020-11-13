@@ -19,14 +19,14 @@ export const LaunchScreen = () => {
 
   if (searchVisible) {
     return (
-      <BasePage>
+      <BasePage testID="launch-screen">
         <SearchWrapper />
       </BasePage>
     );
   }
 
   return (
-    <BasePage>
+    <BasePage testID="launch-screen">
       <CategoryWrapper />
     </BasePage>
   );

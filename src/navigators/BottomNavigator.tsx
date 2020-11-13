@@ -24,7 +24,7 @@ export const BottomNavigator = () => {
       tabBarOptions={{
         ...tabBarOptions,
         style: {
-          height: 170 + (initialWindowMetrics?.insets.bottom || 0),
+          height: 65 + (initialWindowMetrics?.insets.bottom || 0),
           paddingBottom: initialWindowMetrics?.insets.bottom || 5,
           backgroundColor: theme.headerBackgroundColor,
         },
@@ -32,11 +32,22 @@ export const BottomNavigator = () => {
       initialRouteName={bottomRoutes.search}>
       {/* <Tab.Screen name={bottomRoutes.home} component={SpaceStackNavigator} /> */}
       <Tab.Screen
+        options={{ tabBarTestID: 'launches-route-btn' }}
         name={bottomRoutes.launches}
         component={LaunchStackNavigator}
       />
-      <Tab.Screen name={bottomRoutes.search} component={MapScreen} />
-      <Tab.Screen name={bottomRoutes.settings} component={SettingsScreen} />
+
+      <Tab.Screen
+        options={{ tabBarTestID: 'map-route-btn' }}
+        name={bottomRoutes.search}
+        component={MapScreen}
+      />
+
+      <Tab.Screen
+        options={{ tabBarTestID: 'settings-route-btn' }}
+        name={bottomRoutes.settings}
+        component={SettingsScreen}
+      />
     </Tab.Navigator>
   );
 };

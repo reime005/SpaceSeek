@@ -15,15 +15,12 @@ const ICON_SIZE = 30;
 
 export const NavBarIcon = () => {
   const route = useRoute();
-  const { t } = useTranslation();
   const isFocused = useIsFocused();
   const { focusedIconColor, unFocusedIconColor } = useTheme();
 
   const name = route.name as BottomRoute;
 
   const backgroundColor = isFocused ? focusedIconColor : unFocusedIconColor;
-
-  const shortTitle = t(`screen.${route.name}.shortTitle`);
 
   switch (name) {
     case 'launches': {

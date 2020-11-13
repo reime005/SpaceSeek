@@ -15,6 +15,7 @@ export const SettingsScreen = () => {
 
   return (
     <SafeAreaView
+      testID="settings-screen"
       style={{
         flex: 1,
         padding: 16,
