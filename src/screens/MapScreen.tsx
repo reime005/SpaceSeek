@@ -2,12 +2,11 @@ import React from 'react';
 import * as RN from 'react-native';
 import MapView, { Region } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
-import { Pad, PadService } from '../service/service';
+import { Pad } from '../service/service';
 import { useTheme } from 'styled-components';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Search } from '../components/SearchBar/Search';
-import { useTranslation } from 'react-i18next';
 
 const { width, height } = RN.Dimensions.get('screen');
 
