@@ -86,7 +86,6 @@ jobs:
         cd ios; bundle install
 
     - name: Deploy iOS & Upload to TestFlight
-      if: ""
       working-directory: ios
       env:
         MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
@@ -96,72 +95,73 @@ jobs:
         FASTLANE_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         PAT: ${{ secrets.PAT }}
       run: |
-        bundle exec fastlane ios beta_ci
+        sudo gem install fastlane -NV
+        fastlane ios beta_ci
 
-  deploy-android:
-    needs: setup-and-tests
-    runs-on: macos-latest
-    if: "github.ref == 'refs/heads/master'"
+  # deploy-android:
+  #   needs: setup-and-tests
+  #   runs-on: macos-latest
+  #   if: "github.ref == 'refs/heads/master'"
 
-    steps:
-    - name: Checkout project
-      uses: actions/checkout@v2
+  #   steps:
+  #   - name: Checkout project
+  #     uses: actions/checkout@v2
 
-    - name: Specify node version
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12
+  #   - name: Specify node version
+  #     uses: actions/setup-node@v1
+  #     with:
+  #       node-version: 12
 
-    - name: Caching
-      uses: actions/cache@v2
-      with:
-        path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  #   - name: Caching
+  #     uses: actions/cache@v2
+  #     with:
+  #       path: '**/node_modules'
+  #       key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-    - name: Cache local Maven repository
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
+  #   - name: Cache local Maven repository
+  #     uses: actions/cache@v2
+  #     with:
+  #       path: ~/.m2/repository
+  #       key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+  #       restore-keys: |
+  #         ${{ runner.os }}-maven-
 
-    - name: Cache gradle
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+  #   - name: Cache gradle
+  #     uses: actions/cache@v2
+  #     with:
+  #       path: |
+  #         ~/.gradle/caches
+  #         ~/.gradle/wrapper
+  #       key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+  #       restore-keys: |
+  #         ${{ runner.os }}-gradle-
 
-    - name: Install deps
-      run: |
-        yarn --frozen-lockfile
+  #   - name: Install deps
+  #     run: |
+  #       yarn --frozen-lockfile
 
-    - name: Post Install
-      env:
-        GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
-      run: |
-        sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
-        sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
+  #   - name: Post Install
+  #     env:
+  #       GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
+  #     run: |
+  #       sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+  #       sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
 
-    - name: Fastlane setup
-      run: |
-        cd android; bundle install
+  #   - name: Fastlane setup
+  #     run: |
+  #       cd android; bundle install
 
-    - name: Deploy Android Bundle & Upload to Internal Test Track
-      working-directory: android
-      env:
-        KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-        AT: ${{ secrets.ANDROID_TOKEN }}
-        ANDROID_KEYSTORE_PROPERTIES: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
-      run: |
-        echo "$KEYSTORE" | base64 -d > ./release.keystore
-        echo "$AT" | base64 -d > ./play.json
-        echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > ./keystore.properties
-        bundle exec fastlane android internal
+  #   - name: Deploy Android Bundle & Upload to Internal Test Track
+  #     working-directory: android
+  #     env:
+  #       KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+  #       AT: ${{ secrets.ANDROID_TOKEN }}
+  #       ANDROID_KEYSTORE_PROPERTIES: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
+  #     run: |
+  #       echo "$KEYSTORE" | base64 -d > ./release.keystore
+  #       echo "$AT" | base64 -d > ./play.json
+  #       echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > ./keystore.properties
+  #       bundle exec fastlane android internal
 
     # - name: Deploy iOS & Upload to TestFlight
     #   if: ""
