@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Specify node version
-      uses: actions/checkout@v1
+      uses: actions/setup-node@v1
       with:
         node-version: 12
 
@@ -44,7 +44,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Specify node version
-      uses: actions/checkout@v1
+      uses: actions/setup-node@v1
       with:
         node-version: 12
 
@@ -53,6 +53,14 @@ jobs:
       with:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Caching cocoa pods
+      uses: actions/cache@v2
+      with:
+        path: ios/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
 
     - name: Install deps
       run: |
@@ -92,7 +100,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Specify node version
-      uses: actions/checkout@v1
+      uses: actions/setup-node@v1
       with:
         node-version: 12
 
@@ -101,6 +109,24 @@ jobs:
       with:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Cache gradle
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
 
     - name: Install deps
       run: |
@@ -120,7 +146,7 @@ jobs:
     - name: Deploy Android Bundle & Upload to Internal Test Track
       working-directory: android
       env:
-        ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+        KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
         AT: ${{ secrets.ANDROID_TOKEN }}
         ANDROID_KEYSTORE_PROPERTIES: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
       run: |
