@@ -1,7 +1,7 @@
 import React from 'react';
 import * as RN from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, StatusBar } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 import { Title } from '../components/Basic/Basic';
 import { LaunchDetailed, LaunchService } from '../service/service';
@@ -37,7 +37,6 @@ export const LaunchDetailsScreen = (props: DetailsScreenProps) => {
         setData(res);
         setError(false);
         console.warn(res);
-
       })
       .catch((e) => {
         console.warn(e);

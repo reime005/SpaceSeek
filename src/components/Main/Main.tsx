@@ -32,7 +32,7 @@ export const Main = () => {
   }, []);
 
   React.useEffect(() => {
-    AsyncStorage.getItem('theme', (error, result) => {
+    AsyncStorage.getItem('theme', (_, result) => {
       if (result === 'dark' || result === 'light') {
         setColorScheme(result);
       } else {
@@ -45,7 +45,7 @@ export const Main = () => {
         setColorScheme(newColorScheme);
       }
     });
-  }, [rnScheme]);
+  }, [rnScheme, setColorScheme]);
 
   if (!loaded) {
     return (

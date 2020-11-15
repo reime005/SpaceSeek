@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react';
+import React from 'react';
 import * as RN from 'react-native';
 import { LaunchSerializerCommon } from '../../service/service';
 
@@ -10,6 +10,8 @@ interface Props {
   data: LaunchSerializerCommon[] | null;
 }
 
+const dw = RN.Dimensions.get('screen').width;
+
 export const SpaceList = (props: Props) => {
   return (
     <RN.FlatList
@@ -18,6 +20,7 @@ export const SpaceList = (props: Props) => {
       onEndReached={props.onEndReached}
       contentContainerStyle={{ paddingTop: 16, width: '100%' }}
       data={props.data}
+      numColumns={dw > 700 ? 2 : 1}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item.id || '1'}
       ListEmptyComponent={Spinner}

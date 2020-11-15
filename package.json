@@ -8,14 +8,15 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "lint:ci": "eslint src --ext .js,.jsx,.ts,.tsx --quiet",
     "commit": "git-cz",
     "build:android-release": "detox build --configuration android.emu.release",
     "test:android-release": "detox test --configuration android.emu.release",
     "test:android-release-ci": "detox test --configuration android.emu.release -l verbose --workers 2 --headless --record-logs all --take-screenshots all",
-    "build:ios-release": "ENVFILE=.env detox build --configuration ios.sim.release",
-    "test:ios-release": "detox test --configuration ios.sim.release -l verbose",
-    "test:ios-release-ci": "detox test --configuration ios.sim.release -l verbose --workers 2"
+    "build:ios-debug": "ENVFILE=.env detox build --configuration ios.sim.debug",
+    "test:ios-debug": "detox test --configuration ios.sim.debug -l verbose",
+    "test:ios-debug-ci": "detox test --configuration ios.sim.debug -l verbose --workers 2"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.1",

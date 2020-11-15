@@ -6,11 +6,11 @@ export interface Translation {
       [screenKey in BottomRoute]: ScreenTranslation;
     };
     category: {
-      [categoryKey in Category]: string
-    },
+      [categoryKey in Category]: string;
+    };
     menuItem: {
-      [menuItemKey in MenuItem]: string
-    },
+      [menuItemKey in MenuItem]: string;
+    };
     noSearchResults: string;
     results: string;
     result: string;

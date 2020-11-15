@@ -1,9 +1,8 @@
 import styled from 'styled-components/native';
-import * as ReactNative from 'react-native';
 import { Title } from '../Basic/Basic';
 import FastImage from 'react-native-fast-image';
 
-const border = "16px";
+const border = '16px';
 
 export const StyledTitle = styled(Title)`
   padding-right: 24px;
@@ -27,8 +26,8 @@ export const StyledWrapper = styled.TouchableOpacity`
   flex-direction: column;
   align-items: flex-start;
   height: 225px;
-  min-height: 200px;
   border-radius: ${border};
+  flex: 1;
 `;
 
 export const StyledTextBox = styled.View`

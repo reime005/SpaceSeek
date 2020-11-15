@@ -6,7 +6,7 @@ import Animated, {
   withSpring,
   delay,
 } from 'react-native-reanimated';
-import Svg, { Stop as S, Circle as C } from 'react-native-svg';
+import Svg, { Circle as C } from 'react-native-svg';
 import { useTheme } from 'styled-components';
 
 const Circle = Animated.createAnimatedComponent(C);
@@ -108,37 +108,33 @@ export const Spinner = (props: Props) => {
 
   React.useEffect(() => {
     animateForth();
-  }, []);
+  });
 
   return (
-      <Svg
-        height={24}
-        width={100}
+    <Svg height={24} width={100} {...props} viewBox="0 0 100 75">
+      <Circle
+        cx="0"
+        r={radius}
+        fill={fill}
         {...props}
-        viewBox="0 0 100 75">
-        <Circle
-          cx="0"
-          r={radius}
-          fill={fill}
-          {...props}
-          animatedProps={firstProps}
-        />
+        animatedProps={firstProps}
+      />
 
-        <Circle
-          cx={radius * 2 + DISTANCE * 1}
-          r={radius}
-          fill={fill}
-          {...props}
-          animatedProps={secondProps}
-        />
+      <Circle
+        cx={radius * 2 + DISTANCE * 1}
+        r={radius}
+        fill={fill}
+        {...props}
+        animatedProps={secondProps}
+      />
 
-        <Circle
-          cx={radius * 4 + DISTANCE * 2}
-          r={radius}
-          fill={fill}
-          {...props}
-          animatedProps={thirdProps}
-        />
-      </Svg>
+      <Circle
+        cx={radius * 4 + DISTANCE * 2}
+        r={radius}
+        fill={fill}
+        {...props}
+        animatedProps={thirdProps}
+      />
+    </Svg>
   );
 };

@@ -1,6 +1,6 @@
 module.exports = {
   '*.{js,jsx,ts,tsx}': [
-    'eslint --fix',
+    'eslint --fix --quiet',
     'git add',
     'jest --bail --findRelatedTests',
   ],

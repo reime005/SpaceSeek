@@ -1,11 +1,18 @@
-# React Native Animated App Base Template
+# Space Seek - View Space Data
 
-![ReactIcon](./React-icon.svg)
+![CI status](https://github.com/reime005/spaceseek/workflows/CI/badge.svg)
 
-This template provides the basic and necessary things you need for a React Native app.
+!Work in Progress!
 
-# Features
+This is a rewrite of ['Space Viewer - Rocket Infos'](https://github.com/reime005/react-native-spaceviewer).
 
+You can see lots of information about rocket space launches from all over the world! Want to know at which location it will launch? Or do you want to see its live stream? All the information are bundled in this app.
+
+This includes rocket launches from SpaceX, NASA, ROSCOSMOS, ISRO, ULA and many more!
+
+# Tech Stack & Credits
+
+- 🚀 API via [The Space Devs](https://thespacedevs.com)
 - ⚙️ Built with [Typescript](https://www.typescriptlang.org/)
 - ⚡ More comprehensive animations via [react-native-reanimated](https://github.com/software-mansion/react-native-reanimated)
 - 🎨 Theming and component styling via [styled-components](https://styled-components.com/)
@@ -18,8 +25,8 @@ This template provides the basic and necessary things you need for a React Nativ
 - 🗿 Persistence via [async-storage](https://github.com/react-native-async-storage/async-storage)
 - 🖥 Running lint & tests on staged git files (pre-commit) via [lint-staged](https://github.com/okonet/lint-staged) and [husky](https://github.com/typicode/husky)
 - ♦️ Icons from [material](https://material.io/resources/icons/?style=outline) and [feathericons](https://feathericons.com)
-- ℹ️ Simple, safe and fetch-cancellable effects powered by generator functions via [@n1ru4l/use-async-effect](https://github.com/n1ru4l/use-async-effect)
 - ℹ️ Styled components testing via [jest-styled-components](https://github.com/styled-components/jest-styled-components)
+- ℹ️ Auto generated, typescript based axios client via [swagger-axios-codegen](https://github.com/Manweill/swagger-axios-codegen)
 - ℹ️ Hermes enabled
 
 # Build & Run

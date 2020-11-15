@@ -34,7 +34,6 @@ const settingsData: {
   },
 ];
 
-
 export const SettingsList = () => {
   return (
     <RN.SectionList

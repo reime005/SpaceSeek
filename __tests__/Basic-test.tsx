@@ -9,12 +9,13 @@ import 'jest-styled-components/native';
 
 import renderer from 'react-test-renderer';
 
-import { BaseText } from '../src/components/Basic/Basic.styled';
+import { RegularText } from '../src/components/Basic/Basic';
+import { darkTheme } from '../src/config/theme';
 
 it('Base Text renders correctly', async () => {
   const tree = renderer
-    .create(<BaseText theme={{ mainFont: 'grey' }} />)
+    .create(<RegularText theme={darkTheme}>TEST</RegularText>)
     .toJSON();
-  expect(tree).toHaveStyleRule('color', 'grey');
+  expect(tree).toHaveStyleRule('color', '#fff');
   expect(tree).toHaveStyleRule('fontSize', 14);
 });

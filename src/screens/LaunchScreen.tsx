@@ -80,7 +80,8 @@ const ErrorText = () => {
 };
 
 const SearchWrapper = () => {
-  const { searchValue, addRecentSearch } = useStore();
+  const searchValue = useStore((state) => state.searchValue);
+  const addRecentSearch = useStore((state) => state.addRecentSearch);
 
   const [data, setData] = React.useState<LaunchSerializerCommon[] | null>(null);
   const [limit, setLimit] = React.useState(15);
@@ -107,7 +108,7 @@ const SearchWrapper = () => {
           setError(true);
         });
     }
-  }, [limit, searchValue]);
+  }, [limit, searchValue, addRecentSearch]);
 
   if (error) {
     return <ErrorText />;

@@ -50,7 +50,7 @@ export const LaunchStatus = (content: LaunchDetailed) => {
 
       return () => clearInterval(t);
     }
-  }, [content.net]);
+  }, [content.net, net]);
 
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
@@ -160,7 +160,7 @@ const Numbers = ({ n, label }: { n: number; label: Label }) => {
         }),
       );
     }
-  }, [n]);
+  });
 
   const st = useAnimatedStyle(() => {
     return {

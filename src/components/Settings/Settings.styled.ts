@@ -24,11 +24,11 @@ export const StyledSettingsListItemWrapper = styled.TouchableOpacity<
   padding: ${radius}px;
   background-color: ${({ theme }) => theme.listItemBackgroundColor};
   border-top-left-radius: ${({ isFirstElement }) =>
-    isFirstElement ? `${radius}px` : `0px`};
+    isFirstElement ? `${radius}px` : '0px'};
   border-top-right-radius: ${({ isFirstElement }) =>
-    isFirstElement ? `${radius}px` : `0px`};
+    isFirstElement ? `${radius}px` : '0px'};
   border-bottom-left-radius: ${({ isLastElement }) =>
-    isLastElement ? `${radius}px` : `0px`};
+    isLastElement ? `${radius}px` : '0px'};
   border-bottom-right-radius: ${({ isLastElement }) =>
-    isLastElement ? `${radius}px` : `0px`};
+    isLastElement ? `${radius}px` : '0px'};
 `;

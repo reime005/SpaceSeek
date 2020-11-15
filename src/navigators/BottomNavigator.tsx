@@ -23,13 +23,19 @@ export const BottomNavigator = () => {
       screenOptions={screenOptions}
       tabBarOptions={{
         ...tabBarOptions,
-        style: {
-          height: 65 + (initialWindowMetrics?.insets.bottom || 0),
-          paddingBottom: initialWindowMetrics?.insets.bottom || 5,
+        tabStyle: {
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          paddingTop: 0,
+          paddingBottom: 8 + (initialWindowMetrics?.insets.bottom || 0),
           backgroundColor: theme.headerBackgroundColor,
         },
+        style: {
+          backgroundColor: theme.headerBackgroundColor,
+          height: 70 + (initialWindowMetrics?.insets.bottom || 0),
+        },
       }}
-      initialRouteName={bottomRoutes.search}>
+      initialRouteName={bottomRoutes.launches}>
       {/* <Tab.Screen name={bottomRoutes.home} component={SpaceStackNavigator} /> */}
       <Tab.Screen
         options={{ tabBarTestID: 'launches-route-btn' }}

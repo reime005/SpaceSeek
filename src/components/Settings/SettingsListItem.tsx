@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import * as RN from 'react-native';
-import { useTheme } from 'styled-components';
 
 import { config } from '../../config/config';
 import { MenuItem } from '../../config/locales/localeTypes';
@@ -17,9 +16,6 @@ interface Props {
 }
 
 export const SettingsListItem = (props: Props) => {
-  const { item, isFirstElement, isLastElement } = props;
-
-  const theme = useTheme();
   const { t } = useTranslation();
 
   return (

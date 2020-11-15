@@ -1,6 +1,5 @@
-import Animated from "react-native-reanimated";
-import styled from "styled-components/native";
-
+import Animated from 'react-native-reanimated';
+import styled from 'styled-components/native';
 
 export const StyledSearchResultsWrapper = styled(Animated.View)`
   margin-top: 16px;
@@ -14,7 +13,6 @@ export const StyledSearchResultsWrapper = styled(Animated.View)`
   min-width: 100%;
   z-index: 100;
 `;
-
 
 export const StyledItemWrapper = styled.TouchableOpacity`
   justify-content: center;
@@ -41,7 +39,7 @@ export const StyledSearchInputWrapper = styled.View`
 export const StyledSearchItemSeparator = styled.View`
   height: 1px;
   width: 100%;
-  background-color: rgba(0, 0, 0, .05);
+  background-color: rgba(0, 0, 0, 0.05);
 `;
 
 export const StyledTextInput = styled.TextInput`

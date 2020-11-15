@@ -29,7 +29,7 @@ export const useStore = create<State>((set, get) => {
   return {
     colorScheme: 'dark',
     setColorScheme: async (colorScheme) => {
-      let key = `theme`;
+      let key = 'theme';
 
       await AsyncStorage.setItem(key, colorScheme);
 
@@ -39,28 +39,28 @@ export const useStore = create<State>((set, get) => {
     searchVisible: false,
     toggleSearchVisible: () =>
       set((state) => ({ searchVisible: !state.searchVisible })),
-    setSearchValue: (searchValue) => set((state) => ({ searchValue })),
+    setSearchValue: (searchValue) => set((_) => ({ searchValue })),
     category: 'launchUpcomingList',
-    setCategory: (category) => set((state) => ({ category })),
+    setCategory: (category) => set((_) => ({ category })),
     recentSearches: null,
     loadSearches: async () => {
-      let key = `recent_searches`;
+      let key = 'recent_searches';
 
       const itemsStr = await AsyncStorage.getItem(key);
       const recentSearches = JSON.parse(itemsStr || 'null');
 
-      set((state) => {
+      set((_) => {
         return {
           recentSearches,
         };
       });
     },
     removeRecentSearch: async (value) => {
-      const key = `recent_searches`;
+      const key = 'recent_searches';
       let recentSearches = get().recentSearches || null;
 
       if (!recentSearches) {
-        set((state) => {
+        set((_) => {
           return {
             recentSearches,
           };
@@ -79,14 +79,14 @@ export const useStore = create<State>((set, get) => {
         console.warn(error);
       }
 
-      set((state) => {
+      set((_) => {
         return {
           recentSearches,
         };
       });
     },
     addRecentSearch: async (value) => {
-      const key = `recent_searches`;
+      const key = 'recent_searches';
       const recentSearches = get().recentSearches || [];
 
       if (
@@ -105,7 +105,7 @@ export const useStore = create<State>((set, get) => {
         console.warn(error);
       }
 
-      set((state) => {
+      set((_) => {
         return {
           recentSearches,
         };

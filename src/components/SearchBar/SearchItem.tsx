@@ -2,8 +2,6 @@ import React from 'react';
 import * as RN from 'react-native';
 import { Pad } from '../../service/service';
 import { Title } from '../Basic/Basic';
-import { ClockIcon } from '../SVG/ClockIcon';
-import { CrossIcon } from '../SVG/CrossIcon';
 import { InfoIcon } from '../SVG/InfoIcon';
 import { LocationIcon } from '../SVG/LocationIcon';
 import * as S from './Search.styled';
@@ -15,7 +13,7 @@ interface Props {
 
 export const SearchItem = (props: Props) => {
   const openInfoLink = () => {
-    const url = props.item.wiki_url || props.item.map_url
+    const url = props.item.wiki_url || props.item.map_url;
 
     if (typeof url === 'string' && url.length) {
       RN.Linking.openURL(url);

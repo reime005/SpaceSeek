@@ -13,24 +13,24 @@ const translation: Translation = {
       },
       settings: {
         title: 'Settings',
-        shortTitle: 'Settings'
+        shortTitle: 'Settings',
       },
     },
     menuItem: {
       aboutMe: 'About the developer',
-      help: "Help",
-      spaceAPI: "Space API",
-      theme: "Dark Mode"
+      help: 'Help',
+      spaceAPI: 'Space API',
+      theme: 'Dark Mode',
     },
     category: {
       launchPreviousList: 'Previous',
-      launchUpcomingList: 'Upcoming'
+      launchUpcomingList: 'Upcoming',
     },
-    noSearchResults: "Please type to search something",
-    results: "results",
-    result: "result",
-    recentSearches: "Recent Searches",
-    errorText: "An error happened. Please try again later."
+    noSearchResults: 'Please type to search something',
+    results: 'results',
+    result: 'result',
+    recentSearches: 'Recent Searches',
+    errorText: 'An error happened. Please try again later.',
   },
 };
 

@@ -48,14 +48,56 @@ export const Search = (props: Props) => {
   const [limit, setLimit] = React.useState(15);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
+  const [boxIsOpen, setBoxIsOpen] = React.useState(false);
 
   const [data, setData] = React.useState<null | Pad[]>(null);
 
   const height = useSharedValue(MIN_HEIGHT);
 
+  const onBoxPress = React.useCallback(() => {
+    if (!data?.length && !recentSearches?.length) {
+      return;
+    }
+
+    if (height.value > MIN_HEIGHT) {
+      height.value = withSpring(MIN_HEIGHT, springConfig);
+      setBoxIsOpen(false);
+    } else {
+      height.value = withSpring(MAX_HEIGHT, springConfig);
+      setBoxIsOpen(true);
+    }
+  }, [data, recentSearches, height, setBoxIsOpen]);
+
+  const closeBoxIfOpen = React.useCallback(() => {
+    if (boxIsOpen) {
+      onBoxPress();
+    }
+  }, [boxIsOpen, onBoxPress]);
+
+  const onFocus = () => {
+    closeBoxIfOpen();
+  };
+
+  const onChangeText = (value: string) => {
+    setValue(value);
+    closeBoxIfOpen();
+  };
+
+  const clearSearch = () => {
+    setSearchValue('');
+    setValue('');
+    setData(null);
+    closeBoxIfOpen();
+  };
+
+  const onItemPress = (item: Pad) => {
+    props.onChangeItem(item);
+    onBoxPress();
+  };
+
   React.useEffect(() => {
     store.loadSearches();
-  }, []);
+  });
 
   React.useEffect(() => {
     if (!searchValue.length) {
@@ -87,50 +129,7 @@ export const Search = (props: Props) => {
         closeBoxIfOpen();
       })
       .finally(() => setLoading(false));
-  }, [searchValue]);
-
-  const onItemPress = (item: Pad) => {
-    props.onChangeItem(item);
-    onBoxPress();
-  };
-
-  const [boxIsOpen, setBoxIsOpen] = React.useState(false);
-
-  const onBoxPress = () => {
-    if (!data?.length && !recentSearches?.length) {
-      return;
-    }
-
-    if (height.value > MIN_HEIGHT) {
-      height.value = withSpring(MIN_HEIGHT, springConfig);
-      setBoxIsOpen(false);
-    } else {
-      height.value = withSpring(MAX_HEIGHT, springConfig);
-      setBoxIsOpen(true);
-    }
-  };
-
-  const closeBoxIfOpen = () => {
-    if (boxIsOpen) {
-      onBoxPress();
-    }
-  };
-
-  const onFocus = () => {
-    closeBoxIfOpen();
-  };
-
-  const onChangeText = (value: string) => {
-    setValue(value);
-    closeBoxIfOpen();
-  };
-
-  const clearSearch = () => {
-    setSearchValue('');
-    setValue('');
-    setData(null);
-    closeBoxIfOpen();
-  };
+  }, [searchValue, store, limit, closeBoxIfOpen]);
 
   const stylez = useAnimatedStyle(() => {
     return {

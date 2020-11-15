@@ -11,7 +11,7 @@ export const useLaunchPad = (content: LaunchDetailed) => {
   const openLaunchPad = React.useCallback(() => {
     const sendProps: MapScreenIncomeParamsProps = { pad: content.pad };
     nav.navigate(bottomRoutes.search, sendProps);
-  }, [content.pad]);
+  }, [content.pad, nav]);
 
   return {
     openLaunchPad,

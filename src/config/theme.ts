@@ -54,7 +54,7 @@ export const lightTheme: DefaultTheme = {
   badgeFontColors: {
     wiki: '#4c4c4c',
     youtube: '#fefcff',
-    launch: '#090909'
+    launch: '#090909',
   },
 };
 
@@ -87,6 +87,6 @@ export const darkTheme: DefaultTheme = {
   badgeFontColors: {
     wiki: '#4c4c4c',
     youtube: '#fefcff',
-    launch: '#090909'
+    launch: '#090909',
   },
 };

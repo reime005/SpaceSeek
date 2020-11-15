@@ -12,7 +12,11 @@ describe('Example (hello)', () => {
 
     await element(by.id('launches-route-btn')).tap();
 
-    // await expect(element(by.id('launch-screen'))).toBeVisible();
+    await expect(element(by.id('launch-screen'))).toBeVisible();
+
+    await element(by.id('settings-route-btn')).tap();
+
+    await expect(element(by.id('settings-screen'))).toBeVisible();
   });
 
   // it('should show hello screen after tap', async () => {

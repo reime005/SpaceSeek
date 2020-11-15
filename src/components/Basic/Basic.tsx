@@ -75,6 +75,8 @@ export const BasePage = (props: any) => {
   });
 
   return (
-    <S.BasePage {...props} style={{ opacity: fadeAnim }}>{props.children}</S.BasePage>
+    <S.BasePage {...props} style={{ opacity: fadeAnim }}>
+      {props.children}
+    </S.BasePage>
   );
 };

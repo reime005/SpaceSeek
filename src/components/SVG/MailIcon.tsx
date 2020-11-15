@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTheme } from 'styled-components';
 import Animated from 'react-native-reanimated';
 import _SVG from '../../assets/svg/mail.svg';
 
@@ -18,14 +17,12 @@ class SVG extends React.Component {
 const Anim = Animated.createAnimatedComponent(SVG);
 
 export const MailIcon = (props: SVGWrapperProps) => {
-  const theme = useTheme();
-
   return (
     <Anim
       {...{
         ...transformSVGProps({ ...defaultSVGProps, ...props }),
         color: 'white',
-        fill: 'transparent'
+        fill: 'transparent',
       }}
     />
   );

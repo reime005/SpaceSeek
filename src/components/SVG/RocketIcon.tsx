@@ -1,4 +1,4 @@
-import React, { SVGProps } from 'react';
+import React from 'react';
 import Animated from 'react-native-reanimated';
 import { useTheme } from 'styled-components';
 import _SVG from '../../assets/svg/rocket.svg';

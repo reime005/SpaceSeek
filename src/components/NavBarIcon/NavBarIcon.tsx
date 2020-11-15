@@ -1,11 +1,7 @@
 import { useIsFocused, useRoute } from '@react-navigation/native';
 import React from 'react';
-import * as RN from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
 import { BottomRoute } from '../../navigators/routes';
-import { RegularText } from '../Basic/Basic';
-import { HomeIcon } from '../SVG/HomeIcon';
 import { RocketIcon } from '../SVG/RocketIcon';
 import { SearchIcon } from '../SVG/SearchIcon';
 import { SettingsIcon } from '../SVG/SettingsIcon';
