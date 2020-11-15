@@ -31,7 +31,6 @@ jobs:
 
     - name: Install deps
       run: |
-        cat .env
         yarn --frozen-lockfile
 
     - name: Lint
@@ -95,8 +94,8 @@ jobs:
         FASTLANE_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
         PAT: ${{ secrets.PAT }}
       run: |
-        sudo gem install fastlane -NV
-        fastlane ios beta_ci
+        npx pod-install
+        bundle exec fastlane ios beta_ci
 
   # deploy-android:
   #   needs: setup-and-tests
