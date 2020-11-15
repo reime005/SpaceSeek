@@ -11,9 +11,9 @@ module.exports = {
     'ios.sim.release': {
       type: 'ios.simulator',
       build:
-        'xcodebuild -workspace ios/SpaceSeek.xcworkspace -UseNewBuildSystem=NO -scheme SpaceSeek -configuration Release -sdk iphonesimulator -derivedDataPath ios/build -quiet',
+        'xcodebuild -workspace ios/SpaceSeek.xcworkspace -scheme SpaceSeek -configuration Release -sdk iphonesimulator -derivedDataPath ios/build/app -quiet',
       binaryPath:
-        './ios/build/Build/Products/Release-iphonesimulator/spaceseek.app',
+        './ios/build/app/Build/Products/Release-iphonesimulator/spaceseek.app',
       device: {
         type: 'iPhone 11 Pro',
       },

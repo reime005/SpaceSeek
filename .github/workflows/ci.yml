@@ -22,8 +22,16 @@ jobs:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
+    - name: Post Install
+      env:
+        GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
+      run: |
+        sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+        sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
+
     - name: Install deps
       run: |
+        cat .env
         yarn --frozen-lockfile
 
     - name: Lint
