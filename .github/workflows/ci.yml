@@ -158,13 +158,24 @@ jobs:
           echo y | sudo $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-28;google_apis;x86_64" > /dev/null
           $ANDROID_HOME/tools/bin/avdmanager -s create avd -n emu -k "system-images;android-28;google_apis;x86_64" -c 512M -d "Nexus S" -f
 
+      - name: Build
+        working-directory: android
+        env:
+          KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+          AT: ${{ secrets.ANDROID_TOKEN }}
+          ANDROID_KEYSTORE_PROPERTIES: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
+        run: |
+          echo "$KEYSTORE" | base64 -d > ./release.keystore
+          echo "$AT" | base64 -d > ./play.json
+          echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > ./keystore.properties
+          yarn build:android-release
+
       - name: Start Emulator
         timeout-minutes: 15
         run: |
           export PATH=$PATH:$ANDROID_HOME/platform-tools
           $ANDROID_HOME/emulator/emulator @emu -no-boot-anim &
           adb wait-for-device; adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'; adb shell wm dismiss-keyguard
-          yarn test:android-release --record-videos all
 
       - name: Test
         timeout-minutes: 15
