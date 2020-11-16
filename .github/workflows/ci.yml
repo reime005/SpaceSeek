@@ -31,7 +31,7 @@ jobs:
 
       - name: Install deps
         run: |
-          yarn --frozen-lockfile
+          yarn --frozen-lockfile --network-timeout 1000000
 
       - name: Lint
         run: |
@@ -70,7 +70,7 @@ jobs:
 
       - name: Install deps
         run: |
-          yarn --frozen-lockfile
+          yarn --frozen-lockfile --network-timeout 1000000
 
       - name: Cocoapod install
         run: |
@@ -137,7 +137,7 @@ jobs:
 
       - name: Install deps
         run: |
-          yarn --frozen-lockfile
+          yarn --frozen-lockfile --network-timeout 1000000
 
       - name: Post Install
         env:
@@ -218,7 +218,7 @@ jobs:
 
       - name: Install deps
         run: |
-          yarn --frozen-lockfile
+          yarn --frozen-lockfile --network-timeout 1000000
 
       - name: Cocoapod install
         run: |
@@ -287,7 +287,7 @@ jobs:
 
       - name: Install deps
         run: |
-          yarn --frozen-lockfile
+          yarn --frozen-lockfile --network-timeout 1000000
 
       - name: Post Install
         env:
