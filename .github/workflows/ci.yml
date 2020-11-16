@@ -145,11 +145,12 @@ jobs:
         run: |
           sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
           sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
+          mkdir -p ./artifacts
 
       - name: Use specific Java version for sdkmanager to work
-        uses: joschi/setup-jdk@v1
+        uses: joschi/setup-jdk@v2
         with:
-          java-version: 'openjdk8'
+          java-version: '8'
           architecture: 'x64'
 
       - name: Download Android Emulator Image
@@ -163,7 +164,6 @@ jobs:
           export PATH=$PATH:$ANDROID_HOME/platform-tools
           $ANDROID_HOME/emulator/emulator @emu -no-boot-anim &
           adb wait-for-device; adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'; adb shell wm dismiss-keyguard
-          mkdir -p ./artifacts
           yarn test:android-release --record-videos all
 
       - name: Test
