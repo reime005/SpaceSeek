@@ -1,7 +1,7 @@
 {
-  "name": "ReactNativeAnimatedBase",
+  "name": "SpaceSeek",
   "version": "0.0.1",
-  "description": "📲 React Native Basic Template with important basic libraries to get started easily.",
+  "description": "WIP",
   "private": true,
   "scripts": {
     "android": "react-native run-android",

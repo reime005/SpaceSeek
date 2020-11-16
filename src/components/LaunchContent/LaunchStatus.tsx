@@ -29,7 +29,9 @@ const StatusIcon = (content: LaunchDetailed) => {
 
 export const LaunchStatus = (content: LaunchDetailed) => {
   const [distance, setDistance] = React.useState(-1);
-  const net: any = new Date(content.net || '');
+  const net: any = React.useMemo(() => new Date(content.net || ''), [
+    content.net,
+  ]);
 
   React.useEffect(() => {
     if (content.net) {
@@ -150,17 +152,20 @@ const Numbers = ({ n, label }: { n: number; label: Label }) => {
     nStr = '0' + nStr;
   }
 
-  React.useEffect(() => {
-    if (label === 'Seconds' && n === 0) {
-      y.value = delay(
-        700,
-        withTiming(500, { duration: 300 }, () => {
-          y.value = -500;
-          y.value = withTiming(0, { duration: 300 });
-        }),
-      );
-    }
-  });
+  React.useEffect(
+    () => {
+      if (label === 'Seconds' && n === 0) {
+        y.value = delay(
+          700,
+          withTiming(500, { duration: 300 }, () => {
+            y.value = -500;
+            y.value = withTiming(0, { duration: 300 });
+          }),
+        );
+      }
+    } /* eslint-disable */,
+    [n],
+  );
 
   const st = useAnimatedStyle(() => {
     return {

@@ -13,7 +13,7 @@ module.exports = {
       build:
         'xcodebuild -workspace ios/SpaceSeek.xcworkspace -scheme SpaceSeek -configuration Release -sdk iphonesimulator -derivedDataPath ios/build/app -quiet',
       binaryPath:
-        './ios/build/app/Build/Products/Release-iphonesimulator/spaceseek.app',
+        './ios/build/app/Build/Products/Release-iphonesimulator/SpaceSeek.app',
       device: {
         type: 'iPhone 11 Pro',
       },

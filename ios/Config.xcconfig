@@ -1,1 +1,3 @@
 #include? "tmp.xcconfig"
+
+EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64

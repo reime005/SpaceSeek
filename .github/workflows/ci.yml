@@ -8,239 +8,295 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
     steps:
-    - name: Checkout project
-      uses: actions/checkout@v2
+      - name: Checkout project
+        uses: actions/checkout@v2
 
-    - name: Specify node version
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12
+      - name: Specify node version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
 
-    - name: Caching
-      uses: actions/cache@v2
-      with:
-        path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Caching
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-    - name: Post Install
-      env:
-        GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
-      run: |
-        sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
-        sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
+      - name: Post Install
+        env:
+          GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
+        run: |
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
 
-    - name: Install deps
-      run: |
-        yarn --frozen-lockfile
+      - name: Install deps
+        run: |
+          yarn --frozen-lockfile
 
-    - name: Lint
-      run: |
-        yarn lint:ci
+      - name: Lint
+        run: |
+          yarn lint:ci
 
-    - name: Unit Tests
-      run: |
-        yarn test
+      - name: Unit Tests
+        run: |
+          yarn test
+
+  e2e-ios:
+    needs: setup-and-tests
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+
+      - name: Specify node version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Caching
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Caching cocoa pods
+        uses: actions/cache@v2
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install deps
+        run: |
+          yarn --frozen-lockfile
+
+      - name: Cocoapod install
+        run: |
+          npx pod-install ios
+
+      - name: Post Install
+        env:
+          GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
+        run: |
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
+
+      - name: Detox setup
+        run: |
+          brew tap wix/brew
+          brew install applesimutils
+
+      - name: Build
+        run: |
+          yarn build:ios-release
+
+      - name: E2E test
+        timeout-minutes: 15
+        run: |
+          npx detox clean-framework-cache && npx detox build-framework-cache
+          yarn test:ios-release
+
+  e2e-android:
+    needs: setup-and-tests
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+
+      - name: Specify node version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Caching
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Cache gradle
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Install deps
+        run: |
+          yarn --frozen-lockfile
+
+      - name: Post Install
+        env:
+          GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
+        run: |
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
+
+      - name: Use specific Java version for sdkmanager to work
+        uses: joschi/setup-jdk@v1
+        with:
+          java-version: 'openjdk8'
+          architecture: 'x64'
+
+      - name: Download Android Emulator Image
+        run: |
+          echo y | sudo $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-28;google_apis;x86_64" > /dev/null
+          $ANDROID_HOME/tools/bin/avdmanager -s create avd -n emu -k "system-images;android-28;google_apis;x86_64" -c 512M -d "Nexus S" -f
+
+      - name: Start Emulator
+        timeout-minutes: 15
+        run: |
+          export PATH=$PATH:$ANDROID_HOME/platform-tools
+          $ANDROID_HOME/emulator/emulator @emu -no-boot-anim &
+          adb wait-for-device; adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'; adb shell wm dismiss-keyguard
+          mkdir -p ./artifacts
+          yarn test:android-release --record-videos all
+
+      - name: Test
+        timeout-minutes: 15
+        run: |
+          yarn test:android-release --record-videos all
+
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: e2e-test-videos
+          path: artifacts
 
   deploy-ios:
-    needs: setup-and-tests
+    needs: e2e-ios
     runs-on: macos-latest
     if: "github.ref == 'refs/heads/master'"
 
     steps:
-    - name: Checkout project
-      uses: actions/checkout@v2
+      - name: Checkout project
+        uses: actions/checkout@v2
 
-    - name: Specify node version
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12
+      - name: Specify node version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
 
-    - name: Caching
-      uses: actions/cache@v2
-      with:
-        path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Caching
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-    - name: Caching cocoa pods
-      uses: actions/cache@v2
-      with:
-        path: ios/Pods
-        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-pods-
+      - name: Caching cocoa pods
+        uses: actions/cache@v2
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
 
-    - name: Install deps
-      run: |
-        yarn --frozen-lockfile
+      - name: Install deps
+        run: |
+          yarn --frozen-lockfile
 
-    - name: Post Install
-      env:
-        GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
-      run: |
-        sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
-        sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
+      - name: Cocoapod install
+        run: |
+          npx pod-install ios
 
-    - name: Fastlane setup
-      run: |
-        cd ios; bundle install
+      - name: Post Install
+        env:
+          GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
+        run: |
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
 
-    - name: Deploy iOS & Upload to TestFlight
-      working-directory: ios
-      env:
-        MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
-        MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
-        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
-        FASTLANE_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        PAT: ${{ secrets.PAT }}
-      run: |
-        npx pod-install
-        bundle exec fastlane ios beta_ci
+      - name: Fastlane setup
+        run: |
+          cd ios; bundle install
 
-  # deploy-android:
-  #   needs: setup-and-tests
-  #   runs-on: macos-latest
-  #   if: "github.ref == 'refs/heads/master'"
+      - name: Deploy iOS & Upload to TestFlight
+        working-directory: ios
+        env:
+          MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
+          MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+          FASTLANE_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          PAT: ${{ secrets.PAT }}
+        run: |
+          bundle exec fastlane ios beta_ci
 
-  #   steps:
-  #   - name: Checkout project
-  #     uses: actions/checkout@v2
+  deploy-android:
+    needs: e2e-android
+    runs-on: macos-latest
+    if: "github.ref == 'refs/heads/master'"
 
-  #   - name: Specify node version
-  #     uses: actions/setup-node@v1
-  #     with:
-  #       node-version: 12
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
 
-  #   - name: Caching
-  #     uses: actions/cache@v2
-  #     with:
-  #       path: '**/node_modules'
-  #       key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Specify node version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
 
-  #   - name: Cache local Maven repository
-  #     uses: actions/cache@v2
-  #     with:
-  #       path: ~/.m2/repository
-  #       key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-  #       restore-keys: |
-  #         ${{ runner.os }}-maven-
+      - name: Caching
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-  #   - name: Cache gradle
-  #     uses: actions/cache@v2
-  #     with:
-  #       path: |
-  #         ~/.gradle/caches
-  #         ~/.gradle/wrapper
-  #       key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-  #       restore-keys: |
-  #         ${{ runner.os }}-gradle-
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-  #   - name: Install deps
-  #     run: |
-  #       yarn --frozen-lockfile
+      - name: Cache gradle
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-  #   - name: Post Install
-  #     env:
-  #       GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
-  #     run: |
-  #       sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
-  #       sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
+      - name: Install deps
+        run: |
+          yarn --frozen-lockfile
 
-  #   - name: Fastlane setup
-  #     run: |
-  #       cd android; bundle install
+      - name: Post Install
+        env:
+          GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
+        run: |
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
 
-  #   - name: Deploy Android Bundle & Upload to Internal Test Track
-  #     working-directory: android
-  #     env:
-  #       KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-  #       AT: ${{ secrets.ANDROID_TOKEN }}
-  #       ANDROID_KEYSTORE_PROPERTIES: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
-  #     run: |
-  #       echo "$KEYSTORE" | base64 -d > ./release.keystore
-  #       echo "$AT" | base64 -d > ./play.json
-  #       echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > ./keystore.properties
-  #       bundle exec fastlane android internal
+      - name: Fastlane setup
+        run: |
+          cd android; bundle install
 
-    # - name: Deploy iOS & Upload to TestFlight
-    #   if: ""
-    #   working-directory: ios
-    #   env:
-    #     MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
-    #     MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
-    #     MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-    #     FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
-    #     FASTLANE_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-    #     PAT: ${{ secrets.PAT }}
-    #   run: |
-    #     bundle exec fastlane ios beta_ci
-
-  # deploy-ios:
-  #   needs: setup
-
-  #   - name: Lint
-  #     run: |
-  #       yarn lint
-
-  #   - name: Unit Tests
-  #     run: |
-  #       yarn test
-
-
-  #   - name: Fastlane setup
-  #     run: |
-  #       cd ios; bundle install; cd -
-  #       cd android; bundle install
-
-  #   - name: Detox setup
-  #     run: |
-  #       brew tap wix/brew
-  #       brew install applesimutils
-
-  # deploy-ios:
-  #   ...
-
-
-  #   - name: Deploy iOS & Upload to TestFlight
-  #     if: ""
-  #     working-directory: ios
-  #     env:
-  #       MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
-  #       MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
-  #       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-  #       FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
-  #       FASTLANE_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-  #       PAT: ${{ secrets.PAT }}
-  #     run: |
-  #       bundle exec fastlane ios beta_ci
-
-
-  # emu-android:
-
-  #   - name: Use specific Java version for sdkmanager to work
-  #     uses: joschi/setup-jdk@v1
-  #     with:
-  #       java-version: 'openjdk8'
-  #       architecture: 'x64'
-
-  #   - name: Download Android Emulator Image
-  #     run: |
-  #       echo y | sudo $ANDROID_HOME/tools/bin/sdkmanager "system-images;android-29;google_apis;x86" > /dev/null
-  #       $ANDROID_HOME/tools/bin/avdmanager -s create avd -n emu -k "system-images;android-29;google_apis;x86" -b "x86" -c 512M -d "Nexus S" -f
-
-  # deploy-android:
-  #   ...
-
-  #   - name: Deploy Android Bundle & Upload to Internal Test Track
-  #     working-directory: android
-  #     env:
-  #       ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-  #       AT: ${{ secrets.ANDROID_TOKEN }}
-  #       ANDROID_KEYSTORE_PROPERTIES: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
-  #     run: |
-  #       echo "$KEYSTORE" | base64 -d > ./release.keystore
-  #       echo "$AT" | base64 -d > ./play.json
-  #       echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > ./keystore.properties
-  #       bundle exec fastlane android internal
-  #       rm -f ~/play_api_key_rn_spaceviewer.json
-  #       rm -f app/release.keystore
+      - name: Deploy Android Bundle & Upload to Internal Test Track
+        working-directory: android
+        env:
+          KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+          AT: ${{ secrets.ANDROID_TOKEN }}
+          ANDROID_KEYSTORE_PROPERTIES: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
+        run: |
+          echo "$KEYSTORE" | base64 -d > ./release.keystore
+          echo "$AT" | base64 -d > ./play.json
+          echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > ./keystore.properties
+          bundle exec fastlane android internal

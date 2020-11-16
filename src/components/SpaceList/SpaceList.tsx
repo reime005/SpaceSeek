@@ -18,7 +18,8 @@ export const SpaceList = (props: Props) => {
       onEndReachedThreshold={0.5}
       // scrollEventThrottle={16}
       onEndReached={props.onEndReached}
-      contentContainerStyle={{ paddingTop: 16, width: '100%' }}
+      style={{ flex: 1, width: '100%' }}
+      contentContainerStyle={{ paddingTop: 16 }}
       data={props.data}
       numColumns={dw > 700 ? 2 : 1}
       showsVerticalScrollIndicator={false}

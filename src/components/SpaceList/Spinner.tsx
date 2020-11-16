@@ -54,23 +54,6 @@ export const Spinner = (props: Props) => {
     third: useSharedValue(initials.third),
   };
 
-  const animateForth = () => {
-    y.first.value = delay(
-      delaysMS.first,
-      withSpring(finals.first, springConfig),
-    );
-
-    y.second.value = delay(
-      delaysMS.second,
-      withSpring(finals.second, springConfig),
-    );
-
-    y.third.value = delay(
-      delaysMS.third,
-      withSpring(finals.third, springConfig, animateBack),
-    );
-  };
-
   const animateBack = () => {
     y.first.value = delay(
       delaysMS.first,
@@ -85,6 +68,23 @@ export const Spinner = (props: Props) => {
     y.third.value = delay(
       delaysMS.third,
       withSpring(initials.third, springConfig, animateForth),
+    );
+  };
+
+  const animateForth = () => {
+    y.first.value = delay(
+      delaysMS.first,
+      withSpring(finals.first, springConfig),
+    );
+
+    y.second.value = delay(
+      delaysMS.second,
+      withSpring(finals.second, springConfig),
+    );
+
+    y.third.value = delay(
+      delaysMS.third,
+      withSpring(finals.third, springConfig, animateBack),
     );
   };
 
@@ -106,9 +106,12 @@ export const Spinner = (props: Props) => {
     };
   });
 
-  React.useEffect(() => {
-    animateForth();
-  });
+  React.useEffect(
+    () => {
+      animateForth();
+    } /* eslint-disable */,
+    [],
+  );
 
   return (
     <Svg height={24} width={100} {...props} viewBox="0 0 100 75">
