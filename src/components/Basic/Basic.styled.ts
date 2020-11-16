@@ -62,12 +62,6 @@ export const BasePage = styled(ReactNative.Animated.View)`
   background-color: ${({ theme }) => theme.backgroundColor};
 `;
 
-export const BasePageSafeAreaView = styled.SafeAreaView`
-  flex: 1;
-  padding: 16px;
-  background-color: ${({ theme }) => theme.headerBackgroundColor};
-`;
-
 export const IconWrapper = styled.View`
   padding: 10px;
   border-radius: 8px;

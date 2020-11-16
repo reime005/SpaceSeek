@@ -1,0 +1,315 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BasePage renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flexBasis": 0,
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "width": "100%",
+    }
+  }
+  theme={
+    Object {
+      "backgroundColor": "#fff",
+      "backgroundColorLight": "rgb(250, 250, 250)",
+      "badgeBackgroundColors": Object {
+        "launch": "#dcf0f0",
+        "wiki": "#e4e4e4",
+        "youtube": "#c93a2f",
+      },
+      "badgeFontColors": Object {
+        "launch": "#090909",
+        "wiki": "#4c4c4c",
+        "youtube": "#fefcff",
+      },
+      "failColor": "#990000",
+      "focusedIconColor": "#e96232",
+      "fontColors": Object {
+        "light": "#fff",
+        "primary": "#e96232",
+        "regular": "#090909",
+        "subtle": "#666",
+      },
+      "headerBackgroundColor": "#fff",
+      "listItemBackgroundColor": "rgb(252,252,252)",
+      "mainFont": "#090909",
+      "placeHolderFontColor": "#cccccc",
+      "primaryColor": "#e96232",
+      "searchBackgroundColor": "rgb(252,252,252)",
+      "secondaryColor": "#666",
+      "splashBackgroundColor": "#21202e",
+      "successColor": "#008214",
+      "unFocusedIconColor": "#cccccc",
+    }
+  }
+/>
+`;
+
+exports[`IconWrapper renders correctly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#e96232",
+        "borderRadius": 8,
+        "paddingBottom": 10,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+        "paddingTop": 10,
+      },
+    ]
+  }
+  theme={
+    Object {
+      "backgroundColor": "#fff",
+      "backgroundColorLight": "rgb(250, 250, 250)",
+      "badgeBackgroundColors": Object {
+        "launch": "#dcf0f0",
+        "wiki": "#e4e4e4",
+        "youtube": "#c93a2f",
+      },
+      "badgeFontColors": Object {
+        "launch": "#090909",
+        "wiki": "#4c4c4c",
+        "youtube": "#fefcff",
+      },
+      "failColor": "#990000",
+      "focusedIconColor": "#e96232",
+      "fontColors": Object {
+        "light": "#fff",
+        "primary": "#e96232",
+        "regular": "#090909",
+        "subtle": "#666",
+      },
+      "headerBackgroundColor": "#fff",
+      "listItemBackgroundColor": "rgb(252,252,252)",
+      "mainFont": "#090909",
+      "placeHolderFontColor": "#cccccc",
+      "primaryColor": "#e96232",
+      "searchBackgroundColor": "rgb(252,252,252)",
+      "secondaryColor": "#666",
+      "splashBackgroundColor": "#21202e",
+      "successColor": "#008214",
+      "unFocusedIconColor": "#cccccc",
+    }
+  }
+/>
+`;
+
+exports[`Regular Text renders correctly 1`] = `
+<Text
+  fontColor="regular"
+  fontType="regular"
+  size="m"
+  style={
+    Array [
+      Object {
+        "color": "#fff",
+        "fontFamily": "RobotoCondensed-Regular",
+        "fontSize": 14,
+        "lineHeight": 21,
+      },
+    ]
+  }
+  theme={
+    Object {
+      "backgroundColor": "#0d0d0d",
+      "backgroundColorLight": "#8f8f8f",
+      "badgeBackgroundColors": Object {
+        "launch": "#dcf0f0",
+        "wiki": "#e4e4e4",
+        "youtube": "#c93a2f",
+      },
+      "badgeFontColors": Object {
+        "launch": "#090909",
+        "wiki": "#4c4c4c",
+        "youtube": "#fefcff",
+      },
+      "failColor": "#990000",
+      "focusedIconColor": "#e96232",
+      "fontColors": Object {
+        "light": "#fff",
+        "primary": "#e96232",
+        "regular": "#fff",
+        "subtle": "#fafafa",
+      },
+      "headerBackgroundColor": "#0d0d0d",
+      "listItemBackgroundColor": "#1f1f1f",
+      "mainFont": "#fff",
+      "placeHolderFontColor": "#fff",
+      "primaryColor": "#e96232",
+      "searchBackgroundColor": "#999999",
+      "secondaryColor": "#cacaca",
+      "splashBackgroundColor": "#21202e",
+      "successColor": "#008214",
+      "unFocusedIconColor": "#cccccc",
+    }
+  }
+>
+  TEST
+</Text>
+`;
+
+exports[`StyledBaseScroll renders correctly 1`] = `
+<RCTScrollView
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#fff",
+        "flexBasis": 0,
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "height": "100%",
+        "width": "100%",
+      },
+    ]
+  }
+  theme={
+    Object {
+      "backgroundColor": "#fff",
+      "backgroundColorLight": "rgb(250, 250, 250)",
+      "badgeBackgroundColors": Object {
+        "launch": "#dcf0f0",
+        "wiki": "#e4e4e4",
+        "youtube": "#c93a2f",
+      },
+      "badgeFontColors": Object {
+        "launch": "#090909",
+        "wiki": "#4c4c4c",
+        "youtube": "#fefcff",
+      },
+      "failColor": "#990000",
+      "focusedIconColor": "#e96232",
+      "fontColors": Object {
+        "light": "#fff",
+        "primary": "#e96232",
+        "regular": "#090909",
+        "subtle": "#666",
+      },
+      "headerBackgroundColor": "#fff",
+      "listItemBackgroundColor": "rgb(252,252,252)",
+      "mainFont": "#090909",
+      "placeHolderFontColor": "#cccccc",
+      "primaryColor": "#e96232",
+      "searchBackgroundColor": "rgb(252,252,252)",
+      "secondaryColor": "#666",
+      "splashBackgroundColor": "#21202e",
+      "successColor": "#008214",
+      "unFocusedIconColor": "#cccccc",
+    }
+  }
+>
+  <View />
+</RCTScrollView>
+`;
+
+exports[`SubText renders correctly 1`] = `
+<Text
+  fontColor="subtle"
+  fontType="regular"
+  size="s"
+  style={
+    Array [
+      Object {
+        "color": "#666",
+        "fontFamily": "RobotoCondensed-Regular",
+        "fontSize": 12,
+        "lineHeight": 13,
+      },
+    ]
+  }
+  theme={
+    Object {
+      "backgroundColor": "#fff",
+      "backgroundColorLight": "rgb(250, 250, 250)",
+      "badgeBackgroundColors": Object {
+        "launch": "#dcf0f0",
+        "wiki": "#e4e4e4",
+        "youtube": "#c93a2f",
+      },
+      "badgeFontColors": Object {
+        "launch": "#090909",
+        "wiki": "#4c4c4c",
+        "youtube": "#fefcff",
+      },
+      "failColor": "#990000",
+      "focusedIconColor": "#e96232",
+      "fontColors": Object {
+        "light": "#fff",
+        "primary": "#e96232",
+        "regular": "#090909",
+        "subtle": "#666",
+      },
+      "headerBackgroundColor": "#fff",
+      "listItemBackgroundColor": "rgb(252,252,252)",
+      "mainFont": "#090909",
+      "placeHolderFontColor": "#cccccc",
+      "primaryColor": "#e96232",
+      "searchBackgroundColor": "rgb(252,252,252)",
+      "secondaryColor": "#666",
+      "splashBackgroundColor": "#21202e",
+      "successColor": "#008214",
+      "unFocusedIconColor": "#cccccc",
+    }
+  }
+>
+  TEST
+</Text>
+`;
+
+exports[`Title renders correctly 1`] = `
+<Text
+  fontColor="regular"
+  fontType="bold"
+  size="l"
+  style={
+    Array [
+      Object {
+        "color": "#090909",
+        "fontFamily": "RobotoCondensed-Bold",
+        "fontSize": 16,
+        "lineHeight": 24,
+      },
+    ]
+  }
+  theme={
+    Object {
+      "backgroundColor": "#fff",
+      "backgroundColorLight": "rgb(250, 250, 250)",
+      "badgeBackgroundColors": Object {
+        "launch": "#dcf0f0",
+        "wiki": "#e4e4e4",
+        "youtube": "#c93a2f",
+      },
+      "badgeFontColors": Object {
+        "launch": "#090909",
+        "wiki": "#4c4c4c",
+        "youtube": "#fefcff",
+      },
+      "failColor": "#990000",
+      "focusedIconColor": "#e96232",
+      "fontColors": Object {
+        "light": "#fff",
+        "primary": "#e96232",
+        "regular": "#090909",
+        "subtle": "#666",
+      },
+      "headerBackgroundColor": "#fff",
+      "listItemBackgroundColor": "rgb(252,252,252)",
+      "mainFont": "#090909",
+      "placeHolderFontColor": "#cccccc",
+      "primaryColor": "#e96232",
+      "searchBackgroundColor": "rgb(252,252,252)",
+      "secondaryColor": "#666",
+      "splashBackgroundColor": "#21202e",
+      "successColor": "#008214",
+      "unFocusedIconColor": "#cccccc",
+    }
+  }
+>
+  TEST
+</Text>
+`;
