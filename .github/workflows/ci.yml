@@ -26,7 +26,7 @@ jobs:
         env:
           GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
         run: |
-          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_NUMBER}/'' .env
           sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
 
       - name: Install deps
@@ -80,7 +80,7 @@ jobs:
         env:
           GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
         run: |
-          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_NUMBER}/'' .env
           sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
 
       - name: Detox setup
@@ -143,7 +143,7 @@ jobs:
         env:
           GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
         run: |
-          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_NUMBER}/'' .env
           sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
           mkdir -p ./artifacts
 
@@ -228,7 +228,7 @@ jobs:
         env:
           GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
         run: |
-          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_NUMBER}/'' .env
           sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
 
       - name: Fastlane setup
@@ -293,7 +293,7 @@ jobs:
         env:
           GOOGLE_MAPS_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_KEY_ANDROID }}
         run: |
-          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_ID}/'' .env
+          sed -i.bak ''s/REPLACE_BUILD_NUMBER/${GITHUB_RUN_NUMBER}/'' .env
           sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
 
       - name: Fastlane setup

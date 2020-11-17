@@ -14,6 +14,7 @@ This includes rocket launches from SpaceX, NASA, ROSCOSMOS, ISRO, ULA and many m
 
 - 🚀 API via [The Space Devs](https://thespacedevs.com)
 - ⚙️ Built with [Typescript](https://www.typescriptlang.org/)
+- 🚦 Automatic deployment via [Fastlane](https://fastlane.tools)
 - ⚡ More comprehensive animations via [react-native-reanimated](https://github.com/software-mansion/react-native-reanimated)
 - 🎨 Theming and component styling via [styled-components](https://styled-components.com/)
 - 🖼️ SVG support via [react-native-svg](https://github.com/react-native-svg/react-native-svg)
