@@ -314,7 +314,7 @@ jobs:
         run: |
           cd android; bundle install
 
-      - name: Deploy Android Bundle & Upload to Alpha Test Track
+      - name: Deploy Android Bundle & Upload to Beta Test Track
         working-directory: android
         env:
           KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
@@ -324,4 +324,4 @@ jobs:
           echo "$KEYSTORE" | base64 -d > ./release.keystore
           echo "$AT" | base64 -d > ./play.json
           echo "$ANDROID_KEYSTORE_PROPERTIES" | base64 -d > ./keystore.properties
-          bundle exec fastlane android alpha
+          bundle exec fastlane android beta
