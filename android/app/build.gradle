@@ -145,7 +145,7 @@ android {
         versionName project.env.get("APP_VERSION_NAME")
 
         ndk {
-            abiFilters 'armeabi-v7a', 'x86', 'x86_64'
+            abiFilters 'armeabi-v7a', 'x86', 'x86_64', 'arm64-v8a'
         }
 
         // react-native-config

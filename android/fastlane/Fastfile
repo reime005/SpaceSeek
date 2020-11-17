@@ -10,8 +10,8 @@ platform :android do
     gradle(task: "assembleRelease assembleAndroidTest -DtestBuildType=release")
   end
 
-  desc "Deploys a new Internal Build to Play Store"
-  lane :internal do
+  desc "Deploys a new Alpha Build to Play Store"
+  lane :alpha do
     gradle(task: "bundleRelease")
 
     supply(
@@ -21,7 +21,7 @@ platform :android do
       skip_upload_images: true,
       skip_upload_apk: true,
       aab: "app/build/outputs/bundle/release/app-release.aab",
-      track: "internal"
+      track: "alpha"
     )
   end
 end
