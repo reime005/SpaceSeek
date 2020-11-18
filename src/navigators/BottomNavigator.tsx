@@ -27,12 +27,12 @@ export const BottomNavigator = () => {
           flexDirection: 'column',
           justifyContent: 'flex-start',
           paddingTop: 0,
-          paddingBottom: 8 + (initialWindowMetrics?.insets.bottom || 0),
+          paddingBottom: 24,
           backgroundColor: theme.headerBackgroundColor,
         },
         style: {
           backgroundColor: theme.headerBackgroundColor,
-          height: 70 + (initialWindowMetrics?.insets.bottom || 0),
+          height: 75 + (initialWindowMetrics?.insets.bottom || 0),
         },
       }}
       initialRouteName={bottomRoutes.launches}>

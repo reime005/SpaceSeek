@@ -10,7 +10,11 @@ import { RocketIcon } from '../SVG/RocketIcon';
 
 export const SpaceListItem = (item: LaunchSerializerCommon) => {
   const nav = useNavigation();
-  const { listItemBackgroundColor } = useTheme();
+  const {
+    listItemBackgroundColor,
+    searchBackgroundColor,
+    fontColors,
+  } = useTheme();
 
   return (
     <TouchableOpacity
@@ -26,8 +30,8 @@ export const SpaceListItem = (item: LaunchSerializerCommon) => {
       />
 
       <View style={styles.textWrapper}>
-        <View style={styles.icon}>
-          <RocketIcon width={18} height={18} />
+        <View style={[styles.icon, { backgroundColor: searchBackgroundColor }]}>
+          <RocketIcon width={18} height={18} fill={fontColors.regular} />
         </View>
 
         <Title style={styles.title} size="l" numberOfLines={1}>
