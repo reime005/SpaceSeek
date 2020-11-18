@@ -9,7 +9,7 @@ import { bottomRoutes } from './routes';
 import { NavBarIcon } from '../components/NavBarIcon/NavBarIcon';
 import { LaunchStackNavigator } from './LaunchStackNavigator';
 import { NavBarLabel } from '../components/NavBarLabel/NavBarLabel';
-import { initialWindowMetrics } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { useTheme } from 'styled-components';
 
@@ -17,6 +17,7 @@ const Tab = createBottomTabNavigator();
 
 export const BottomNavigator = () => {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
 
   return (
     <Tab.Navigator
@@ -25,14 +26,14 @@ export const BottomNavigator = () => {
         ...tabBarOptions,
         tabStyle: {
           flexDirection: 'column',
-          justifyContent: 'flex-start',
-          paddingTop: 0,
-          paddingBottom: 24,
+          justifyContent: 'flex-end',
           backgroundColor: theme.headerBackgroundColor,
         },
         style: {
           backgroundColor: theme.headerBackgroundColor,
-          height: 75 + (initialWindowMetrics?.insets.bottom || 0),
+          height: 70 + insets.bottom,
+          paddingTop: 6,
+          paddingBottom: 8 + insets.bottom,
         },
       }}
       initialRouteName={bottomRoutes.launches}>
