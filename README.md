@@ -2,7 +2,7 @@
 
 ![CI status](https://github.com/reime005/spaceseek/workflows/CI/badge.svg)
 
-!Work in Progress!
+![app-preview](./preview.png)
 
 This is a rewrite of ['Space Viewer - Rocket Infos'](https://github.com/reime005/react-native-spaceviewer).
 
