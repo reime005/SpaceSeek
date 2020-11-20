@@ -1,6 +1,6 @@
 import React from 'react';
 import { Title } from '../Basic/Basic';
-import { Spinner } from '../SpaceList/Spinner';
+import { SecondSpinner } from '../SpaceList/SecondSpinner';
 import { RocketIcon } from '../SVG/RocketIcon';
 import * as S from './SplashScreen.styled';
 
@@ -13,7 +13,7 @@ export const SplashScreen = () => {
         Space Seek
       </Title>
 
-      <Spinner
+      <SecondSpinner
         style={{ marginLeft: 24 }}
         fill="white"
         width={250}

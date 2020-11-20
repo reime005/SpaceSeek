@@ -12,7 +12,7 @@ import { useStore } from '../hooks/useStore';
 import { LaunchSerializerCommon, LaunchService } from '../service/service';
 import { StyledSearchItemSeparator } from '../components/SearchBar/Search.styled';
 import { RecentSearchItem } from '../components/SearchBar/RecentSearchItem';
-import { Spinner } from '../components/SpaceList/Spinner';
+import { SecondSpinner } from '../components/SpaceList/SecondSpinner';
 
 export const LaunchScreen = () => {
   const { searchVisible } = useStore();
@@ -67,7 +67,7 @@ const CategoryWrapper = () => {
   if (error) {
     return <ErrorText />;
   } else if (!data?.length) {
-    return <Spinner />;
+    return <SecondSpinner />;
   }
 
   return <SpaceList data={data} onEndReached={() => setLimit(limit + 15)} />;

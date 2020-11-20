@@ -17,8 +17,8 @@ import { useTranslation } from 'react-i18next';
 import { useStore } from '../../hooks/useStore';
 import { RecentSearchItem } from './RecentSearchItem';
 import { SearchItem } from './SearchItem';
-import { Spinner } from '../SpaceList/Spinner';
 import { useTheme } from 'styled-components';
+import { SecondSpinner } from '../SpaceList/SecondSpinner';
 
 const { height: dh } = RN.Dimensions.get('screen');
 
@@ -162,7 +162,7 @@ export const Search = (props: Props) => {
 
           <RN.View
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            {loading && <Spinner />}
+            {loading && <SecondSpinner />}
             {error && <Title>{t('errorText')}</Title>}
           </RN.View>
         </RN.View>
