@@ -144,6 +144,8 @@ const Separator = () => {
 type Label = 'Days' | 'Hours' | 'Minutes' | 'Seconds';
 
 const Numbers = ({ n, label }: { n: number; label: Label }) => {
+  const { mainFont } = useTheme();
+
   const y = useSharedValue(0);
 
   let nStr = String(n);
@@ -182,7 +184,12 @@ const Numbers = ({ n, label }: { n: number; label: Label }) => {
       <S.StyledTimerWrapper>
         <Animated.Text
           style={[
-            { fontSize: 42, lineHeight: 0, fontFamily: 'RobotoCondensed-Bold' },
+            {
+              fontSize: 38,
+              lineHeight: 38,
+              fontFamily: 'RobotoCondensed-Bold',
+              color: mainFont,
+            },
             st,
           ]}>
           {nStr}
