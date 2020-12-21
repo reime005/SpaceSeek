@@ -1,7 +1,7 @@
 import React from 'react';
 import * as RN from 'react-native';
 import Animated, {
-  delay,
+  withDelay,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -157,7 +157,7 @@ const Numbers = ({ n, label }: { n: number; label: Label }) => {
   React.useEffect(
     () => {
       if (label === 'Seconds' && n === 0) {
-        y.value = delay(
+        y.value = withDelay(
           700,
           withTiming(500, { duration: 300 }, () => {
             y.value = -500;
