@@ -253,9 +253,9 @@ PODS:
     - React
   - react-native-maps (0.27.1):
     - React
-  - react-native-restart (0.0.17):
-    - React
-  - react-native-safe-area-context (3.1.8):
+  - react-native-restart (0.0.20):
+    - React-Core
+  - react-native-safe-area-context (3.1.9):
     - React-Core
   - React-RCTActionSheet (0.63.3):
     - React-Core/RCTActionSheetHeaders (= 0.63.3)
@@ -321,13 +321,13 @@ PODS:
     - React
   - RNCMaskedView (0.1.10):
     - React
-  - RNFastImage (8.3.2):
-    - React
+  - RNFastImage (8.3.4):
+    - React-Core
     - SDWebImage (~> 5.8)
     - SDWebImageWebPCoder (~> 0.6.1)
-  - RNGestureHandler (1.8.0):
-    - React
-  - RNReanimated (2.0.0-alpha.7):
+  - RNGestureHandler (1.9.0):
+    - React-Core
+  - RNReanimated (2.0.0-rc.1):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -356,8 +356,8 @@ PODS:
     - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (2.11.0):
-    - React
+  - RNScreens (2.16.1):
+    - React-Core
   - RNSVG (12.1.0):
     - React
   - SDWebImage (5.9.2):
@@ -558,8 +558,8 @@ SPEC CHECKSUMS:
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-config: 9a061347e0136fdb32d43a34d60999297d672361
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
-  react-native-restart: d19a0f8d053d065fe64cd2baebb6487111c77149
-  react-native-safe-area-context: 79fea126c6830c85f65947c223a5e3058a666937
+  react-native-restart: a01029aadfe8e71f9e8205fdb17da2f0a4472d50
+  react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   React-RCTActionSheet: 53ea72699698b0b47a6421cb1c8b4ab215a774aa
   React-RCTAnimation: 1befece0b5183c22ae01b966f5583f42e69a83c2
   React-RCTBlob: 0b284339cbe4b15705a05e2313a51c6d8b51fa40
@@ -572,10 +572,10 @@ SPEC CHECKSUMS:
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
   RNCAsyncStorage: 90b0a28b3f466894a397687a087bbb6d6852c8d6
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
-  RNFastImage: e19ba191922e7dab9d932a4d59d62d76660aa222
-  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
-  RNReanimated: c40c29429b22a1564e505b789132cfcef456c6bd
-  RNScreens: 0e91da98ab26d5d04c7b59a9b6bd694124caf88c
+  RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
+  RNGestureHandler: 9b7e605a741412e20e13c512738a31bd1611759b
+  RNReanimated: b2d6785c8fc1f61e1c81179c64c9b6b1a00e6ab5
+  RNScreens: 45c457af3d2ee9e08fc01e70da87e653d46b1198
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   SDWebImage: 0b42b8719ab0c5257177d5894306e8a336b21cbb
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
@@ -584,4 +584,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 105db5835e753635df7ebce09ed7fe175c213f07
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.8.4
