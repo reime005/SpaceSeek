@@ -248,8 +248,9 @@ jobs:
           sed -i.bak ''s/REPLACE_MAPS_KEY/${GOOGLE_MAPS_KEY_ANDROID}/'' .env
 
       - name: Fastlane setup
+        working-directory: ios
         run: |
-          cd ios; bundle install
+          bundle install
 
       - name: Deploy iOS & Upload to TestFlight
         working-directory: ios
