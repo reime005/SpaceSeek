@@ -62,7 +62,7 @@ export const LaunchContent = (content: LaunchDetailed) => {
             {
               translateY: pan.y.interpolate({
                 inputRange: [-1000, 0],
-                outputRange: [LABEL_HEADER_MARGIN * IMAGE_SCALE_MAX, 0],
+                outputRange: [LABEL_HEADER_MARGIN * IMAGE_SCALE_MAX, -80],
                 extrapolate: 'clamp',
               }),
             },
@@ -70,7 +70,7 @@ export const LaunchContent = (content: LaunchDetailed) => {
         }}>
         <Title
           numberOfLines={2}
-          style={[styles.textShadow, { transform: [{ translateY: -48 }] }]}
+          style={[styles.textShadow, { minHeight: 96 }]}
           size="xxl"
           fontColor="light">
           {content.name ?? ''}

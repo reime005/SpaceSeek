@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from 'react';
 import * as RN from 'react-native';
 import Animated, {
-  withDelay,
+  delay,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -154,20 +156,17 @@ const Numbers = ({ n, label }: { n: number; label: Label }) => {
     nStr = '0' + nStr;
   }
 
-  React.useEffect(
-    () => {
-      if (label === 'Seconds' && n === 0) {
-        y.value = withDelay(
-          700,
-          withTiming(500, { duration: 300 }, () => {
-            y.value = -500;
-            y.value = withTiming(0, { duration: 300 });
-          }),
-        );
-      }
-    } /* eslint-disable */,
-    [n],
-  );
+  React.useEffect(() => {
+    if (label === 'Seconds' && n === 0) {
+      y.value = delay(
+        700,
+        withTiming(500, { duration: 300 }, () => {
+          y.value = -500;
+          y.value = withTiming(0, { duration: 300 });
+        }),
+      );
+    }
+  }, [n]);
 
   const st = useAnimatedStyle(() => {
     return {
