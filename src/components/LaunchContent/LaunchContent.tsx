@@ -4,28 +4,90 @@ import { useTranslation } from 'react-i18next';
 
 import { LaunchDetailed } from '../../service/service';
 import { BadgeWrapper } from '../Badges/BadgeWrapper';
-import { BaseScroll } from '../Basic/Basic';
+import { BaseScroll, Title } from '../Basic/Basic';
 import * as S from './LaunchContent.styled';
 import * as T from './LaunchContentText';
 import { PadMapImage } from './PadMapImage';
 import { VideoContentItem } from './VideoContentItem';
 import { useLaunchPad } from '../../hooks/useLaunchPad';
 import { LaunchStatus } from './LaunchStatus';
+import { ImageLoadingWrapper } from '../Basic/ImageLoadingWrapper';
+
+const IMAGE_SCALE_MAX = 20;
+const LABEL_HEADER_MARGIN = 48;
 
 export const LaunchContent = (content: LaunchDetailed) => {
+  const pan = React.useRef(new RN.Animated.ValueXY()).current;
+
   return (
-    <BaseScroll>
-      <LaunchStatus {...content} />
+    <BaseScroll
+      contentContainerStyle={{ padding: 0 }}
+      onScroll={RN.Animated.event(
+        [{ nativeEvent: { contentOffset: { y: pan.y } } }],
+        {
+          useNativeDriver: false,
+        },
+      )}
+      alwaysBounceVertical={false}
+      contentInsetAdjustmentBehavior="never"
+      scrollEventThrottle={1}>
+      <ImageLoadingWrapper
+        animStyle={{
+          transform: [
+            {
+              translateY: pan.y.interpolate({
+                inputRange: [-1000, 0],
+                outputRange: [-100, 0],
+                extrapolate: 'clamp',
+              }),
+            },
+            {
+              scale: pan.y.interpolate({
+                inputRange: [-3000, 0],
+                outputRange: [IMAGE_SCALE_MAX, 1],
+                extrapolate: 'clamp',
+              }),
+            },
+          ],
+        }}
+        source={{ uri: content.image, priority: 'high' }}
+        style={styles.img}
+        resizeMode="cover"
+      />
 
-      <RocketContent {...content} />
+      <RN.Animated.View
+        style={{
+          paddingHorizontal: 16,
+          transform: [
+            {
+              translateY: pan.y.interpolate({
+                inputRange: [-1000, 0],
+                outputRange: [LABEL_HEADER_MARGIN * IMAGE_SCALE_MAX, 0],
+                extrapolate: 'clamp',
+              }),
+            },
+          ],
+        }}>
+        <Title
+          numberOfLines={2}
+          style={[styles.textShadow, { transform: [{ translateY: -48 }] }]}
+          size="xxl"
+          fontColor="light">
+          {content.name ?? ''}
+        </Title>
 
-      <LaunchServiceProviderContent {...content} />
+        <LaunchStatus {...content} />
 
-      <MissionContent {...content} />
+        <RocketContent {...content} />
 
-      <PadContent {...content} />
+        <LaunchServiceProviderContent {...content} />
 
-      <VideoContent {...content} />
+        <MissionContent {...content} />
+
+        <PadContent {...content} />
+
+        <VideoContent {...content} />
+      </RN.Animated.View>
     </BaseScroll>
   );
 };
@@ -153,3 +215,18 @@ export const PadContent = (content: LaunchDetailed) => {
     </S.ContentSection>
   );
 };
+
+const styles = RN.StyleSheet.create({
+  img: {
+    backgroundColor: '#ccc',
+    width: '100%',
+    height: 350,
+    justifyContent: 'flex-end',
+    padding: 0,
+  },
+  textShadow: {
+    textShadowColor: 'rgba(0,0,0,0.8)',
+    textShadowRadius: 2,
+    textShadowOffset: { width: 1, height: 1 },
+  },
+});

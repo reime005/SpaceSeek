@@ -6,7 +6,6 @@ import { ActivityIndicator } from 'react-native';
 import { Title } from '../components/Basic/Basic';
 import { LaunchDetailed, LaunchService } from '../service/service';
 import { BlurView } from '@react-native-community/blur';
-import { ImageLoadingWrapper } from '../components/Basic/ImageLoadingWrapper';
 import { LaunchContent } from '../components/LaunchContent/LaunchContent';
 import { ThemedStatusBar } from '../components/ThemedStatusBar/ThemedStatusBar';
 
@@ -65,19 +64,6 @@ export const LaunchDetailsScreen = (props: DetailsScreenProps) => {
   return (
     <>
       <ThemedStatusBar barStyle="dark-content" />
-
-      <ImageLoadingWrapper
-        source={{ uri: data?.image, priority: 'high' }}
-        style={styles.img}
-        resizeMode="cover">
-        <Title
-          numberOfLines={2}
-          style={styles.textShadow}
-          size="xxl"
-          fontColor="light">
-          {data?.name ?? ''}
-        </Title>
-      </ImageLoadingWrapper>
 
       {!data && error && <Title>{t('errorText')}</Title>}
       {!data || error ? <ActivityIndicator /> : <LaunchContent {...data} />}
