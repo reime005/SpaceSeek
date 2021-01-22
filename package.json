@@ -1,7 +1,7 @@
 {
   "name": "SpaceSeek",
-  "version": "0.0.1",
-  "description": "WIP",
+  "version": "1.2.0",
+  "description": "See and search upcoming and previous rocket space launches! Built with React Native, using Detox E2E tests, Fastlane and Github Actions for app store deployment.",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
