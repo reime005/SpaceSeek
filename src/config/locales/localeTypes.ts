@@ -19,7 +19,7 @@ export interface Translation {
   };
 }
 
-export type MenuItem = 'aboutMe' | 'spaceAPI' | 'help' | 'theme';
+export type MenuItem = 'aboutMe' | 'spaceAPI' | 'help' | 'theme' | 'review';
 
 export type Category = 'launchUpcomingList' | 'launchPreviousList';
 

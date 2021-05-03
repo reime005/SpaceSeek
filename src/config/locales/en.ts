@@ -21,6 +21,7 @@ const translation: Translation = {
       help: 'Help',
       spaceAPI: 'Space API',
       theme: 'Dark Mode',
+      review: 'Review the App',
     },
     category: {
       launchPreviousList: 'Previous',

@@ -30,7 +30,7 @@ const settingsData: {
         <MailIcon scale={0.8} />
       </IconWrapper>
     ),
-    data: ['help'],
+    data: ['help', 'review'],
   },
 ];
 

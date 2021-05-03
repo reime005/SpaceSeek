@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import * as RN from 'react-native';
+import InAppReview from 'react-native-in-app-review';
 
 import { config } from '../../config/config';
 import { MenuItem } from '../../config/locales/localeTypes';
@@ -54,6 +55,22 @@ const actionForMenuItem = (item: MenuItem) => {
     }
     case 'spaceAPI': {
       RN.Linking.openURL(config.spaceAPIURL);
+    }
+    case 'review': {
+      const isReviewAvailable = InAppReview.isAvailable();
+
+      console.log('inappreview is available?', isReviewAvailable);
+
+      InAppReview.RequestInAppReview()
+        .then((hasFlowFinishedSuccessfully) => {
+          console.log(
+            'inappreview launch finished successfully?',
+            hasFlowFinishedSuccessfully,
+          );
+        })
+        .catch((error) => {
+          console.warn('inappreview fail', error);
+        });
     }
   }
 };
