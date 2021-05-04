@@ -21,7 +21,7 @@ platform :android do
       skip_upload_images: true,
       skip_upload_apk: true,
       aab: "app/build/outputs/bundle/release/app-release.aab",
-      track: "beta"
+      track: "internal"
     )
   end
 end
