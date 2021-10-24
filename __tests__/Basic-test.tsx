@@ -45,22 +45,18 @@ it('SubText renders correctly', async () => {
 });
 
 it('BasePage renders correctly', async () => {
-  const tree = renderer
-    .create(<BasePage theme={lightTheme}></BasePage>)
-    .toJSON();
+  const tree = renderer.create(<BasePage theme={lightTheme} />).toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it('StyledBaseScroll renders correctly', async () => {
   const tree = renderer
-    .create(<StyledBaseScroll theme={lightTheme}></StyledBaseScroll>)
+    .create(<StyledBaseScroll theme={lightTheme} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 it('IconWrapper renders correctly', async () => {
-  const tree = renderer
-    .create(<IconWrapper theme={lightTheme}></IconWrapper>)
-    .toJSON();
+  const tree = renderer.create(<IconWrapper theme={lightTheme} />).toJSON();
   expect(tree).toMatchSnapshot();
 });

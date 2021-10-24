@@ -46,5 +46,17 @@ module.exports = {
         pathBuilder: './e2e/detox.pathbuilder.android.js',
       },
     },
+    'android.emu.debug': {
+      type: 'android.emulator',
+      build:
+        'cd android ; ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug ; cd -',
+      binaryPath: './android/app/build/outputs/apk/release/app-debug.apk',
+      device: {
+        avdName: 'emu',
+      },
+      artifacts: {
+        pathBuilder: './e2e/detox.pathbuilder.android.js',
+      },
+    },
   },
 };
