@@ -55,6 +55,8 @@ module.exports = {
     },
     'android.emu.release': {
       device: 'emulator',
+      build:
+        'cd android ; ./gradlew clean assembleRelease assembleAndroidTest -DtestBuildType=release ; cd -',
       app: 'android.release',
       artifacts: {
         pathBuilder: './e2e/detox.pathbuilder.android.js',
