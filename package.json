@@ -20,7 +20,7 @@
     "test:ios-release-ci": "detox test --configuration ios.sim.release -l verbose --workers 2"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.13.1",
+    "@react-native-async-storage/async-storage": "^1.15.9",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.10.0",
