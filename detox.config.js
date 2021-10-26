@@ -7,6 +7,25 @@ module.exports = {
       exposeGlobals: true,
     },
   },
+  apps: {
+    'android.debug': {
+      type: 'android.apk',
+      binaryPath: './android/app/build/outputs/apk/debug/app-debug.apk',
+    },
+    'android.release': {
+      type: 'android.apk',
+      binaryPath: './android/app/build/outputs/apk/release/app-release.apk',
+    },
+  },
+  devices: {
+    emulator: {
+      type: 'android.emulator',
+      device: {
+        avdName: 'emu',
+      },
+      utilBinaryPaths: ['./cache/test-butler-app.apk'],
+    },
+  },
   configurations: {
     'ios.sim.release': {
       type: 'ios.simulator',
@@ -35,25 +54,15 @@ module.exports = {
       },
     },
     'android.emu.release': {
-      type: 'android.emulator',
-      build:
-        'cd android ; ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release ; cd -',
-      binaryPath: './android/app/build/outputs/apk/release/app-release.apk',
-      device: {
-        avdName: 'emu',
-      },
+      device: 'emulator',
+      app: 'android.release',
       artifacts: {
         pathBuilder: './e2e/detox.pathbuilder.android.js',
       },
     },
     'android.emu.debug': {
-      type: 'android.emulator',
-      build:
-        'cd android ; ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug ; cd -',
-      binaryPath: './android/app/build/outputs/apk/release/app-debug.apk',
-      device: {
-        avdName: 'emu',
-      },
+      device: 'emulator',
+      app: 'android.debug',
       artifacts: {
         pathBuilder: './e2e/detox.pathbuilder.android.js',
       },
