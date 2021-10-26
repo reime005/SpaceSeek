@@ -127,11 +127,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     dexOptions {
         javaMaxHeapSize "4g"
@@ -150,7 +146,7 @@ android {
         multiDexEnabled true
 
         testBuildType System.getProperty('testBuildType', 'debug')
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'com.reime005.spaceseek.DetoxTestAppJUnitRunner'
     }
     splits {
         abi {
