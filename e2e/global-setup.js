@@ -4,7 +4,7 @@ const detox = require('detox');
 
 async function globalSetup() {
   const config = resolveSelectedConfiguration() || {};
-  downloadTestButlerAPKIfNeeded(config);
+  // downloadTestButlerAPKIfNeeded(config);
   await detox.globalInit();
 }
 
