@@ -144,10 +144,6 @@ android {
         versionCode 364832213 + project.env.get("APP_VERSION_CODE").toInteger()
         versionName project.env.get("APP_VERSION_NAME")
 
-        ndk {
-            abiFilters 'armeabi-v7a', 'x86', 'x86_64', 'arm64-v8a'
-        }
-
         // react-native-config
         resValue "string", "build_config_package", project.env.get("APP_ID")
 
