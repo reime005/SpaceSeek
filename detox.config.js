@@ -25,7 +25,6 @@ module.exports = {
       device: {
         avdName: 'emu',
       },
-      utilBinaryPaths: ['./cache/test-butler-app.apk'],
     },
   },
   configurations: {
