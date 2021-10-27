@@ -1,18 +1,4 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 const { getDefaultConfig } = require('metro-config');
-
-let createBlacklist;
-try {
-  createBlacklist = require('metro-config/src/defaults/blacklist');
-} catch (ex) {
-  createBlacklist = require('metro-bundler').createBlacklist;
-}
 
 module.exports = (async () => {
   const {
@@ -24,15 +10,14 @@ module.exports = (async () => {
       babelTransformerPath: require.resolve('react-native-svg-transformer'),
       getTransformOptions: async () => ({
         transform: {
-          experimentalImportSupport: true,
-          inlineRequires: true,
+          experimentalImportSupport: false,
+          inlineRequires: false,
         },
       }),
     },
     resolver: {
-      assetExts: assetExts.filter(ext => ext !== 'svg'),
+      assetExts: assetExts.filter((ext) => ext !== 'svg'),
       sourceExts: [...sourceExts, 'svg'],
-      blacklistRE: createBlacklist([/test\/.*/, /detox\/node_modules\/.*/]),
     },
   };
 })();
