@@ -14,6 +14,7 @@ i18n
     lng: 'en',
     fallbackLng: 'en',
     keySeparator: '.',
+    compatibilityJSON: 'v3',
     interpolation: {
       escapeValue: false, // react already safes from xss
     },
