@@ -37,7 +37,7 @@
     "react-native-in-app-review": "^3.2.3",
     "react-native-maps": "^0.29.3",
     "react-native-modal": "^13.0.0",
-    "react-native-reanimated": "2.2.3",
+    "react-native-reanimated": "2.10.0",
     "react-native-restart": "^0.0.22",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-safe-area-view": "^1.1.1",
